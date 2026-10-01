@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08080b">
+<title>Daftar Saya — FlixNets</title>
+<link rel="icon" type="image/png" href="logo/logo.png">
+<link rel="apple-touch-icon" href="logo/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080b;--bg-soft:#0d0d12;--surface:#14141b;--surface-2:#1b1b24;--line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);--text:#f3f3f7;--muted:#9a9aab;--muted-2:#6e6e80;
+  --blue:#0b5cff;--blue-dark:#0639a6;--blue-light:#4f8cff;--blue-glow:rgba(11,92,255,.42);
+  --gold:#d4af37;--gold-light:#f1d36b;--gold-glow:rgba(212,175,55,.34);
+  --radius:14px;--nav-h:72px;--card-w:196px;--ease:cubic-bezier(.22,.8,.26,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+button,input{font:inherit;color:inherit}
+button{background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+body::-webkit-scrollbar{width:10px}
+body::-webkit-scrollbar-track{background:#0b0b0f}
+body::-webkit-scrollbar-thumb{background:#26262f;border-radius:8px;border:2px solid #0b0b0f}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:120;background:rgba(8,8,11,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-inner{height:100%;max-width:1600px;margin:0 auto;padding:0 clamp(16px,3.2vw,54px);display:flex;align-items:center;gap:clamp(14px,2.4vw,38px)}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;overflow:hidden;background:#08080b;box-shadow:0 4px 16px var(--blue-glow),0 0 0 1px rgba(212,175,55,.28)}
+.logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:9px}
+.logo-text{font-size:21px;font-weight:800;letter-spacing:-.6px;color:#fff}
+.logo-text span{background:linear-gradient(90deg,var(--blue-light),var(--gold-light));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);flex:1}
+.nav-links a{font-size:14px;font-weight:500;color:#c9c9d4;position:relative;padding:6px 0;white-space:nowrap;transition:.25s}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:2px;transition:width .3s var(--ease)}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:#fff;font-weight:600}
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e6e6ee;transition:.25s}
+.icon-btn:hover{background:rgba(11,92,255,.18);transform:translateY(-1px);color:#fff}
+.icon-btn svg{width:20px;height:20px}
+.avatar-wrap{position:relative}
+.avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(140deg,#3a3a4a,#20202a);display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;border:1px solid var(--line-2);transition:.25s}
+.avatar:hover{box-shadow:0 0 0 2px var(--gold);transform:translateY(-1px)}
+.avatar-menu{position:absolute;top:50px;right:0;min-width:230px;z-index:150;background:var(--surface);border:1px solid var(--line-2);border-radius:13px;box-shadow:0 24px 54px rgba(0,0,0,.6);padding:8px;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.22s var(--ease)}
+.avatar-menu.open{opacity:1;transform:none;pointer-events:auto}
+.avatar-menu .who{padding:10px 11px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.avatar-menu .who b{display:block;font-size:13.5px;color:#fff;font-weight:700}
+.avatar-menu .who span{font-size:11.5px;color:var(--muted)}
+.avatar-menu a,.avatar-menu button{display:block;width:100%;text-align:left;padding:9px 11px;border-radius:8px;font-size:13px;font-weight:600;color:#d8d8e2;transition:.2s}
+.avatar-menu a:hover,.avatar-menu button:hover{background:rgba(11,92,255,.14);color:#fff}
+.avatar-menu button.danger:hover{background:rgba(212,175,55,.16);color:var(--gold-light)}
+.burger{display:none;width:42px;height:42px;border-radius:10px;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.burger:hover{background:rgba(255,255,255,.09)}
+.burger span{display:block;width:19px;height:2px;background:#e9e9f0;border-radius:2px;transition:.3s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;z-index:115;background:rgba(10,10,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:10px 22px 26px;display:flex;flex-direction:column;transform:translateY(-14px);opacity:0;pointer-events:none;transition:.3s var(--ease)}
+.mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+.mobile-menu a,.mobile-menu button{padding:15px 4px;font-size:16px;font-weight:600;color:#d5d5e0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;width:100%;text-align:left}
+.mobile-menu a:last-child,.mobile-menu button:last-child{border-bottom:none}
+.mobile-menu a:hover,.mobile-menu button:hover{color:var(--gold-light);padding-left:10px}
+.admin-only{display:none}
+
+/* PAGE HERO */
+.page-hero{position:relative;padding:calc(var(--nav-h) + 60px) clamp(16px,3.2vw,54px) 30px;overflow:hidden;isolation:isolate}
+.page-hero::before{content:'';position:absolute;inset:0;z-index:-2;background:radial-gradient(90% 70% at 15% 0%,rgba(11,92,255,.28),transparent 60%),radial-gradient(70% 60% at 90% 100%,rgba(212,175,55,.14),transparent 60%)}
+.page-hero::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(118deg,rgba(255,255,255,.022) 0 3px,transparent 3px 11px)}
+.page-hero-inner{max-width:1600px;margin:0 auto}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-light);background:linear-gradient(135deg,rgba(11,92,255,.14),rgba(212,175,55,.14));border:1px solid rgba(212,175,55,.5);padding:7px 14px;border-radius:999px;margin-bottom:16px}
+.page-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.page-title{font-size:clamp(30px,4.4vw,52px);font-weight:900;letter-spacing:-1.8px;line-height:1.05;margin-bottom:12px}
+.page-title span{background:linear-gradient(90deg,var(--blue-light),var(--gold-light));-webkit-background-clip:text;background-clip:text;color:transparent}
+.page-subtitle{font-size:clamp(13.5px,1.3vw,16px);color:#b6b6c6;max-width:640px;line-height:1.65}
+
+/* CATALOG */
+main{padding:20px 0 60px;position:relative;z-index:2}
+.catalog{max-width:1600px;margin:0 auto;padding:0 clamp(16px,3.2vw,54px)}
+.catalog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.catalog-title{font-size:clamp(17px,1.6vw,22px);font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:10px}
+.catalog-title::before{content:'';width:3px;height:19px;border-radius:3px;background:linear-gradient(180deg,var(--blue-light),var(--gold));box-shadow:0 0 12px var(--blue-glow)}
+.catalog-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.catalog-count{font-size:13px;color:var(--muted);font-weight:600}
+.catalog-count b{color:var(--gold-light)}
+.btn-clear{font-size:12.5px;font-weight:700;padding:8px 14px;border-radius:9px;background:var(--surface-2);border:1px solid var(--line-2);color:#c9c9d4;transition:.22s var(--ease)}
+.btn-clear:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.45);color:var(--gold-light)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr));gap:clamp(12px,1.8vw,22px)}
+.grid .card{width:100%}
+
+/* EMPTY STATE */
+.empty{padding:70px 20px;text-align:center;display:none}
+.empty.show{display:block}
+.empty-icon{width:88px;height:88px;border-radius:50%;background:linear-gradient(140deg,rgba(11,92,255,.16),rgba(212,175,55,.10));border:1.5px solid rgba(212,175,55,.35);display:grid;place-items:center;margin:0 auto 22px}
+.empty-icon svg{width:38px;height:38px;color:var(--gold-light)}
+.empty h3{font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
+.empty p{color:var(--muted);font-size:14.5px;max-width:440px;margin:0 auto 24px;line-height:1.65}
+.empty-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:12px 22px;border-radius:11px;font-size:14px;font-weight:700;transition:.25s var(--ease);white-space:nowrap;border:none;cursor:pointer}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;box-shadow:0 8px 26px rgba(11,92,255,.34),inset 0 0 0 1px rgba(255,255,255,.06)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5),inset 0 0 0 1px var(--gold)}
+.btn-ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.16)}
+.btn-ghost:hover{background:rgba(212,175,55,.16);border-color:rgba(212,175,55,.5);transform:translateY(-2px)}
+
+/* CARD / POSTER */
+.card{cursor:pointer;outline:none;position:relative}
+.poster{position:relative;aspect-ratio:2/3;border-radius:var(--radius);overflow:hidden;background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 72%);box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.07);transition:transform .38s var(--ease),box-shadow .38s var(--ease);display:flex;flex-direction:column;padding:13px}
+.poster::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 78% at 22% 2%,rgba(255,255,255,.24),transparent 56%),radial-gradient(105% 70% at 88% 100%,rgba(0,0,0,.62),transparent 62%),repeating-linear-gradient(122deg,rgba(255,255,255,.035) 0 2px,transparent 2px 10px)}
+.card:hover .poster,.card:focus-visible .poster{transform:translateY(-8px) scale(1.035);box-shadow:0 22px 46px rgba(0,0,0,.66),0 0 0 2px var(--blue),0 0 0 3px rgba(212,175,55,.5),0 0 28px rgba(11,92,255,.35)}
+.card:focus-visible{outline:none}
+.poster-mono{position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);font-size:118px;font-weight:900;line-height:1;color:rgba(255,255,255,.13);letter-spacing:-8px;user-select:none;z-index:0;font-style:italic}
+.poster-badge{position:absolute;top:11px;left:11px;z-index:4;font-size:8.5px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--blue),var(--blue-dark));color:#fff;padding:4px 8px;border-radius:5px;box-shadow:0 3px 12px rgba(0,0,0,.5),inset 0 0 0 1px rgba(212,175,55,.4)}
+.poster-foot{position:relative;z-index:2;margin-top:auto}
+.poster-title{font-size:14px;font-weight:800;line-height:1.22;letter-spacing:-.25px;text-shadow:0 2px 14px rgba(0,0,0,.85);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.poster-sub{font-size:10.5px;color:rgba(255,255,255,.72);margin-top:5px;font-weight:500;display:flex;align-items:center;gap:6px}
+.poster-sub .s{color:var(--gold-light);font-weight:800}
+.poster-hover{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,.15) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .3s var(--ease);padding:14px}
+.card:hover .poster-hover,.card:focus-visible .poster-hover{opacity:1}
+.icon-play{width:52px;height:52px;border-radius:50%;background:linear-gradient(140deg,var(--blue),var(--blue-dark));display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(11,92,255,.5),inset 0 0 0 1.5px rgba(212,175,55,.6);transform:scale(.82);transition:.3s var(--ease)}
+.icon-play svg{width:21px;height:21px;margin-left:3px}
+.card:hover .icon-play{transform:scale(1)}
+.poster-hover-actions{display:flex;gap:10px;align-items:center}
+.icon-remove{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;color:#fff;transform:scale(.82);transition:.3s var(--ease);backdrop-filter:blur(8px)}
+.icon-remove svg{width:19px;height:19px}
+.card:hover .icon-remove{transform:scale(1)}
+.icon-remove:hover{background:rgba(212,175,55,.24);border-color:rgba(212,175,55,.7);color:var(--gold-light);transform:scale(1.08)!important}
+.poster-hover-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center;font-size:11px;font-weight:600;color:#d6d6e4;transform:translateY(8px);opacity:0;transition:.35s var(--ease) .05s}
+.card:hover .poster-hover-meta{transform:none;opacity:1}
+.poster-hover-meta .age{border:1px solid rgba(212,175,55,.5);border-radius:4px;padding:1px 5px;font-size:9.5px;color:var(--gold-light)}
+.added-note{position:absolute;bottom:9px;left:11px;right:11px;z-index:5;font-size:10px;font-weight:700;color:rgba(255,255,255,.6);text-align:center;letter-spacing:.3px}
+
+/* TOAST */
+.toast{position:fixed;left:50%;bottom:34px;z-index:500;transform:translate(-50%,26px);background:rgba(24,24,32,.96);border:1px solid var(--line-2);border-left:3px solid var(--gold);color:#f0f0f6;font-size:13.5px;font-weight:600;padding:13px 22px;border-radius:11px;box-shadow:0 16px 44px rgba(0,0,0,.65);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:.3s var(--ease);max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transparent,rgba(11,92,255,.05) 50%,rgba(212,175,55,.04));padding:clamp(40px,6vw,70px) clamp(16px,3.2vw,54px) 34px;margin-top:40px}
+.foot-inner{max-width:1600px;margin:0 auto}
+.foot-top{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:clamp(24px,4vw,60px);margin-bottom:48px}
+.foot-brand p{color:var(--muted);font-size:13.5px;line-height:1.75;margin-top:16px;max-width:320px}
+.foot-col h4{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px}
+.foot-col a{display:block;font-size:13.5px;color:var(--muted);padding:6px 0;transition:.25s var(--ease)}
+.foot-col a:hover{color:var(--blue-light);transform:translateX(4px)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.foot-bottom p{font-size:12.5px;color:var(--muted-2)}
+.foot-social{display:flex;gap:10px}
+.foot-social a{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.28s var(--ease)}
+.foot-social a:hover{background:linear-gradient(140deg,var(--blue),var(--blue-dark));border-color:var(--blue);color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,92,255,.35),0 0 0 1px var(--gold)}
+.foot-social svg{width:17px;height:17px}
+
+@media (max-width:1024px){
+  :root{--card-w:170px;--nav-h:66px}
+  .nav-links{display:none}.burger{display:flex}
+  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media (max-width:720px){
+  :root{--card-w:142px;--nav-h:62px}
+  body{font-size:14px}
+  .page-hero{padding-top:calc(var(--nav-h) + 40px)}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}
+  .foot-top{grid-template-columns:1fr;gap:30px}
+  .foot-bottom{justify-content:center;text-align:center}
+  .avatar-menu{right:-10px;min-width:210px}
+}
+@media (max-width:420px){
+  :root{--card-w:126px}
+  .logo-text{font-size:18px}.logo-mark{width:30px;height:30px}
+  .hide-xs{display:none!important}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<script src="js/api.js"></script>
+<script>/* global Auth */ Auth.guard();</script>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="FlixNets Beranda">
+      <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
+      <span class="logo-text">Flix<span>Nets</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Beranda</a>
+      <a href="film.html">Film</a>
+      <a href="serial.html">Serial</a>
+      <a href="original.html">Original</a>
+      <a href="daftar-saya.html" class="active">Daftar Saya</a>
+      <a href="admin.html" class="admin-only">Panel Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn hide-xs" id="bellBtn" aria-label="Notifikasi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      </button>
+      <div class="avatar-wrap">
+        <button class="avatar" id="avatarBtn" aria-label="Profil pengguna">A</button>
+        <div class="avatar-menu" id="avatarMenu">
+          <div class="who"><b id="avatarWhoName">—</b><span id="avatarWhoEmail">—</span></div>
+          <a href="akun.html">Akun Saya</a>
+          <a href="daftar-saya.html">Daftar Saya</a>
+          <a href="admin.html" class="admin-only">Panel Admin</a>
+          <button class="danger" id="avatarLogout">Keluar</button>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-expanded="false" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Beranda</a>
+  <a href="film.html">Film</a>
+  <a href="serial.html">Serial</a>
+  <a href="original.html">FlixNets Original</a>
+  <a href="daftar-saya.html">Daftar Saya</a>
+  <a href="akun.html">Akun Saya</a>
+  <a href="admin.html" class="admin-only">Panel Admin</a>
+  <button id="mobileLogout">Keluar</button>
+</nav>
+
+<!-- HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-eyebrow">Watchlist Kamu</span>
+    <h1 class="page-title">Daftar <span>Saya</span></h1>
+    <p class="page-subtitle">Semua judul yang kamu simpan untuk ditonton nanti — hanya bisa dilihat oleh kamu.</p>
+  </div>
+</section>
+
+<!-- CATALOG -->
+<main>
+  <div class="catalog">
+    <div class="catalog-head">
+      <h2 class="catalog-title">Judul Tersimpan</h2>
+      <div class="catalog-tools">
+        <span class="catalog-count"><b id="wlCount">0</b> judul</span>
+        <button class="btn-clear" id="clearBtn" style="display:none">Kosongkan</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>Daftar Saya masih kosong</h3>
+      <p>Jelajahi katalog dan klik <b>+ Daftar Saya</b> pada judul favoritmu untuk menyimpannya di sini.</p>
+      <div class="empty-actions">
+        <a href="film.html" class="btn btn-primary">Jelajahi Film</a>
+        <a href="index.html" class="btn btn-ghost">Ke Beranda</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
+          <span class="logo-text">Flix<span>Nets</span></span>
+        </a>
+        <p>Streaming film, serial, dan karya orisinal pilihan. Nonton tanpa batas di TV, laptop, tablet, dan ponsel — di mana saja, kapan saja.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Jelajahi</h4>
+        <a href="film.html">Film</a>
+        <a href="serial.html">Serial</a>
+        <a href="original.html">FlixNets Original</a>
+        <a href="daftar-saya.html">Daftar Saya</a>
+      </div>
+      <div class="foot-col">
+        <h4>Bantuan</h4>
+        <a href="bantuan.html">Pusat Bantuan</a>
+        <a href="akun.html">Akun Saya</a>
+        <a href="faq.html">FAQ</a>
+        <a href="kontak.html">Hubungi Kami</a>
+      </div>
+      <div class="foot-col">
+        <h4>Perusahaan</h4>
+        <a href="tentang.html">Tentang Kami</a>
+        <a href="privasi.html">Kebijakan Privasi</a>
+        <a href="syarat.html">Syarat Layanan</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2026 FlixNets. Semua hak dilindungi.</p>
+      <div class="foot-social">
+        <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 7.3 10h-5.6l-4.4-6-5 6H3l7.4-8.6L3.4 3h5.7l4 5.5L17.5 3zm-1.1 16h1.8L7.7 4.9H5.8L16.4 19z"/></svg></a>
+        <a href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.8 4.8 12 4.8 12 4.8s-6.8 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.2 12a29 29 0 0 0 .3 4.8 2.8 2.8 0 0 0 2 2c1.7.4 8.5.4 8.5.4s6.8 0 8.5-.4a2.8 2.8 0 0 0 2-2 29 29 0 0 0 .3-4.8 29 29 0 0 0-.3-4.8zM9.9 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* global Auth */
+const $ = (s,c=document) => c.querySelector(s);
+const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
+
+/* ============================================================
+   WATCHLIST — penyimpanan per user di localStorage.
+   Kalau nanti mau server-side, cukup ganti 4 fungsi di bawah
+   dengan panggilan api('/watchlist', ...).
+   ============================================================ */
+const Watchlist = {
+  key(){
+    const u = Auth.getUser();
+    return u ? `flixnets_watchlist_${u.id}` : 'flixnets_watchlist_guest';
+  },
+  all(){
+    try { return JSON.parse(localStorage.getItem(this.key()) || '[]'); }
+    catch { return []; }
+  },
+  save(list){ localStorage.setItem(this.key(), JSON.stringify(list)); },
+  add(item){
+    const list = this.all();
+    if (list.some(x => String(x.id) === String(item.id))) return false;
+    list.unshift({ ...item, addedAt: new Date().toISOString() });
+    this.save(list);
+    return true;
+  },
+  remove(id){ this.save(this.all().filter(x => String(x.id) !== String(id))); },
+  has(id){ return this.all().some(x => String(x.id) === String(id)); },
+  clear(){ this.save([]); }
+};
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+let toastTimer;
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+function cardHTML(item){
+  const initial = (item.title || '?').charAt(0).toUpperCase();
+  const badge = item.type === 'server' ? 'Diunggah'
+              : item.type === 'serial' ? 'Serial'
+              : item.type === 'original' ? 'Original'
+              : 'Film';
+  const sub = [item.year, item.genreLabel || (item.genres && item.genres[0]) || 'Film']
+    .filter(Boolean).join(' · ');
+
+  return `<article class="card" data-wl-id="${item.id}" tabindex="0" role="button" aria-label="${escapeHtml(item.title)}">
+    <div class="poster" style="--c1:${item.c1 || '#0b5cff'};--c2:${item.c2 || '#2a0710'}">
+      <span class="poster-mono" aria-hidden="true">${initial}</span>
+      <span class="poster-badge">${badge}</span>
+      <div class="poster-foot">
+        <h3 class="poster-title">${escapeHtml(item.title)}</h3>
+        <div class="poster-sub"><span class="s">★ ${escapeHtml(item.rating || 'SU')}</span> ${escapeHtml(sub)}</div>
+      </div>
+      <div class="poster-hover">
+        <div class="poster-hover-actions">
+          <button class="icon-play" data-wl-play="${item.id}" aria-label="Putar ${escapeHtml(item.title)}">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>
+          </button>
+          <button class="icon-remove" data-wl-remove="${item.id}" aria-label="Hapus dari Daftar Saya">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          </button>
+        </div>
+        <div class="poster-hover-meta">
+          <span>${escapeHtml(item.duration || '')}</span>
+          <span class="age">${escapeHtml(item.rating || 'SU')}</span>
+        </div>
+      </div>
+      <div class="added-note">Disimpan ${formatDate(item.addedAt)}</div>
+    </div>
+  </article>`;
+}
+
+function escapeHtml(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function formatDate(iso){
+  if (!iso) return '';
+  try {
+    const d = new Date(iso);
+    const diff = Date.now() - d.getTime();
+    const day = 86400000;
+    if (diff < day) return 'hari ini';
+    if (diff < 7 * day) return `${Math.floor(diff/day)} hari lalu`;
+    return d.toLocaleDateString('id-ID', { day:'numeric', month:'short' });
+  } catch { return ''; }
+}
+
+/* ============================================================
+   RENDER HALAMAN
+   ============================================================ */
+function render(){
+  const list = Watchlist.all();
+  const grid = $('#grid');
+  const empty = $('#empty');
+  const clearBtn = $('#clearBtn');
+  $('#wlCount').textContent = list.length;
+
+  if (list.length === 0){
+    grid.innerHTML = '';
+    empty.classList.add('show');
+    clearBtn.style.display = 'none';
+    return;
+  }
+  empty.classList.remove('show');
+  clearBtn.style.display = '';
+  grid.innerHTML = list.map(cardHTML).join('');
+}
+
+/* ============================================================
+   KLIK CARD
+   ============================================================ */
+document.addEventListener('click', e => {
+  const removeBtn = e.target.closest('[data-wl-remove]');
+  if (removeBtn){
+    e.stopPropagation();
+    const id = removeBtn.dataset.wlRemove;
+    const item = Watchlist.all().find(x => String(x.id) === String(id));
+    if (!item) return;
+    if (!confirm(`Hapus "${item.title}" dari Daftar Saya?`)) return;
+    Watchlist.remove(id);
+    render();
+    toast('Dihapus dari Daftar Saya');
+    return;
+  }
+
+  const playBtn = e.target.closest('[data-wl-play]');
+  if (playBtn){
+    e.stopPropagation();
+    const id = playBtn.dataset.wlPlay;
+    const item = Watchlist.all().find(x => String(x.id) === String(id));
+    if (!item) return;
+    handlePlay(item);
+    return;
+  }
+
+  const card = e.target.closest('.card');
+  if (card && card.dataset.wlId){
+    const item = Watchlist.all().find(x => String(x.id) === String(card.dataset.wlId));
+    if (item) handlePlay(item);
+  }
+});
+
+function handlePlay(item){
+  if (item.type === 'server' && typeof streamUrl === 'function'){
+    // Video di server → buka di tab baru (pakai streamUrl)
+    window.open(streamUrl(item.id), '_blank', 'noopener');
+    return;
+  }
+  // Katalog demo → arahkan ke halaman terkait
+  const dest = item.type === 'serial' ? 'serial.html'
+             : item.type === 'original' ? 'original.html'
+             : 'film.html';
+  if (confirm(`Buka "${item.title}" di halaman ${dest}?`)){
+    window.location.href = dest;
+  }
+}
+
+/* ============================================================
+   CLEAR ALL
+   ============================================================ */
+$('#clearBtn').addEventListener('click', () => {
+  if (!confirm('Hapus semua judul dari Daftar Saya?')) return;
+  Watchlist.clear();
+  render();
+  toast('Daftar Saya dikosongkan');
+});
+
+/* ============================================================
+   NAVBAR & MENU
+   ============================================================ */
+$('#burger').addEventListener('click', () => {
+  const open = $('#mobileMenu').classList.toggle('open');
+  $('#burger').classList.toggle('open', open);
+});
+$$('#mobileMenu a').forEach(a => a.addEventListener('click', () => {
+  $('#mobileMenu').classList.remove('open');
+  $('#burger').classList.remove('open');
+}));
+$('#bellBtn').addEventListener('click', () => toast('Belum ada notifikasi baru'));
+
+const avatarBtn = $('#avatarBtn'), avatarMenu = $('#avatarMenu');
+avatarBtn.addEventListener('click', e => { e.stopPropagation(); avatarMenu.classList.toggle('open'); });
+document.addEventListener('click', () => avatarMenu.classList.remove('open'));
+avatarMenu.addEventListener('click', e => e.stopPropagation());
+
+/* ============================================================
+   USER UI + LOGOUT
+   ============================================================ */
+(function applyUserUI(){
+  const user = Auth.getUser();
+  if (!user) return;
+  $('#avatarBtn').textContent = (user.name || '?').charAt(0).toUpperCase();
+  $('#avatarWhoName').textContent = user.name || '—';
+  $('#avatarWhoEmail').textContent = user.email || '—';
+  if (user.role === 'admin') $$('.admin-only').forEach(el => el.style.display = '');
+})();
+
+const doLogout = () => Auth.logout();
+$('#avatarLogout').addEventListener('click', doLogout);
+$('#mobileLogout').addEventListener('click', doLogout);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+render();
+</script>
+</body>
+</html>
