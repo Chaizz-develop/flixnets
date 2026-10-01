@@ -2,271 +2,1632 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08080b">
+<meta name="description" content="Masuk ke FlixNets untuk menonton film, serial, dan karya original tanpa batas. Streaming 4K HDR di semua perangkat.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+
 <title>Masuk — FlixNets</title>
-<meta name="description" content="Masuk atau daftar akun FlixNets untuk mulai menonton.">
+
+<!-- ============ FAVICON ============ -->
 <link rel="icon" type="image/png" href="logo/logo.png">
 <link rel="apple-touch-icon" href="logo/logo.png">
+
+<!-- ============ FONTS ============ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 :root{
-  --bg:#08080b; --surface:#14141b; --surface-2:#1b1b24;
-  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
-  --text:#f3f3f7; --muted:#9a9aab; --muted-2:#6e6e80;
-  --blue:#0b5cff; --blue-dark:#0639a6; --blue-light:#4f8cff;
+  /* Background */
+  --bg:#08080b;
+  --bg-soft:#0d0d12;
+  --surface:#14141b;
+  --surface-2:#1b1b24;
+  --surface-3:#23232e;
+
+  /* Border */
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --line-3:rgba(255,255,255,.22);
+
+  /* Text */
+  --text:#f3f3f7;
+  --text-soft:#d6d6e2;
+  --muted:#9a9aab;
+  --muted-2:#6e6e80;
+  --muted-3:#4a4a5c;
+
+  /* Blue palette */
+  --blue:#0b5cff;
+  --blue-dark:#0639a6;
+  --blue-light:#4f8cff;
   --blue-glow:rgba(11,92,255,.42);
-  --gold:#d4af37; --gold-light:#f1d36b; --gold-glow:rgba(212,175,55,.34);
+  --blue-soft:rgba(11,92,255,.14);
+
+  /* Gold palette */
+  --gold:#d4af37;
+  --gold-light:#f1d36b;
+  --gold-dark:#a37c1a;
+  --gold-glow:rgba(212,175,55,.34);
+  --gold-soft:rgba(212,175,55,.14);
+
+  /* Status */
   --green:#4ade80;
+  --orange:#fb923c;
+  --red:#ef4444;
+
+  /* Motion */
   --ease:cubic-bezier(.22,.8,.26,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease-in:cubic-bezier(.4,0,1,1);
+
+  /* Radius */
+  --r-sm:10px;
+  --r-md:14px;
+  --r-lg:20px;
+  --r-xl:28px;
+  --r-full:999px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{-webkit-text-size-adjust:100%}
-body{
-  min-height:100vh;
-  background:
-    radial-gradient(120% 90% at 15% 0%, rgba(11,92,255,.18), transparent 55%),
-    radial-gradient(100% 80% at 100% 100%, rgba(212,175,55,.08), transparent 60%),
-    var(--bg);
-  color:var(--text);
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
-  display:flex;align-items:center;justify-content:center;
-  padding:24px;
-  -webkit-font-smoothing:antialiased;
-}
-.wrap{width:100%;max-width:420px}
-
-/* LOGO */
-.logo{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:30px;text-decoration:none;color:inherit}
-.logo-mark{
-  width:38px;height:38px;border-radius:10px;overflow:hidden;
-  background:#08080b;
-  box-shadow:0 4px 16px var(--blue-glow),0 0 0 1px rgba(212,175,55,.3);
-  display:grid;place-items:center;
-  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
-}
-.logo:hover .logo-mark{transform:rotate(-6deg) scale(1.06);box-shadow:0 6px 24px var(--blue-glow),0 0 0 1px var(--gold)}
-.logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:10px}
-.logo-text{font-size:23px;font-weight:800;letter-spacing:-.6px;color:#fff}
-.logo-text span{background:linear-gradient(90deg,var(--blue-light),var(--gold-light));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
-
-/* CARD */
-.card{
-  background:linear-gradient(145deg,rgba(20,20,27,.98),rgba(12,16,28,.98));
-  border:1px solid var(--line-2);
-  border-radius:18px;
-  padding:clamp(22px,4vw,34px);
-  box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(212,175,55,.12);
-}
-
-/* TABS */
-.tabs{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:11px;margin-bottom:22px}
-.tab{
-  flex:1;text-align:center;padding:10px 0;border-radius:9px;
-  font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;
-  transition:.25s var(--ease);user-select:none;border:none;background:none;font-family:inherit;
-}
-.tab:hover{color:#d0d0dc}
-.tab.active{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;box-shadow:0 4px 14px var(--blue-glow),inset 0 0 0 1px rgba(212,175,55,.5)}
-
-/* HEADINGS */
-h1{font-size:20px;font-weight:800;margin-bottom:5px;letter-spacing:-.4px}
-.sub{font-size:13px;color:var(--muted);margin-bottom:20px}
-
-/* FORM */
-form{display:none;flex-direction:column;gap:14px}
-form.active{display:flex}
-label{font-size:12.5px;font-weight:700;color:#c9c9d4;margin-bottom:6px;display:block}
-.field{display:flex;flex-direction:column}
-input{
-  width:100%;background:var(--surface-2);border:1px solid var(--line-2);
-  border-radius:10px;padding:12px 13px;color:#fff;font-size:14px;outline:none;
-  transition:border-color .2s,box-shadow .2s,background .2s;font-family:inherit;
-}
-input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,92,255,.18)}
-input::placeholder{color:#5c5c6e}
-
-/* SUBMIT */
-button.submit{
-  margin-top:4px;
-  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
-  color:#fff;border:none;border-radius:11px;padding:13px;
-  font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit;
-  box-shadow:0 8px 26px rgba(11,92,255,.34),inset 0 0 0 1px rgba(255,255,255,.06);
-  transition:transform .2s var(--ease),box-shadow .2s;
-}
-button.submit:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5),inset 0 0 0 1px var(--gold)}
-button.submit:disabled{opacity:.65;cursor:default;transform:none}
-
-/* MSG */
-.msg{
-  font-size:13px;font-weight:600;padding:11px 13px;border-radius:10px;
-  display:none;margin-bottom:16px;line-height:1.5;
-}
-.msg.error{display:block;background:rgba(212,175,55,.10);border:1px solid rgba(212,175,55,.38);color:var(--gold-light)}
-.msg.ok{display:block;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.4);color:#8ef0ac}
-
-/* HINT */
-.hint{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.65}
-.hint b{color:var(--gold-light);font-weight:700}
-.hint code{
-  background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;
-  font-size:11.5px;color:#d6d6e2;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-}
-
-/* FOOTER LINK */
-.back{margin-top:22px;text-align:center;font-size:12.5px;color:var(--muted-2)}
-.back a{color:var(--muted);text-decoration:none;transition:.2s}
-.back a:hover{color:var(--gold-light)}
-
-/* RESPONSIVE */
-@media (max-width:480px){
-  body{padding:14px}
-  .wrap{max-width:100%}
-  .card{padding:22px 18px;border-radius:16px}
-  .logo{margin-bottom:22px}
-  .logo-text{font-size:21px}
-  .logo-mark{width:34px;height:34px}
-}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <a href="index.html" class="logo" aria-label="FlixNets">
-    <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
-    <span class="logo-text">Flix<span>Nets</span></span>
-  </a>
-
-  <div class="card">
-    <div class="tabs" role="tablist">
-      <button class="tab active" data-tab="login" role="tab" aria-selected="true">Masuk</button>
-      <button class="tab" data-tab="register" role="tab" aria-selected="false">Daftar</button>
-    </div>
-
-    <div id="msg" class="msg" role="status" aria-live="polite"></div>
-
-    <form id="loginForm" class="active" autocomplete="on">
-      <h1>Selamat datang kembali</h1>
-      <p class="sub">Masuk untuk melanjutkan menonton.</p>
-      <div class="field">
-        <label for="li_email">Email</label>
-        <input id="li_email" type="email" required autocomplete="username" placeholder="nama@email.com">
-      </div>
-      <div class="field">
-        <label for="li_password">Kata sandi</label>
-        <input id="li_password" type="password" required autocomplete="current-password" placeholder="••••••••">
-      </div>
-      <button class="submit" type="submit">Masuk</button>
-    </form>
-
-    <form id="registerForm" autocomplete="on">
-      <h1>Buat akun baru</h1>
-      <p class="sub">Gratis, cukup beberapa detik.</p>
-      <div class="field">
-        <label for="re_name">Nama</label>
-        <input id="re_name" type="text" required minlength="2" maxlength="60" placeholder="Nama lengkap" autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="re_email">Email</label>
-        <input id="re_email" type="email" required autocomplete="username" placeholder="nama@email.com">
-      </div>
-      <div class="field">
-        <label for="re_password">Kata sandi</label>
-        <input id="re_password" type="password" required minlength="6" autocomplete="new-password" placeholder="Minimal 6 karakter">
-      </div>
-      <button class="submit" type="submit">Daftar</button>
-    </form>
-
-    <p class="hint" id="hintBox">Akun admin bawaan: <b>admin@flixnets.local</b> / <code>admin123</code> — gunakan untuk mengelola pengguna &amp; mengunggah video.</p>
-  </div>
-
-  <p class="back"><a href="index.html">← Kembali ke Beranda</a></p>
-</div>
-
-<script src="js/api.js"></script>
-<script>
-/* global Auth, api */
 
 /* ============================================================
-   Sudah login? → langsung lempar sesuai role
+   RESET
    ============================================================ */
-(function redirectIfLoggedIn(){
-  if (!Auth.isLoggedIn()) return;
-  const user = Auth.getUser();
-  window.location.href = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
-})();
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{
+  -webkit-text-size-adjust:100%;
+  -webkit-tap-highlight-color:transparent;
+  scroll-behavior:smooth;
+}
+body{
+  min-height:100vh;
+  min-height:100dvh;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  text-rendering:optimizeLegibility;
+}
+img,svg{display:block;max-width:100%}
+button,input{font:inherit;color:inherit;border:none;outline:none;background:none}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+input::placeholder{color:var(--muted-3)}
+::selection{background:var(--blue);color:#fff}
+
+/* Scrollbar */
+body::-webkit-scrollbar{width:10px}
+body::-webkit-scrollbar-track{background:var(--bg-soft)}
+body::-webkit-scrollbar-thumb{
+  background:var(--surface-3);
+  border-radius:8px;
+  border:2px solid var(--bg-soft);
+}
+body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
+
+/* ============================================================
+   LAYOUT — 2 kolom dengan responsive
+   ============================================================ */
+.shell{
+  min-height:100vh;
+  min-height:100dvh;
+  display:grid;
+  grid-template-columns:1.05fr 1fr;
+}
+
+/* Tablet landscape & kecil */
+@media (max-width:1024px){
+  .shell{grid-template-columns:1fr 1.1fr}
+}
+
+/* Tablet portrait & HP */
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .showcase{display:none!important}
+}
+
+/* ============================================================
+   LEFT — SHOWCASE (branding)
+   ============================================================ */
+.showcase{
+  position:relative;
+  padding:clamp(28px,4.5vw,64px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  isolation:isolate;
+}
+
+.showcase::before{
+  content:'';
+  position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(80% 60% at 15% 10%, rgba(11,92,255,.38), transparent 60%),
+    radial-gradient(70% 60% at 90% 90%, rgba(212,175,55,.22), transparent 60%),
+    linear-gradient(140deg,#0a0a12 0%,#050508 100%);
+}
+
+.showcase::after{
+  content:'';
+  position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(
+    118deg,
+    rgba(255,255,255,.02) 0 3px,
+    transparent 3px 12px
+  );
+}
+
+/* Dekorasi blob */
+.blob{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(70px);
+  z-index:-1;
+  pointer-events:none;
+  opacity:.55;
+  animation:blobFloat 12s ease-in-out infinite alternate;
+}
+.blob.b1{
+  width:320px;height:320px;
+  background:rgba(11,92,255,.55);
+  top:-100px;left:-100px;
+  animation-delay:0s;
+}
+.blob.b2{
+  width:280px;height:280px;
+  background:rgba(212,175,55,.35);
+  bottom:-100px;right:-60px;
+  animation-delay:-6s;
+}
+@keyframes blobFloat{
+  0%{transform:translate(0,0) scale(1)}
+  50%{transform:translate(20px,-20px) scale(1.05)}
+  100%{transform:translate(-10px,10px) scale(.98)}
+}
+
+/* BRAND */
+.brand{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  align-self:flex-start;
+  transition:transform .3s var(--ease);
+}
+.brand:hover{transform:translateX(2px)}
+
+.brand-mark{
+  width:46px;height:46px;
+  border-radius:13px;
+  overflow:hidden;
+  background:#08080b;
+  display:grid;place-items:center;
+  box-shadow:
+    0 6px 22px var(--blue-glow),
+    0 0 0 1px rgba(212,175,55,.35);
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+.brand-mark img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:13px;
+}
+.brand:hover .brand-mark{
+  transform:rotate(-6deg) scale(1.06);
+  box-shadow:
+    0 8px 28px var(--blue-glow),
+    0 0 0 1px var(--gold);
+}
+
+.brand-text{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:-.7px;
+  color:#fff;
+}
+.brand-text span{
+  background:linear-gradient(90deg,var(--blue-light),var(--gold-light));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  font-weight:900;
+}
+
+/* HERO COPY */
+.copy{
+  margin-top:auto;
+  margin-bottom:auto;
+  max-width:560px;
+  padding:40px 0;
+  animation:fadeUp .8s var(--ease-out) both;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.copy .eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+  color:var(--gold-light);
+  background:linear-gradient(
+    135deg,
+    rgba(11,92,255,.16),
+    rgba(212,175,55,.16)
+  );
+  border:1px solid rgba(212,175,55,.5);
+  padding:7px 14px;
+  border-radius:var(--r-full);
+  margin-bottom:24px;
+}
+.copy .eyebrow::before{
+  content:'';
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 10px var(--gold);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.4;transform:scale(.7)}
+}
+
+.copy h1{
+  font-size:clamp(30px,3.6vw,48px);
+  font-weight:900;
+  letter-spacing:-1.8px;
+  line-height:1.06;
+  margin-bottom:18px;
+}
+.copy h1 span{
+  background:linear-gradient(90deg,var(--blue-light) 0%,var(--gold-light) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.copy .lead{
+  font-size:clamp(14px,1.3vw,16.5px);
+  color:#c0c0d0;
+  line-height:1.7;
+  margin-bottom:32px;
+  max-width:480px;
+}
+
+/* FITUR LIST */
+.features{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.feature{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+  padding:14px 16px;
+  border-radius:14px;
+  background:linear-gradient(
+    135deg,
+    rgba(11,92,255,.06),
+    rgba(212,175,55,.03)
+  );
+  border:1px solid var(--line);
+  transition:all .3s var(--ease);
+}
+.feature:hover{
+  border-color:rgba(212,175,55,.35);
+  transform:translateX(4px);
+  background:linear-gradient(
+    135deg,
+    rgba(11,92,255,.12),
+    rgba(212,175,55,.06)
+  );
+}
+
+.feature-icon{
+  flex-shrink:0;
+  width:42px;height:42px;
+  border-radius:11px;
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  display:grid;place-items:center;
+  color:#fff;
+  box-shadow:
+    0 6px 18px rgba(11,92,255,.35),
+    inset 0 0 0 1px rgba(212,175,55,.4);
+}
+.feature-icon svg{width:20px;height:20px}
+
+.feature-text b{
+  display:block;
+  font-size:14px;
+  font-weight:800;
+  color:#fff;
+  margin-bottom:3px;
+  letter-spacing:-.2px;
+}
+.feature-text span{
+  font-size:12.5px;
+  color:var(--muted);
+  line-height:1.55;
+}
+
+/* FOOT NOTE */
+.foot-note{
+  margin-top:auto;
+  font-size:12px;
+  color:var(--muted-2);
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  padding-top:32px;
+}
+.foot-note span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.foot-note .sep{
+  width:3px;height:3px;
+  border-radius:50%;
+  background:var(--muted-2);
+}
+
+/* ============================================================
+   RIGHT — FORM
+   ============================================================ */
+.form-side{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(24px,4vw,48px);
+  background:linear-gradient(180deg,#0a0a12,#08080b);
+  position:relative;
+  overflow:hidden;
+}
+
+.form-side::before{
+  content:'';
+  position:absolute;inset:0;
+  pointer-events:none;z-index:0;
+  background:radial-gradient(
+    60% 40% at 80% 10%,
+    rgba(11,92,255,.10),
+    transparent 60%
+  );
+}
+
+.form-wrap{
+  width:100%;
+  max-width:420px;
+  position:relative;
+  z-index:1;
+  animation:fadeUp .8s var(--ease-out) .15s both;
+}
+
+/* BRAND MOBILE */
+.brand-mobile{
+  display:none;
+  align-items:center;
+  gap:11px;
+  justify-content:center;
+  margin-bottom:24px;
+  text-decoration:none;
+  color:inherit;
+}
+.brand-mobile .brand-mark{width:40px;height:40px;border-radius:11px}
+.brand-mobile .brand-text{font-size:22px}
+
+@media (max-width:900px){
+  .brand-mobile{display:flex}
+}
+
+/* ============================================================
+   CARD
+   ============================================================ */
+.card{
+  background:linear-gradient(
+    150deg,
+    rgba(20,20,27,.98),
+    rgba(12,16,28,.98)
+  );
+  border:1px solid var(--line-2);
+  border-radius:var(--r-lg);
+  padding:clamp(22px,3.4vw,36px);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.6),
+    0 0 0 1px rgba(212,175,55,.10);
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:linear-gradient(
+    90deg,
+    var(--blue),
+    var(--gold),
+    var(--blue)
+  );
+  background-size:200% 100%;
+  animation:shimmer 6s linear infinite;
+}
+@keyframes shimmer{
+  0%{background-position:0% 0}
+  100%{background-position:200% 0}
+}
 
 /* ============================================================
    TABS
    ============================================================ */
-const tabs = document.querySelectorAll('.tab');
-const forms = {
-  login:    document.getElementById('loginForm'),
-  register: document.getElementById('registerForm')
-};
-const msg = document.getElementById('msg');
-const hintBox = document.getElementById('hintBox');
+.tabs{
+  display:flex;
+  gap:6px;
+  background:var(--surface-2);
+  padding:5px;
+  border-radius:12px;
+  margin-bottom:24px;
+  position:relative;
+}
 
-tabs.forEach(t => t.addEventListener('click', () => {
-  tabs.forEach(x => {
-    x.classList.remove('active');
-    x.setAttribute('aria-selected', 'false');
-  });
-  t.classList.add('active');
-  t.setAttribute('aria-selected', 'true');
-
-  Object.values(forms).forEach(f => f.classList.remove('active'));
-  forms[t.dataset.tab].classList.add('active');
-
-  msg.className = 'msg';
-  msg.textContent = '';
-
-  // Sembunyikan hint admin saat di tab "Daftar"
-  hintBox.style.display = t.dataset.tab === 'login' ? '' : 'none';
-}));
+.tab{
+  flex:1;
+  text-align:center;
+  padding:11px 0;
+  border-radius:9px;
+  font-size:13.5px;
+  font-weight:700;
+  color:var(--muted);
+  cursor:pointer;
+  transition:all .25s var(--ease);
+  user-select:none;
+  letter-spacing:.1px;
+  position:relative;
+  z-index:1;
+}
+.tab:hover{color:#d0d0dc}
+.tab.active{
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  color:#fff;
+  box-shadow:
+    0 4px 14px var(--blue-glow),
+    inset 0 0 0 1px rgba(212,175,55,.5);
+}
 
 /* ============================================================
-   HELPERS
+   HEADINGS
    ============================================================ */
-function showMsg(text, ok = false) {
-  msg.textContent = text;
-  msg.className = 'msg ' + (ok ? 'ok' : 'error');
+h1.form-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:6px;
+  letter-spacing:-.5px;
+  color:#fff;
+}
+.sub{
+  font-size:13.5px;
+  color:var(--muted);
+  margin-bottom:24px;
+  line-height:1.55;
+}
+
+/* ============================================================
+   FORM
+   ============================================================ */
+form{
+  display:none;
+  flex-direction:column;
+  gap:16px;
+}
+form.active{display:flex}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  position:relative;
+}
+
+label{
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--text-soft);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+label .req{
+  color:var(--gold-light);
+  font-weight:800;
+}
+label .opt{
+  font-weight:500;
+  color:var(--muted-2);
+  font-size:11.5px;
+}
+
+/* ============================================================
+   INPUT
+   ============================================================ */
+.input-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+
+input{
+  width:100%;
+  background:var(--surface-2);
+  border:1px solid var(--line-2);
+  border-radius:11px;
+  padding:13px 15px;
+  color:#fff;
+  font-size:14px;
+  font-family:inherit;
+  transition:
+    border-color .2s var(--ease),
+    box-shadow .2s var(--ease),
+    background .2s var(--ease);
+}
+input.with-icon{padding-right:54px}
+input::placeholder{color:var(--muted-3)}
+input:hover{border-color:rgba(255,255,255,.22)}
+input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 4px rgba(11,92,255,.16);
+  background:rgba(11,92,255,.03);
+}
+input:invalid:not(:placeholder-shown):not(:focus){
+  border-color:rgba(239,68,68,.5);
+}
+input:valid:not(:placeholder-shown):not(:focus){
+  border-color:rgba(74,222,128,.35);
+}
+
+/* Hilangkan ikon reveal bawaan browser (Edge) */
+input::-ms-reveal,
+input::-ms-clear{display:none}
+input::-webkit-credentials-auto-fill-button{
+  visibility:hidden;
+  pointer-events:none;
+  position:absolute;
+  right:0;
+}
+
+/* ============================================================
+   TOGGLE PASSWORD (ICON MATA) — versi jelas
+   ============================================================ */
+.toggle-pass{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  color:#c9c9d4;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--line);
+  cursor:pointer;
+  transition:all .22s var(--ease);
+  z-index:2;
+  -webkit-tap-highlight-color:transparent;
+}
+.toggle-pass:hover{
+  color:var(--gold-light);
+  background:rgba(212,175,55,.14);
+  border-color:rgba(212,175,55,.5);
+  transform:translateY(-50%) scale(1.05);
+}
+.toggle-pass:active{
+  transform:translateY(-50%) scale(.95);
+}
+.toggle-pass:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+}
+.toggle-pass svg{
+  width:20px;
+  height:20px;
+  stroke-width:2.2;
+  pointer-events:none;
+}
+.toggle-pass .eye-off{display:none}
+.toggle-pass.showing{
+  color:var(--gold-light);
+  background:rgba(212,175,55,.16);
+  border-color:rgba(212,175,55,.5);
+}
+.toggle-pass.showing .eye-on{display:none}
+.toggle-pass.showing .eye-off{display:block}
+
+/* ============================================================
+   CAPS LOCK WARNING
+   ============================================================ */
+.caps-warn{
+  display:none;
+  align-items:center;
+  gap:6px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--orange);
+  margin-top:-8px;
+  padding-left:4px;
+  animation:fadeIn .2s ease-out;
+}
+.caps-warn.show{display:flex}
+.caps-warn svg{
+  width:14px;
+  height:14px;
+  flex-shrink:0;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(-4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============================================================
+   PASSWORD STRENGTH METER
+   ============================================================ */
+.strength{
+  display:none;
+  align-items:center;
+  gap:8px;
+  font-size:11.5px;
+  font-weight:600;
+  color:var(--muted);
+  margin-top:-4px;
+}
+.strength.show{display:flex}
+
+.strength-bar{
+  flex:1;
+  height:4px;
+  border-radius:4px;
+  background:rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.strength-bar i{
+  display:block;
+  height:100%;
+  width:0;
+  border-radius:4px;
+  transition:width .3s var(--ease), background .3s var(--ease);
+}
+.strength-bar i.weak{width:33%;background:var(--red)}
+.strength-bar i.mid{width:66%;background:var(--orange)}
+.strength-bar i.strong{width:100%;background:var(--green)}
+
+.strength-text{
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.3px;
+  min-width:52px;
+  text-align:right;
+}
+.strength-text.weak{color:var(--red)}
+.strength-text.mid{color:var(--orange)}
+.strength-text.strong{color:var(--green)}
+
+/* ============================================================
+   HINT SMALL
+   ============================================================ */
+.hint-small{
+  font-size:11.5px;
+  color:var(--muted-2);
+  line-height:1.5;
+}
+
+/* ============================================================
+   SUBMIT BUTTON
+   ============================================================ */
+button.submit{
+  margin-top:6px;
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  color:#fff;
+  border-radius:12px;
+  padding:14px;
+  font-size:15px;
+  font-weight:800;
+  font-family:inherit;
+  letter-spacing:.2px;
+  box-shadow:
+    0 10px 30px rgba(11,92,255,.36),
+    inset 0 0 0 1px rgba(255,255,255,.08);
+  transition:
+    transform .2s var(--ease),
+    box-shadow .2s var(--ease);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  position:relative;
+  overflow:hidden;
+}
+button.submit::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255,255,255,.18) 50%,
+    transparent 70%
+  );
+  transform:translateX(-100%);
+  transition:transform .6s var(--ease);
+}
+button.submit:hover:not(:disabled)::before{
+  transform:translateX(100%);
+}
+button.submit:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:
+    0 14px 38px rgba(11,92,255,.5),
+    inset 0 0 0 1px var(--gold);
+}
+button.submit:active:not(:disabled){
+  transform:translateY(0);
+}
+button.submit:disabled{
+  opacity:.7;
+  cursor:default;
+  transform:none;
+}
+button.submit svg{
+  width:18px;
+  height:18px;
+  position:relative;
+  z-index:1;
+}
+button.submit .label,
+button.submit .spinner{
+  position:relative;
+  z-index:1;
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
+.spinner{
+  width:16px;
+  height:16px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  animation:spin .7s linear infinite;
+  display:none;
+}
+button.submit.loading .spinner{display:block}
+button.submit.loading .label{opacity:.85}
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+/* ============================================================
+   MESSAGE (error/success)
+   ============================================================ */
+.msg{
+  font-size:13px;
+  font-weight:600;
+  padding:12px 14px;
+  border-radius:11px;
+  display:none;
+  margin-bottom:18px;
+  line-height:1.5;
+  align-items:flex-start;
+  gap:10px;
+  animation:msgIn .3s var(--ease-out);
+}
+.msg.show{display:flex}
+.msg svg{
+  width:18px;
+  height:18px;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.msg.error{
+  background:rgba(239,68,68,.10);
+  border:1px solid rgba(239,68,68,.35);
+  color:#fca5a5;
+}
+.msg.ok{
+  background:rgba(74,222,128,.12);
+  border:1px solid rgba(74,222,128,.4);
+  color:#8ef0ac;
+}
+@keyframes msgIn{
+  from{opacity:0;transform:translateY(-8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============================================================
+   HINT (bawah form)
+   ============================================================ */
+.hint{
+  margin-top:22px;
+  font-size:12px;
+  color:var(--muted);
+  text-align:center;
+  line-height:1.65;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+}
+.hint b{
+  color:var(--gold-light);
+  font-weight:700;
+}
+.hint code{
+  background:rgba(255,255,255,.06);
+  padding:2px 7px;
+  border-radius:5px;
+  font-size:11.5px;
+  color:var(--text-soft);
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.hint-icon{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  justify-content:center;
+  color:var(--gold-light);
+  font-weight:700;
+  margin-bottom:6px;
+}
+.hint-icon svg{
+  width:14px;
+  height:14px;
+}
+
+/* ============================================================
+   BOTTOM LINK
+   ============================================================ */
+.back-link{
+  display:block;
+  text-align:center;
+  margin-top:22px;
+  font-size:12.5px;
+  color:var(--muted-2);
+  transition:color .2s var(--ease);
+}
+.back-link:hover{color:var(--gold-light)}
+.back-link svg{
+  display:inline;
+  width:14px;
+  height:14px;
+  vertical-align:-2px;
+  margin-right:4px;
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET (1024px ke bawah)
+   ============================================================ */
+@media (max-width:1024px){
+  .showcase{padding:clamp(24px,4vw,40px)}
+  .copy h1{font-size:clamp(28px,3.4vw,40px);letter-spacing:-1.4px}
+  .feature{padding:12px 14px}
+  .feature-icon{width:38px;height:38px;border-radius:10px}
+  .feature-icon svg{width:18px;height:18px}
+}
+
+/* ============================================================
+   RESPONSIVE — TABLET PORTRAIT (900px ke bawah)
+   ============================================================ */
+@media (max-width:900px){
+  .form-side{
+    padding:clamp(20px,5vw,40px) clamp(16px,4vw,32px);
+    align-items:flex-start;
+    padding-top:clamp(24px,6vw,48px);
+  }
+  .form-wrap{max-width:480px}
+  .card{border-radius:24px}
+}
+
+/* ============================================================
+   RESPONSIVE — HP BESAR (600px ke bawah)
+   ============================================================ */
+@media (max-width:600px){
+  body{font-size:14.5px}
+
+  .form-side{
+    padding:24px 16px 32px;
+    align-items:flex-start;
+    min-height:100dvh;
+  }
+  .form-wrap{max-width:100%}
+
+  .card{
+    padding:22px 18px;
+    border-radius:20px;
+  }
+  .card::before{height:2px}
+
+  .brand-mobile{margin-bottom:20px}
+  .brand-mobile .brand-mark{width:36px;height:36px;border-radius:10px}
+  .brand-mobile .brand-text{font-size:20px}
+
+  h1.form-title{font-size:19px;letter-spacing:-.4px}
+  .sub{font-size:13px;margin-bottom:20px}
+
+  .tabs{padding:4px;margin-bottom:20px;border-radius:11px}
+  .tab{padding:10px 0;font-size:13px;border-radius:8px}
+
+  form{gap:14px}
+
+  input{padding:12px 14px;font-size:14px}
+  input.with-icon{padding-right:52px}
+
+  .toggle-pass{width:36px;height:36px;right:7px}
+  .toggle-pass svg{width:18px;height:18px}
+
+  button.submit{padding:13px;font-size:14.5px;gap:8px}
+  button.submit svg{width:17px;height:17px}
+
+  .msg{font-size:12.5px;padding:11px 13px}
+
+  .hint{margin-top:18px;padding-top:16px;font-size:11.5px}
+  .hint-icon{font-size:11px}
+
+  .back-link{margin-top:18px;font-size:12px}
+}
+
+/* ============================================================
+   RESPONSIVE — HP KECIL (420px ke bawah)
+   ============================================================ */
+@media (max-width:420px){
+  body{font-size:14px}
+
+  .form-side{padding:20px 14px 28px}
+
+  .card{padding:20px 16px;border-radius:18px}
+
+  h1.form-title{font-size:18px}
+  .sub{font-size:12.5px}
+
+  .tab{font-size:12.5px;padding:9px 0}
+
+  label{font-size:12px}
+  input{padding:11px 13px;font-size:13.5px}
+  input.with-icon{padding-right:50px}
+
+  .toggle-pass{width:34px;height:34px;right:6px}
+  .toggle-pass svg{width:17px;height:17px}
+
+  button.submit{padding:12px;font-size:14px}
+  button.submit svg{width:16px;height:16px}
+
+  .hint{font-size:11px}
+  .hint code{font-size:11px;padding:2px 6px}
+
+  .brand-mobile .brand-text{font-size:19px}
+}
+
+/* ============================================================
+   RESPONSIVE — LAPTOP BESAR / DESKTOP (1440px ke atas)
+   ============================================================ */
+@media (min-width:1440px){
+  .showcase{padding:80px}
+  .form-wrap{max-width:440px}
+  .copy{max-width:600px}
+  .copy h1{font-size:54px}
+}
+
+/* ============================================================
+   RESPONSIVE — MONITOR 4K (1920px ke atas)
+   ============================================================ */
+@media (min-width:1920px){
+  body{font-size:16px}
+  .showcase{padding:96px}
+  .form-wrap{max-width:460px}
+  .copy{max-width:680px}
+  .copy h1{font-size:60px}
+  .copy .lead{font-size:17px}
+}
+
+/* ============================================================
+   ORIENTATION — LANDSCAPE HP (tinggi < 600px)
+   ============================================================ */
+@media (max-width:900px) and (orientation:landscape){
+  .form-side{
+    padding:16px;
+    align-items:flex-start;
+  }
+  .card{padding:20px}
+  h1.form-title{font-size:18px}
+  .sub{display:none}
+  .tabs{margin-bottom:16px}
+  form{gap:12px}
+}
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+  html{scroll-behavior:auto}
+}
+
+/* Focus ring untuk keyboard */
+:focus-visible{
+  outline:2px solid var(--blue);
+  outline-offset:2px;
+}
+input:focus-visible,
+button:focus-visible,
+.tab:focus-visible{
+  outline:none;
+}
+
+/* Dark mode (default sudah dark) */
+@media (prefers-color-scheme:light){
+  /* Tetap dark, karena brand identity kita dark */
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ================= KIRI: SHOWCASE ================= -->
+  <aside class="showcase">
+    <div class="blob b1" aria-hidden="true"></div>
+    <div class="blob b2" aria-hidden="true"></div>
+
+    <a href="index.html" class="brand" aria-label="FlixNets Beranda">
+      <span class="brand-mark">
+        <img src="logo/logo.png" alt="FlixNets">
+      </span>
+      <span class="brand-text">Flix<span>Nets</span></span>
+    </a>
+
+    <div class="copy">
+      <span class="eyebrow">Streaming Tanpa Batas</span>
+      <h1>Cerita yang <span>layak</span> kamu tonton.</h1>
+      <p class="lead">
+        Film, serial, dan karya original pilihan dari kreator terbaik — dalam satu platform.
+        Nonton di mana saja, kapan saja, tanpa gangguan.
+      </p>
+
+      <div class="features">
+        <div class="feature">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 4.8v14.4L19 12z"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <b>5 Genre Pilihan</b>
+            <span>Aksi, Drama, Komedi, Horor, dan Dokumenter — semua ada di satu tempat.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7h-9M14 17H5M12 3v4M9 17l3 4 3-4"/>
+              <circle cx="7" cy="17" r="3"/>
+              <circle cx="17" cy="7" r="3"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <b>Kualitas 4K HDR</b>
+            <span>Gambar tajam, warna kaya, dan suara Dolby Atmos di setiap judul.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <b>Daftar Saya</b>
+            <span>Simpan judul favoritmu dan tonton kapan pun kamu siap.</span>
+          </div>
+        </div>
+
+        <div class="feature">
+          <div class="feature-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="2"/>
+              <path d="M12 18h.01"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <b>Nonton di Mana Saja</b>
+            <span>TV, laptop, tablet, ponsel — pengalaman yang sama di semua perangkat.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-note">
+      <span>© 2026 FlixNets</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>Dibuat oleh Tim FlixNets</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>Proyek Multimedia</span>
+    </div>
+  </aside>
+
+  <!-- ================= KANAN: FORM ================= -->
+  <main class="form-side">
+    <div class="form-wrap">
+
+      <!-- Brand (mobile) -->
+      <a href="index.html" class="brand-mobile" aria-label="FlixNets Beranda">
+        <span class="brand-mark">
+          <img src="logo/logo.png" alt="FlixNets">
+        </span>
+        <span class="brand-text">Flix<span>Nets</span></span>
+      </a>
+
+      <div class="card">
+
+        <!-- TABS -->
+        <div class="tabs" role="tablist" aria-label="Pilihan login atau daftar">
+          <button class="tab active" data-tab="login" role="tab" aria-selected="true" type="button">
+            Masuk
+          </button>
+          <button class="tab" data-tab="register" role="tab" aria-selected="false" type="button">
+            Daftar
+          </button>
+        </div>
+
+        <!-- MESSAGE -->
+        <div id="msg" class="msg" role="status" aria-live="polite"></div>
+
+        <!-- ================ FORM LOGIN ================ -->
+        <form id="loginForm" class="active" autocomplete="on" novalidate>
+          <h1 class="form-title">Selamat datang kembali 👋</h1>
+          <p class="sub">Lanjutkan menonton dari tempat kamu berhenti.</p>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="li_email">
+              Email <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                id="li_email"
+                type="email"
+                required
+                autocomplete="username"
+                placeholder="nama@email.com"
+                inputmode="email"
+                spellcheck="false"
+                autocapitalize="none"
+              >
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <label for="li_password">
+              Kata sandi <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                id="li_password"
+                type="password"
+                required
+                autocomplete="current-password"
+                placeholder="••••••••"
+                class="with-icon"
+              >
+              <button
+                type="button"
+                class="toggle-pass"
+                data-toggle="li_password"
+                aria-label="Tampilkan kata sandi"
+                tabindex="0"
+              >
+                <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
+            <p class="caps-warn" id="capsWarnLogin">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              Caps Lock aktif — cek huruf besar/kecil password kamu.
+            </p>
+          </div>
+
+          <!-- Submit -->
+          <button class="submit" type="submit">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="label">Masuk</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- ================ FORM REGISTER ================ -->
+        <form id="registerForm" autocomplete="on" novalidate>
+          <h1 class="form-title">Buat akun baru 🎬</h1>
+          <p class="sub">Gratis. Cukup beberapa detik, langsung bisa nonton.</p>
+
+          <!-- Nama -->
+          <div class="field">
+            <label for="re_name">
+              Nama lengkap <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                id="re_name"
+                type="text"
+                required
+                minlength="2"
+                maxlength="60"
+                placeholder="Nama kamu"
+                autocomplete="name"
+                spellcheck="false"
+              >
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="field">
+            <label for="re_email">
+              Email <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                id="re_email"
+                type="email"
+                required
+                autocomplete="username"
+                placeholder="nama@email.com"
+                inputmode="email"
+                spellcheck="false"
+                autocapitalize="none"
+              >
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="field">
+            <label for="re_password">
+              Kata sandi <span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="input-wrap">
+              <input
+                id="re_password"
+                type="password"
+                required
+                minlength="6"
+                autocomplete="new-password"
+                placeholder="Minimal 6 karakter"
+                class="with-icon"
+              >
+              <button
+                type="button"
+                class="toggle-pass"
+                data-toggle="re_password"
+                aria-label="Tampilkan kata sandi"
+                tabindex="0"
+              >
+                <svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-8-10-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <path d="M1 1l22 22"/>
+                  <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24"/>
+                </svg>
+              </button>
+            </div>
+            <div class="strength" id="strengthBox">
+              <div class="strength-bar"><i id="strengthBar"></i></div>
+              <span class="strength-text" id="strengthText">Lemah</span>
+            </div>
+            <p class="caps-warn" id="capsWarnRegister">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+              Caps Lock aktif — cek huruf besar/kecil password kamu.
+            </p>
+          </div>
+
+          <!-- Submit -->
+          <button class="submit" type="submit">
+            <span class="spinner" aria-hidden="true"></span>
+            <span class="label">Daftar Sekarang</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </form>
+
+        <!-- ================ HINT ================ -->
+        <p class="hint" id="hintBox">
+          <span class="hint-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 16v-4M12 8h.01"/>
+            </svg>
+            Akun admin demo
+          </span>
+          <br>
+          Gunakan <b>admin@flixnets.com</b> / <code>admin123</code>
+          untuk mengelola pengguna &amp; mengunggah video.
+        </p>
+
+        <!-- ================ BACK LINK ================ -->
+        <a href="index.html" class="back-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 5l-7 7 7 7"/>
+          </svg>
+          Kembali ke Beranda
+        </a>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+/* ============================================================
+   FLIXNETS — login.html
+   ============================================================ */
+/* global Auth, api */
+
+/* ============================================================
+   AUTO-REDIRECT kalau sudah login
+   ============================================================ */
+(function redirectIfLoggedIn(){
+  if (!Auth || !Auth.isLoggedIn()) return;
+  const user = Auth.getUser();
+  const target = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
+  window.location.replace(target);
+})();
+
+/* ============================================================
+   ELEMEN
+   ============================================================ */
+const $ = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+const tabs = $$('.tab');
+const forms = {
+  login: $('#loginForm'),
+  register: $('#registerForm')
+};
+const msg = $('#msg');
+const hintBox = $('#hintBox');
+const strengthBox = $('#strengthBox');
+const strengthBar = $('#strengthBar');
+const strengthTxt = $('#strengthText');
+
+/* ============================================================
+   TABS — switch antara login & register
+   ============================================================ */
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab;
+    tabs.forEach(t => {
+      t.classList.remove('active');
+      t.setAttribute('aria-selected', 'false');
+    });
+    tab.classList.add('active');
+    tab.setAttribute('aria-selected', 'true');
+
+    Object.values(forms).forEach(f => f.classList.remove('active'));
+    forms[target].classList.add('active');
+
+    clearMsg();
+
+    if (target === 'register'){
+      hintBox.style.display = 'none';
+      strengthBox.classList.remove('show');
+    } else {
+      hintBox.style.display = '';
+    }
+
+    // Reset caps warning
+    $$('.caps-warn').forEach(w => w.classList.remove('show'));
+  });
+});
+
+/* ============================================================
+   HELPERS — message, busy state, redirect
+   ============================================================ */
+const ICON_ERR = `
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <path d="M12 8v4M12 16h.01"/>
+  </svg>`;
+const ICON_OK = `
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+    <path d="M22 4L12 14.01l-3-3"/>
+  </svg>`;
+
+function showMsg(text, ok = false){
+  msg.innerHTML = (ok ? ICON_OK : ICON_ERR) + '<span>' + text + '</span>';
+  msg.className = 'msg show ' + (ok ? 'ok' : 'error');
+  msg.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 function clearMsg(){
   msg.className = 'msg';
-  msg.textContent = '';
+  msg.innerHTML = '';
 }
-function setBtnBusy(btn, busy, labelWhenBusy = 'Memproses…'){
+function setBtnBusy(form, busy){
+  const btn = form.querySelector('button.submit');
+  const label = btn.querySelector('.label');
   if (busy){
-    btn.dataset.original = btn.textContent;
-    btn.textContent = labelWhenBusy;
+    btn.dataset.original = label.textContent;
+    btn.classList.add('loading');
     btn.disabled = true;
   } else {
-    btn.textContent = btn.dataset.original || btn.textContent;
+    btn.classList.remove('loading');
     btn.disabled = false;
+    label.textContent = btn.dataset.original || label.textContent;
   }
 }
 function redirectAfterAuth(user){
-  window.location.href = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
+  const target = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
+  window.location.href = target;
 }
 
 /* ============================================================
-   LOGIN
+   TOGGLE SHOW/HIDE PASSWORD — ICON MATA
+   ============================================================ */
+$$('.toggle-pass').forEach(btn => {
+  // Klik
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    togglePass(btn);
+  });
+  // Keyboard: Enter / Space
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      togglePass(btn);
+    }
+  });
+});
+
+function togglePass(btn){
+  const input = document.getElementById(btn.dataset.toggle);
+  if (!input) return;
+
+  const isShowing = input.type === 'text';
+  input.type = isShowing ? 'password' : 'text';
+  btn.classList.toggle('showing', !isShowing);
+  btn.setAttribute(
+    'aria-label',
+    isShowing ? 'Tampilkan kata sandi' : 'Sembunyikan kata sandi'
+  );
+
+  // Fokuskan kembali ke input, tapi letakkan kursor di akhir
+  input.focus();
+  const len = input.value.length;
+  try {
+    input.setSelectionRange(len, len);
+  } catch (e){ /* ignore, beberapa browser tidak support */ }
+}
+
+/* ============================================================
+   CAPS LOCK WARNING
+   ============================================================ */
+function bindCapsWarning(inputId, warnId){
+  const input = document.getElementById(inputId);
+  const warn = document.getElementById(warnId);
+  if (!input || !warn) return;
+
+  const checkCaps = e => {
+    if (typeof e.getModifierState !== 'function') return;
+    const on = e.getModifierState('CapsLock');
+    warn.classList.toggle('show', on);
+  };
+
+  input.addEventListener('keyup', checkCaps);
+  input.addEventListener('keydown', checkCaps);
+  input.addEventListener('blur', () => warn.classList.remove('show'));
+  input.addEventListener('focus', () => warn.classList.remove('show'));
+}
+bindCapsWarning('li_password', 'capsWarnLogin');
+bindCapsWarning('re_password', 'capsWarnRegister');
+
+/* ============================================================
+   PASSWORD STRENGTH METER (register)
+   ============================================================ */
+const rePassword = $('#re_password');
+if (rePassword){
+  rePassword.addEventListener('input', () => {
+    const v = rePassword.value;
+    if (!v){
+      strengthBox.classList.remove('show');
+      return;
+    }
+    strengthBox.classList.add('show');
+
+    let score = 0;
+    if (v.length >= 6) score++;
+    if (v.length >= 10) score++;
+    if (/[A-Z]/.test(v) && /[a-z]/.test(v)) score++;
+    if (/\d/.test(v)) score++;
+    if (/[^A-Za-z0-9]/.test(v)) score++;
+
+    strengthBar.className = '';
+    strengthTxt.className = 'strength-text';
+
+    if (score <= 2){
+      strengthBar.classList.add('weak');
+      strengthTxt.classList.add('weak');
+      strengthTxt.textContent = 'Lemah';
+    } else if (score <= 3){
+      strengthBar.classList.add('mid');
+      strengthTxt.classList.add('mid');
+      strengthTxt.textContent = 'Sedang';
+    } else {
+      strengthBar.classList.add('strong');
+      strengthTxt.classList.add('strong');
+      strengthTxt.textContent = 'Kuat';
+    }
+  });
+}
+
+/* ============================================================
+   SUBMIT LOGIN
    ============================================================ */
 forms.login.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearMsg();
-  const btn = forms.login.querySelector('button.submit');
-  setBtnBusy(btn, true, 'Masuk…');
 
+  const email = $('#li_email').value.trim();
+  const password = $('#li_password').value;
+
+  if (!email) return showMsg('Email wajib diisi.');
+  if (!email.includes('@')) return showMsg('Format email tidak valid.');
+  if (!password) return showMsg('Kata sandi wajib diisi.');
+
+  setBtnBusy(forms.login, true);
   try {
-    const email    = document.getElementById('li_email').value.trim();
-    const password = document.getElementById('li_password').value;
-
-    if (!email || !password) throw new Error('Email dan kata sandi wajib diisi.');
-
     const data = await api('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password })
@@ -274,30 +1635,34 @@ forms.login.addEventListener('submit', async (e) => {
 
     Auth.setSession(data.token, data.user);
     showMsg('Berhasil masuk! Mengalihkan…', true);
+
     setTimeout(() => redirectAfterAuth(data.user), 400);
-  } catch (err) {
-    showMsg(err.message || 'Gagal masuk. Coba lagi.');
-    setBtnBusy(btn, false);
+  } catch (err){
+    showMsg(err.message || 'Gagal masuk. Periksa email & kata sandi.');
+    setBtnBusy(forms.login, false);
   }
 });
 
 /* ============================================================
-   REGISTER
+   SUBMIT REGISTER
    ============================================================ */
 forms.register.addEventListener('submit', async (e) => {
   e.preventDefault();
   clearMsg();
-  const btn = forms.register.querySelector('button.submit');
-  setBtnBusy(btn, true, 'Mendaftar…');
 
+  const name = $('#re_name').value.trim();
+  const email = $('#re_email').value.trim();
+  const password = $('#re_password').value;
+
+  if (!name) return showMsg('Nama wajib diisi.');
+  if (name.length < 2) return showMsg('Nama minimal 2 karakter.');
+  if (!email) return showMsg('Email wajib diisi.');
+  if (!email.includes('@')) return showMsg('Format email tidak valid.');
+  if (!password) return showMsg('Kata sandi wajib diisi.');
+  if (password.length < 6) return showMsg('Kata sandi minimal 6 karakter.');
+
+  setBtnBusy(forms.register, true);
   try {
-    const name     = document.getElementById('re_name').value.trim();
-    const email    = document.getElementById('re_email').value.trim();
-    const password = document.getElementById('re_password').value;
-
-    if (!name || !email || !password) throw new Error('Nama, email, dan kata sandi wajib diisi.');
-    if (password.length < 6) throw new Error('Kata sandi minimal 6 karakter.');
-
     const data = await api('/auth/register', {
       method: 'POST',
       body: JSON.stringify({ name, email, password })
@@ -305,22 +1670,83 @@ forms.register.addEventListener('submit', async (e) => {
 
     Auth.setSession(data.token, data.user);
     showMsg('Akun berhasil dibuat! Mengalihkan…', true);
+
     setTimeout(() => redirectAfterAuth(data.user), 500);
-  } catch (err) {
+  } catch (err){
     showMsg(err.message || 'Gagal mendaftar. Coba lagi.');
-    setBtnBusy(btn, false);
+    setBtnBusy(forms.register, false);
   }
 });
 
 /* ============================================================
-   Kalau error dari server bilang "sudah login", refresh cepat
+   HAPUS ERROR saat user mulai mengetik
    ============================================================ */
-window.addEventListener('pageshow', () => {
-  if (Auth.isLoggedIn()){
-    const user = Auth.getUser();
-    redirectAfterAuth(user);
+$$('input').forEach(inp => {
+  inp.addEventListener('input', () => {
+    if (msg.classList.contains('error')) clearMsg();
+  });
+});
+
+/* ============================================================
+   AUTO-REDIRECT kalau user buka tab duplikat
+   ============================================================ */
+window.addEventListener('pageshow', (event) => {
+  // event.persisted true = halaman dibuka dari bfcache
+  if (Auth && Auth.isLoggedIn()){
+    redirectAfterAuth(Auth.getUser());
   }
 });
+
+/* ============================================================
+   Sembunyikan hint admin kalau bukan environment demo
+   ============================================================ */
+(function checkDemoMode(){
+  const host = location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1' || host.endsWith('.local');
+  const isRailway = host.includes('railway.app') || host.includes('up.railway.app');
+  const isNetlify = host.includes('netlify.app');
+  const isVercel = host.includes('vercel.app');
+
+  // Tampilkan hint hanya di environment demo/development
+  if (!isLocal && !isRailway && !isNetlify && !isVercel){
+    if (hintBox) hintBox.style.display = 'none';
+  }
+})();
+
+/* ============================================================
+   PREVENT ZOOM on double-tap (mobile)
+   ============================================================ */
+(function preventDoubleTapZoom(){
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300){
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+})();
+
+/* ============================================================
+   FOCUS first field saat load
+   ============================================================ */
+window.addEventListener('load', () => {
+  // Hanya fokus kalau bukan mobile (biar keyboard tidak langsung muncul)
+  const isMobile = window.matchMedia('(max-width: 900px)').matches;
+  if (!isMobile){
+    const email = $('#li_email');
+    if (email && !Auth.isLoggedIn()) email.focus();
+  }
+});
+
+/* ============================================================
+   LOG
+   ============================================================ */
+console.log(
+  '%cFlixNets',
+  'color:#0b5cff;font-size:24px;font-weight:900;letter-spacing:-1px',
+  '— login page siap.'
+);
 </script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#08080b;--bg-soft:#0d0d12;--surface:#14141b;--line:rgba(255,255,255,.08);
+  --bg:#08080b;--bg-soft:#0d0d12;--surface:#14141b;--surface-2:#1b1b24;--line:rgba(255,255,255,.08);
   --line-2:rgba(255,255,255,.14);--text:#f3f3f7;--muted:#9a9aab;--muted-2:#6e6e80;
   --blue:#0b5cff;--blue-dark:#0639a6;--blue-light:#4f8cff;--blue-glow:rgba(11,92,255,.42);
   --gold:#d4af37;--gold-light:#f1d36b;--gold-glow:rgba(212,175,55,.34);
@@ -30,17 +30,16 @@ a{color:inherit;text-decoration:none}
 body::-webkit-scrollbar{width:10px}
 body::-webkit-scrollbar-track{background:#0b0b0f}
 body::-webkit-scrollbar-thumb{background:#26262f;border-radius:8px;border:2px solid #0b0b0f}
-body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
 
 /* NAVBAR */
-.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:120;background:rgba(8,8,11,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line);transition:background .35s var(--ease)}
+.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:120;background:rgba(8,8,11,.86);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
 .nav-inner{height:100%;max-width:1600px;margin:0 auto;padding:0 clamp(16px,3.2vw,54px);display:flex;align-items:center;gap:clamp(14px,2.4vw,38px)}
 .logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .logo-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;overflow:hidden;background:#08080b;box-shadow:0 4px 16px var(--blue-glow),0 0 0 1px rgba(212,175,55,.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:9px}
 .logo:hover .logo-mark{transform:rotate(-6deg) scale(1.06);box-shadow:0 6px 24px var(--blue-glow),0 0 0 1px var(--gold)}
 .logo-text{font-size:21px;font-weight:800;letter-spacing:-.6px;color:#fff}
-.logo-text span{background:linear-gradient(90deg,var(--blue-light) 0%,var(--gold-light) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.logo-text span{background:linear-gradient(90deg,var(--blue-light),var(--gold-light));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
 .nav-links{display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);flex:1}
 .nav-links a{font-size:14px;font-weight:500;color:#c9c9d4;position:relative;padding:6px 0;white-space:nowrap;transition:color .25s var(--ease)}
 .nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:2px;transition:width .3s var(--ease)}
@@ -48,7 +47,7 @@ body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
 .nav-links a.active{color:#fff;font-weight:600}
 .nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
-.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e6e6ee;transition:background .25s var(--ease),transform .25s var(--ease),color .25s}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e6e6ee;transition:.25s var(--ease)}
 .icon-btn:hover{background:rgba(11,92,255,.18);transform:translateY(-1px);color:#fff}
 .icon-btn svg{width:20px;height:20px}
 .avatar-wrap{position:relative}
@@ -77,7 +76,7 @@ body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
 
 /* PAGE HERO */
 .page-hero{position:relative;padding:calc(var(--nav-h) + 60px) clamp(16px,3.2vw,54px) 40px;overflow:hidden;isolation:isolate}
-.page-hero::before{content:'';position:absolute;inset:0;z-index:-2;background:radial-gradient(90% 70% at 15% 0%, rgba(11,92,255,.28), transparent 60%),radial-gradient(70% 60% at 90% 100%, rgba(212,175,55,.14), transparent 60%)}
+.page-hero::before{content:'';position:absolute;inset:0;z-index:-2;background:radial-gradient(90% 70% at 15% 0%,rgba(11,92,255,.28),transparent 60%),radial-gradient(70% 60% at 90% 100%,rgba(212,175,55,.14),transparent 60%)}
 .page-hero::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(118deg,rgba(255,255,255,.022) 0 3px,transparent 3px 11px)}
 .page-hero-inner{max-width:1600px;margin:0 auto}
 .page-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;color:var(--gold-light);background:linear-gradient(135deg,rgba(11,92,255,.14),rgba(212,175,55,.14));border:1px solid rgba(212,175,55,.5);padding:7px 14px;border-radius:999px;margin-bottom:16px}
@@ -87,7 +86,7 @@ body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
 .page-subtitle{font-size:clamp(14px,1.3vw,16px);color:#b6b6c6;max-width:640px;line-height:1.65}
 
 /* FILTERS */
-.filters{max-width:1600px;margin:0 auto;padding:8px clamp(16px,3.2vw,54px) 8px;display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:2}
+.filters{max-width:1600px;margin:0 auto;padding:8px clamp(16px,3.2vw,54px);display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:2}
 .chip-filter{font-size:12.5px;font-weight:700;letter-spacing:.2px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#c8c8d6;transition:.25s var(--ease)}
 .chip-filter:hover{background:rgba(11,92,255,.14);border-color:rgba(11,92,255,.5);color:#fff;transform:translateY(-1px)}
 .chip-filter.active{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(11,92,255,.36),inset 0 0 0 1px rgba(212,175,55,.5)}
@@ -107,7 +106,7 @@ main{padding:20px 0 60px;position:relative;z-index:2}
 .empty svg{width:52px;height:52px;margin:0 auto 18px;color:#2e2e3a}
 
 /* CARD / POSTER */
-.card{flex:0 0 auto;width:var(--card-w);cursor:pointer;outline:none}
+.card{flex:0 0 auto;width:var(--card-w);cursor:pointer;outline:none;position:relative}
 .poster{position:relative;aspect-ratio:2/3;border-radius:var(--radius);overflow:hidden;background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 72%);box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.07);transition:transform .38s var(--ease),box-shadow .38s var(--ease);display:flex;flex-direction:column;padding:13px}
 .poster::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 78% at 22% 2%,rgba(255,255,255,.24),transparent 56%),radial-gradient(105% 70% at 88% 100%,rgba(0,0,0,.62),transparent 62%),repeating-linear-gradient(122deg,rgba(255,255,255,.035) 0 2px,transparent 2px 10px)}
 .card:hover .poster,.card:focus-visible .poster{transform:translateY(-8px) scale(1.035);box-shadow:0 22px 46px rgba(0,0,0,.66),0 0 0 2px var(--blue),0 0 0 3px rgba(212,175,55,.5),0 0 28px rgba(11,92,255,.35)}
@@ -124,6 +123,12 @@ main{padding:20px 0 60px;position:relative;z-index:2}
 .icon-play svg{width:21px;height:21px;margin-left:3px}
 .card:hover .icon-play{transform:scale(1)}
 .icon-play:hover{transform:scale(1.1)!important;box-shadow:0 10px 30px rgba(11,92,255,.75),inset 0 0 0 1.5px var(--gold-light)}
+.poster-hover-actions{display:flex;gap:10px;align-items:center}
+.icon-bookmark{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;color:#fff;transform:scale(.82);transition:.3s var(--ease);backdrop-filter:blur(8px)}
+.icon-bookmark svg{width:19px;height:19px}
+.card:hover .icon-bookmark{transform:scale(1)}
+.icon-bookmark:hover{background:rgba(212,175,55,.24);border-color:rgba(212,175,55,.7);color:var(--gold-light);transform:scale(1.1)!important}
+.icon-bookmark.saved{background:linear-gradient(140deg,var(--gold-light),var(--gold));border-color:transparent;color:#08080b}
 .poster-hover-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center;font-size:11px;font-weight:600;color:#d6d6e4;transform:translateY(8px);opacity:0;transition:.35s var(--ease) .05s}
 .card:hover .poster-hover-meta{transform:none;opacity:1}
 .poster-hover-meta .age{border:1px solid rgba(212,175,55,.5);border-radius:4px;padding:1px 5px;font-size:9.5px;color:var(--gold-light)}
@@ -169,6 +174,7 @@ main{padding:20px 0 60px;position:relative;z-index:2}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5),inset 0 0 0 1px var(--gold)}
 .btn-ghost{background:rgba(255,255,255,.11);color:#fff;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px)}
 .btn-ghost:hover{background:rgba(212,175,55,.16);border-color:rgba(212,175,55,.5);transform:translateY(-2px)}
+.btn-ghost.saved{background:linear-gradient(140deg,var(--gold-light),var(--gold));color:#08080b;border-color:transparent}
 .modal-body{padding:6px clamp(20px,3vw,34px) 26px;display:grid;grid-template-columns:1.7fr 1fr;gap:clamp(20px,3.4vw,42px)}
 .modal-desc{color:#c0c0d0;line-height:1.75;font-size:15px;margin-bottom:18px}
 .modal-tags{display:flex;gap:8px;flex-wrap:wrap}
@@ -203,10 +209,6 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
 .foot-social a{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.28s var(--ease)}
 .foot-social a:hover{background:linear-gradient(140deg,var(--blue),var(--blue-dark));border-color:var(--blue);color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,92,255,.35),0 0 0 1px var(--gold)}
 .foot-social svg{width:17px;height:17px}
-.foot-brand .logo{margin-bottom:0}
-
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
-.reveal.in{opacity:1;transform:none}
 
 @media (max-width:1024px){
   :root{--card-w:170px;--nav-h:66px}
@@ -238,7 +240,7 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
 <body>
 
 <script src="js/api.js"></script>
-<script>if (!Auth.isLoggedIn()) { window.location.href = 'login.html'; }</script>
+<script>/* global Auth */ Auth.guard();</script>
 
 <!-- NAVBAR -->
 <header class="navbar" id="navbar">
@@ -252,7 +254,8 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
       <a href="film.html" class="active">Film</a>
       <a href="serial.html">Serial</a>
       <a href="original.html">Original</a>
-      <a href="admin.html" class="admin-only" id="navAdminDesktop">Panel Admin</a>
+      <a href="daftar-saya.html">Daftar Saya</a>
+      <a href="admin.html" class="admin-only">Panel Admin</a>
     </nav>
     <div class="nav-actions">
       <button class="icon-btn" id="searchBtn" aria-label="Cari film">
@@ -283,8 +286,8 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
   <a href="serial.html">Serial</a>
   <a href="original.html">FlixNets Original</a>
   <a href="daftar-saya.html">Daftar Saya</a>
+  <a href="akun.html">Akun Saya</a>
   <a href="admin.html" class="admin-only" id="navAdminMobile">Panel Admin</a>
-  <a href="bantuan.html">Bantuan</a>
   <button id="mobileLogout">Keluar</button>
 </nav>
 
@@ -331,28 +334,24 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
         <a href="film.html">Film</a>
         <a href="serial.html">Serial</a>
         <a href="original.html">FlixNets Original</a>
-        <a href="trending.html">Baru &amp; Populer</a>
         <a href="daftar-saya.html">Daftar Saya</a>
       </div>
       <div class="foot-col">
         <h4>Bantuan</h4>
-        <a href="bantuan.html">Pusat Bantuan</a>
         <a href="akun.html">Akun Saya</a>
-        <a href="perangkat.html">Perangkat</a>
-        <a href="kontak.html">Hubungi Kami</a>
+        <a href="bantuan.html">Pusat Bantuan</a>
         <a href="faq.html">FAQ</a>
+        <a href="kontak.html">Hubungi Kami</a>
       </div>
       <div class="foot-col">
         <h4>Perusahaan</h4>
         <a href="tentang.html">Tentang Kami</a>
-        <a href="karier.html">Karier</a>
         <a href="privasi.html">Kebijakan Privasi</a>
         <a href="syarat.html">Syarat Layanan</a>
-        <a href="press.html">Media &amp; Pers</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <p>© 2025 FlixNets. Semua hak dilindungi.</p>
+      <p>© 2026 FlixNets. Semua hak dilindungi.</p>
       <div class="foot-social">
         <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
         <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 7.3 10h-5.6l-4.4-6-5 6H3l7.4-8.6L3.4 3h5.7l4 5.5L17.5 3zm-1.1 16h1.8L7.7 4.9H5.8L16.4 19z"/></svg></a>
@@ -386,7 +385,7 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
         <div class="modal-meta" id="modalMeta"></div>
         <div class="modal-actions">
           <button class="btn btn-primary" id="modalPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>Putar</button>
-          <button class="btn btn-ghost" id="modalList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Daftar Saya</button>
+          <button class="btn btn-ghost" id="modalList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg><span id="modalListLabel">Daftar Saya</span></button>
         </div>
       </div>
     </div>
@@ -407,7 +406,43 @@ footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transp
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
-/* ================= DATA FILM ================= */
+/* ============================================================
+   FLIXNETS — film.html
+   ============================================================ */
+/* global Auth */
+
+/* ============================================================
+   WATCHLIST — disimpan per user di localStorage
+   ============================================================ */
+const Watchlist = {
+  key(){
+    const u = Auth.getUser();
+    return u ? `flixnets_watchlist_${u.id}` : 'flixnets_watchlist_guest';
+  },
+  all(){
+    try { return JSON.parse(localStorage.getItem(this.key()) || '[]'); }
+    catch { return []; }
+  },
+  save(list){ localStorage.setItem(this.key(), JSON.stringify(list)); },
+  add(item){
+    const list = this.all();
+    if (list.some(x => String(x.id) === String(item.id))) return false;
+    list.unshift({ ...item, addedAt: new Date().toISOString() });
+    this.save(list);
+    return true;
+  },
+  remove(id){ this.save(this.all().filter(x => String(x.id) !== String(id))); },
+  has(id){ return this.all().some(x => String(x.id) === String(id)); },
+  toggle(item){
+    if (this.has(item.id)){ this.remove(item.id); return false; }
+    this.add(item);
+    return true;
+  }
+};
+
+/* ============================================================
+   DATA FILM
+   ============================================================ */
 const MOVIES = [
   { id:2,  title:'Kota Tanpa Cahaya', year:2024, score:8.2, rating:'17+', duration:'1j 58m', genres:['Thriller','Misteri'], c1:'#4f7cff', c2:'#071026', desc:'Seorang detektif insomnia menelusuri hilangnya listrik selama 72 jam di sebuah kota — dan menemukan konspirasi yang jauh lebih gelap.', cast:'Ilham Nugraha, Sari Anjani, Bayu Setiawan', director:'Ratna Melati' },
   { id:3,  title:'Selamanya Musim Panas', year:2025, score:7.9, rating:'13+', duration:'1j 46m', genres:['Drama','Romansa'], c1:'#d4af37', c2:'#2a1405', desc:'Dua sahabat menghabiskan musim panas terakhir sebelum kuliah, tanpa menyadari bahwa perpisahan akan mengubah segalanya.', cast:'Kirana Dewi, Alif Ramadhan, Mega Suryani', director:'Dian Kartika' },
@@ -427,16 +462,30 @@ const MOVIES = [
   { id:24, title:'Cahaya di Utara', year:2024, score:8.5, rating:'13+', duration:'2j 12m', genres:['Drama','Petualangan'], c1:'#38bdf8', c2:'#06202e', desc:'Seorang fotografer kehilangan arah hidupnya dan menemukan kembali dirinya di tengah dinginnya tanah utara.', cast:'Naura Ayu, Baskara Mahendra, Larasati', director:'Maharani Putri' }
 ];
 
-/* ================= HELPERS ================= */
+/* ============================================================
+   HELPERS
+   ============================================================ */
 const $ = (s,c=document) => c.querySelector(s);
 const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>';
+const ICON_BOOKMARK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+const ICON_BOOKMARK_FILL = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 const byId = id => MOVIES.find(m => m.id === id);
 
 let toastTimer;
-function toast(msg){ const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600); }
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
 
-function posterHTML(m){
+/* ============================================================
+   CARD HTML — dengan tombol bookmark
+   ============================================================ */
+function cardHTML(m){
+  const saved = Watchlist.has('film-' + m.id);
   return `<article class="card" data-id="${m.id}" tabindex="0" role="button" aria-label="${m.title}">
     <div class="poster" style="--c1:${m.c1};--c2:${m.c2}">
       <span class="poster-mono" aria-hidden="true">${m.title.charAt(0)}</span>
@@ -445,14 +494,35 @@ function posterHTML(m){
         <div class="poster-sub"><span class="s">★ ${m.score}</span> ${m.year} · ${m.genres[0]}</div>
       </div>
       <div class="poster-hover">
-        <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+        <div class="poster-hover-actions">
+          <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+          <button class="icon-bookmark ${saved?'saved':''}" data-bookmark="${m.id}" aria-label="Simpan ke Daftar Saya">${saved?ICON_BOOKMARK_FILL:ICON_BOOKMARK}</button>
+        </div>
         <div class="poster-hover-meta"><span>${m.duration}</span><span class="age">${m.rating}</span></div>
       </div>
     </div>
   </article>`;
 }
 
-/* ================= FILTER + GRID ================= */
+/* Bangun objek watchlist dari data film */
+function toWatchlistItem(m){
+  return {
+    id: 'film-' + m.id,
+    type: 'film',
+    title: m.title,
+    year: m.year,
+    rating: m.rating,
+    duration: m.duration,
+    genres: m.genres,
+    c1: m.c1,
+    c2: m.c2,
+    score: m.score
+  };
+}
+
+/* ============================================================
+   FILTER + GRID
+   ============================================================ */
 const ALL_GENRES = ['Semua', ...Array.from(new Set(MOVIES.flatMap(m => m.genres))).sort()];
 let activeFilter = 'Semua';
 
@@ -463,11 +533,12 @@ function renderFilters(){
 }
 function renderGrid(){
   const list = activeFilter === 'Semua' ? MOVIES : MOVIES.filter(m => m.genres.includes(activeFilter));
-  $('#grid').innerHTML = list.map(posterHTML).join('');
+  $('#grid').innerHTML = list.map(cardHTML).join('');
   $('#catalogCount').innerHTML = `<b>${list.length}</b> judul`;
   $('#catalogTitle').textContent = activeFilter === 'Semua' ? 'Semua Film' : 'Film ' + activeFilter;
   $('#empty').classList.toggle('show', list.length === 0);
 }
+
 $('#filters').addEventListener('click', e => {
   const b = e.target.closest('[data-filter]');
   if (!b) return;
@@ -476,13 +547,28 @@ $('#filters').addEventListener('click', e => {
   renderGrid();
 });
 
-/* ================= MODAL ================= */
+/* ============================================================
+   MODAL
+   ============================================================ */
 const modal = $('#modal');
+let currentModalId = null;
 let lastFocused = null;
+
+function refreshModalButton(){
+  const saved = Watchlist.has('film-' + currentModalId);
+  const btn = $('#modalList');
+  if (!btn) return;
+  btn.classList.toggle('saved', saved);
+  const label = $('#modalListLabel');
+  if (label) label.textContent = saved ? 'Tersimpan ✓' : 'Daftar Saya';
+}
+
 function openModal(id){
   const m = byId(id);
   if (!m) return;
+  currentModalId = id;
   lastFocused = document.activeElement;
+
   $('#modalHero').style.background = `linear-gradient(125deg, ${m.c1} 0%, ${m.c2} 65%, #0d0d12 100%)`;
   $('#modalTitle').textContent = m.title;
   $('#modalMeta').innerHTML = `<span class="score">★ ${m.score}</span><span class="dot"></span><span>${m.year}</span><span class="dot"></span><span>${m.duration}</span><span class="chip age">${m.rating}</span>`;
@@ -493,8 +579,11 @@ function openModal(id){
     <p><span>Sutradara</span><b>${m.director}</b></p>
     <p><span>Genre</span><b>${m.genres.join(', ')}</b></p>
     <p><span>Kualitas</span><b>4K Ultra HD · HDR</b></p>`;
+
   const similar = MOVIES.filter(x => x.id !== m.id && x.genres.some(g => m.genres.includes(g))).slice(0,6);
-  $('#similarGrid').innerHTML = similar.map(posterHTML).join('');
+  $('#similarGrid').innerHTML = similar.map(cardHTML).join('');
+
+  refreshModalButton();
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -503,19 +592,37 @@ function closeModal(){
   document.body.style.overflow = '';
   lastFocused?.focus?.();
 }
+
 $('#modalClose').addEventListener('click', closeModal);
 $('#modalBackdrop').addEventListener('click', closeModal);
-$('#modalPlay').addEventListener('click', () => toast('Demo: pemutaran video belum tersambung di halaman ini'));
-$('#modalList').addEventListener('click', () => toast('Ditambahkan ke Daftar Saya'));
+$('#modalPlay').addEventListener('click', () => {
+  const m = byId(currentModalId);
+  toast('Demo: pemutaran "' + m.title + '" belum tersambung di halaman ini');
+});
 
-/* ================= SEARCH ================= */
+$('#modalList').addEventListener('click', () => {
+  const m = byId(currentModalId);
+  if (!m) return;
+  const added = Watchlist.toggle(toWatchlistItem(m));
+  refreshModalButton();
+  toast(added
+    ? m.title + ' ditambahkan ke Daftar Saya ✓'
+    : m.title + ' dihapus dari Daftar Saya'
+  );
+});
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
 const searchOverlay = $('#searchOverlay');
 const searchInput = $('#searchInput');
 function renderSearch(q){
   q = q.trim().toLowerCase();
-  const results = q ? MOVIES.filter(m => m.title.toLowerCase().includes(q) || m.genres.some(g => g.toLowerCase().includes(q)) || String(m.year).includes(q)) : MOVIES.slice(0,12);
+  const results = q
+    ? MOVIES.filter(m => m.title.toLowerCase().includes(q) || m.genres.some(g => g.toLowerCase().includes(q)) || String(m.year).includes(q))
+    : MOVIES.slice(0,12);
   $('#searchLabel').textContent = q ? `${results.length} hasil untuk "${q}"` : 'Pencarian Populer';
-  $('#searchGrid').innerHTML = results.map(posterHTML).join('');
+  $('#searchGrid').innerHTML = results.map(cardHTML).join('');
 }
 function openSearch(){ searchOverlay.classList.add('open'); renderSearch(''); setTimeout(()=>searchInput.focus(),120); }
 function closeSearch(){ searchOverlay.classList.remove('open'); searchInput.value=''; }
@@ -523,47 +630,85 @@ $('#searchBtn').addEventListener('click', openSearch);
 $('#searchClose').addEventListener('click', closeSearch);
 searchInput.addEventListener('input', e => renderSearch(e.target.value));
 
-/* ================= KARTU KLIK ================= */
+/* ============================================================
+   KLIK CARD GLOBAL — play / bookmark / open modal
+   ============================================================ */
 document.addEventListener('click', e => {
+  /* Tombol bookmark di card */
+  const bm = e.target.closest('[data-bookmark]');
+  if (bm){
+    e.stopPropagation();
+    const m = byId(+bm.dataset.bookmark);
+    if (!m) return;
+    const added = Watchlist.toggle(toWatchlistItem(m));
+    bm.classList.toggle('saved', added);
+    bm.innerHTML = added ? ICON_BOOKMARK_FILL : ICON_BOOKMARK;
+    toast(added ? m.title + ' ditambahkan ke Daftar Saya ✓' : m.title + ' dihapus dari Daftar Saya');
+    return;
+  }
+
+  /* Tombol play di card */
   const play = e.target.closest('[data-play]');
-  if (play){ e.stopPropagation(); openModal(+play.dataset.play); return; }
+  if (play){
+    e.stopPropagation();
+    const m = byId(+play.dataset.play);
+    if (m) toast('Demo: pemutaran "' + m.title + '" belum tersambung');
+    return;
+  }
+
+  /* Klik card → buka modal */
   const card = e.target.closest('.card');
   if (card && card.dataset.id){ openModal(+card.dataset.id); }
 });
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape'){
     if (modal.classList.contains('open')) closeModal();
     else if (searchOverlay.classList.contains('open')) closeSearch();
-    else if ($('#mobileMenu').classList.contains('open')) { $('#mobileMenu').classList.remove('open'); $('#burger').classList.remove('open'); }
+    else if ($('#mobileMenu').classList.contains('open')) {
+      $('#mobileMenu').classList.remove('open');
+      $('#burger').classList.remove('open');
+    }
   }
 });
 
-/* ================= NAVBAR ================= */
+/* ============================================================
+   NAVBAR
+   ============================================================ */
 $('#burger').addEventListener('click', () => {
   const open = $('#mobileMenu').classList.toggle('open');
   $('#burger').classList.toggle('open', open);
 });
-$$('#mobileMenu a').forEach(a => a.addEventListener('click', () => { $('#mobileMenu').classList.remove('open'); $('#burger').classList.remove('open'); }));
+$$('#mobileMenu a').forEach(a => a.addEventListener('click', () => {
+  $('#mobileMenu').classList.remove('open');
+  $('#burger').classList.remove('open');
+}));
 $('#bellBtn').addEventListener('click', () => toast('Belum ada notifikasi baru'));
 
 const avatarBtn = $('#avatarBtn'), avatarMenu = $('#avatarMenu');
 avatarBtn.addEventListener('click', e => { e.stopPropagation(); avatarMenu.classList.toggle('open'); });
 document.addEventListener('click', () => avatarMenu.classList.remove('open'));
 avatarMenu.addEventListener('click', e => e.stopPropagation());
-$('#avatarLogout').addEventListener('click', () => Auth.logout());
-$('#mobileLogout').addEventListener('click', () => Auth.logout());
 
-/* ================= USER UI ================= */
+/* ============================================================
+   USER UI
+   ============================================================ */
 function applyUserUI(){
   const user = Auth.getUser();
   if (!user) return;
   $('#avatarBtn').textContent = (user.name || '?').charAt(0).toUpperCase();
-  $('#avatarWhoName').textContent = user.name;
-  $('#avatarWhoEmail').textContent = user.email;
+  $('#avatarWhoName').textContent = user.name || '—';
+  $('#avatarWhoEmail').textContent = user.email || '—';
   if (user.role === 'admin') $$('.admin-only').forEach(el => el.style.display = '');
 }
 
-/* ================= INIT ================= */
+const doLogout = () => Auth.logout();
+$('#avatarLogout').addEventListener('click', doLogout);
+$('#mobileLogout').addEventListener('click', doLogout);
+
+/* ============================================================
+   INIT
+   ============================================================ */
 renderFilters();
 renderGrid();
 applyUserUI();
