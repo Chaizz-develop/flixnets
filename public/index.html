@@ -1,0 +1,2067 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08080b">
+<title>FlixNets — Streaming Film & Serial Original</title>
+<meta name="description" content="FlixNets — platform streaming film dan serial modern. Nonton di mana saja, kapan saja.">
+
+<!-- FAVICON dari file logo -->
+<link rel="icon" type="image/png" href="logo/logo.png">
+<link rel="apple-touch-icon" href="logo/logo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   FLIXNETS — DESIGN TOKENS  (Biru · Emas · Hitam)
+   ============================================================ */
+:root{
+  --bg:#08080b;
+  --bg-soft:#0d0d12;
+  --surface:#14141b;
+  --surface-2:#1b1b24;
+  --line:rgba(255,255,255,.08);
+  --line-2:rgba(255,255,255,.14);
+  --text:#f3f3f7;
+  --muted:#9a9aab;
+  --muted-2:#6e6e80;
+
+  --blue:#0b5cff;
+  --blue-dark:#0639a6;
+  --blue-light:#4f8cff;
+  --blue-glow:rgba(11,92,255,.42);
+
+  --gold:#d4af37;
+  --gold-light:#f1d36b;
+  --gold-dark:#a37c1a;
+  --gold-glow:rgba(212,175,55,.34);
+
+  --radius:14px;
+  --nav-h:72px;
+  --card-w:196px;
+  --ease:cubic-bezier(.22,.8,.26,1);
+}
+
+/* ============================================================
+   RESET
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.5;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img,svg{display:block;max-width:100%}
+button,input{font:inherit;color:inherit}
+button{background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+
+body::-webkit-scrollbar{width:10px}
+body::-webkit-scrollbar-track{background:#0b0b0f}
+body::-webkit-scrollbar-thumb{background:#26262f;border-radius:8px;border:2px solid #0b0b0f}
+body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar{
+  position:fixed;top:0;left:0;right:0;height:var(--nav-h);
+  z-index:120;
+  background:linear-gradient(180deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 55%,transparent 100%);
+  transition:background .35s var(--ease),backdrop-filter .35s var(--ease),border-color .35s;
+  border-bottom:1px solid transparent;
+}
+.navbar.scrolled{
+  background:rgba(8,8,11,.86);
+  backdrop-filter:blur(18px) saturate(150%);
+  -webkit-backdrop-filter:blur(18px) saturate(150%);
+  border-bottom-color:var(--line);
+}
+.nav-inner{
+  height:100%;max-width:1600px;margin:0 auto;
+  padding:0 clamp(16px,3.2vw,54px);
+  display:flex;align-items:center;gap:clamp(14px,2.4vw,38px);
+}
+
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{
+  width:34px;height:34px;border-radius:9px;
+  display:grid;place-items:center;overflow:hidden;
+  background:#08080b;
+  box-shadow:0 4px 16px var(--blue-glow), 0 0 0 1px rgba(212,175,55,.28);
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.logo-mark img{
+  width:100%;height:100%;object-fit:cover;border-radius:9px;
+}
+.logo:hover .logo-mark{
+  transform:rotate(-6deg) scale(1.06);
+  box-shadow:0 6px 24px var(--blue-glow), 0 0 0 1px var(--gold);
+}
+.logo-text{
+  font-size:21px;font-weight:800;letter-spacing:-.6px;
+  color:#fff;
+}
+.logo-text span{
+  background:linear-gradient(90deg,var(--blue-light) 0%,var(--gold-light) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  color:transparent;
+  font-weight:900;
+}
+
+.nav-links{display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);flex:1}
+.nav-links a{
+  font-size:14px;font-weight:500;color:#c9c9d4;
+  position:relative;padding:6px 0;white-space:nowrap;
+  transition:color .25s var(--ease);
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  border-radius:2px;transition:width .3s var(--ease);
+}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:#fff;font-weight:600}
+
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.icon-btn{
+  width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;color:#e6e6ee;
+  transition:background .25s var(--ease),transform .25s var(--ease),color .25s;
+}
+.icon-btn:hover{background:rgba(11,92,255,.18);transform:translateY(-1px);color:#fff}
+.icon-btn svg{width:20px;height:20px}
+
+.avatar-wrap{position:relative}
+.avatar{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(140deg,#3a3a4a,#20202a);
+  display:grid;place-items:center;
+  font-size:14px;font-weight:700;color:#fff;
+  border:1px solid var(--line-2);
+  transition:box-shadow .25s var(--ease),transform .25s var(--ease);
+}
+.avatar:hover{box-shadow:0 0 0 2px var(--gold);transform:translateY(-1px)}
+
+.avatar-menu{
+  position:absolute;top:50px;right:0;min-width:230px;z-index:150;
+  background:var(--surface);border:1px solid var(--line-2);border-radius:13px;
+  box-shadow:0 24px 54px rgba(0,0,0,.6);
+  padding:8px;
+  opacity:0;transform:translateY(-8px);pointer-events:none;
+  transition:opacity .22s var(--ease),transform .22s var(--ease);
+}
+.avatar-menu.open{opacity:1;transform:none;pointer-events:auto}
+.avatar-menu .who{padding:10px 11px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.avatar-menu .who b{display:block;font-size:13.5px;color:#fff;font-weight:700}
+.avatar-menu .who span{font-size:11.5px;color:var(--muted)}
+.avatar-menu a,.avatar-menu button{
+  display:block;width:100%;text-align:left;
+  padding:9px 11px;border-radius:8px;font-size:13px;font-weight:600;color:#d8d8e2;
+  transition:background .2s,color .2s;
+}
+.avatar-menu a:hover,.avatar-menu button:hover{background:rgba(11,92,255,.14);color:#fff}
+.avatar-menu button.danger:hover{background:rgba(212,175,55,.16);color:var(--gold-light)}
+
+.burger{
+  display:none;width:42px;height:42px;border-radius:10px;
+  flex-direction:column;justify-content:center;align-items:center;gap:5px;
+  transition:background .25s;
+}
+.burger:hover{background:rgba(255,255,255,.09)}
+.burger span{
+  display:block;width:19px;height:2px;background:#e9e9f0;border-radius:2px;
+  transition:transform .3s var(--ease),opacity .25s;
+}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mobile-menu{
+  position:fixed;top:var(--nav-h);left:0;right:0;z-index:115;
+  background:rgba(10,10,14,.97);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line);
+  padding:10px 22px 26px;
+  display:flex;flex-direction:column;
+  transform:translateY(-14px);opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .3s var(--ease);
+}
+.mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+.mobile-menu a,.mobile-menu button{
+  padding:15px 4px;font-size:16px;font-weight:600;color:#d5d5e0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;text-align:left;
+}
+.mobile-menu a:last-child,.mobile-menu button:last-child{border-bottom:none}
+.mobile-menu a:hover,.mobile-menu button:hover{color:var(--gold-light);padding-left:10px;transition:.25s}
+
+.admin-only{display:none}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{
+  position:relative;
+  min-height:92vh;
+  display:flex;align-items:flex-end;
+  padding:calc(var(--nav-h) + 40px) clamp(16px,4.5vw,72px) clamp(60px,9vh,110px);
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero-layer{
+  position:absolute;inset:0;z-index:-3;
+  opacity:0;transition:opacity .9s var(--ease);
+  background-size:cover;
+}
+.hero-layer.on{opacity:1}
+.hero-layer::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(115% 85% at 12% 8%, rgba(255,255,255,.20), transparent 55%),
+    radial-gradient(90% 70% at 92% 96%, rgba(0,0,0,.72), transparent 62%),
+    repeating-linear-gradient(118deg, rgba(255,255,255,.028) 0 3px, transparent 3px 11px);
+}
+.hero-shade{
+  position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(8,8,11,.97) 0%, rgba(8,8,11,.86) 32%, rgba(8,8,11,.35) 62%, rgba(8,8,11,.72) 100%),
+    linear-gradient(0deg, var(--bg) 2%, rgba(8,8,11,.5) 26%, transparent 58%);
+}
+.hero-content{
+  position:relative;max-width:660px;
+  transition:opacity .45s var(--ease),transform .45s var(--ease);
+}
+.hero-content.fade{opacity:0;transform:translateY(18px)}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:800;letter-spacing:2.4px;text-transform:uppercase;
+  color:var(--gold-light);
+  background:linear-gradient(135deg, rgba(11,92,255,.14), rgba(212,175,55,.14));
+  border:1px solid rgba(212,175,55,.5);
+  padding:7px 14px;border-radius:999px;
+  margin-bottom:18px;
+  backdrop-filter:blur(8px);
+}
+.hero-tag::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 10px var(--gold);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.75)}}
+
+.hero-title{
+  font-size:clamp(36px,5.6vw,74px);
+  font-weight:900;line-height:1.02;letter-spacing:-2.4px;
+  margin-bottom:18px;
+  text-shadow:0 6px 40px rgba(0,0,0,.6);
+}
+.hero-meta{
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;
+  font-size:13.5px;color:#c4c4d2;margin-bottom:18px;font-weight:500;
+}
+.hero-meta .score{color:var(--gold-light);font-weight:800}
+.hero-meta .dot{width:4px;height:4px;border-radius:50%;background:#5a5a6b}
+.chip{
+  font-size:11px;font-weight:700;letter-spacing:.6px;
+  padding:3px 9px;border-radius:5px;
+  border:1px solid var(--line-2);color:#d6d6e2;
+}
+.chip.age{border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.1);color:var(--gold-light)}
+
+.hero-desc{
+  font-size:clamp(14px,1.25vw,16.5px);
+  color:#b6b6c6;line-height:1.65;
+  max-width:560px;margin-bottom:30px;
+  text-shadow:0 2px 16px rgba(0,0,0,.6);
+}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  padding:13px 28px;border-radius:11px;
+  font-size:15px;font-weight:700;letter-spacing:.1px;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s,color .25s;
+  white-space:nowrap;
+}
+.btn svg{width:19px;height:19px}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  color:#fff;
+  box-shadow:0 8px 26px rgba(11,92,255,.34), inset 0 0 0 1px rgba(255,255,255,.06);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5), inset 0 0 0 1px var(--gold)}
+.btn-ghost{
+  background:rgba(255,255,255,.11);
+  color:#fff;
+  border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(10px);
+}
+.btn-ghost:hover{background:rgba(212,175,55,.16);border-color:rgba(212,175,55,.5);transform:translateY(-2px)}
+
+.hero-dots{
+  position:absolute;right:clamp(16px,4.5vw,72px);bottom:clamp(60px,9vh,110px);
+  display:flex;gap:9px;z-index:3;
+}
+.hero-dots button{
+  width:26px;height:3px;border-radius:3px;
+  background:rgba(255,255,255,.28);
+  transition:background .3s,width .35s var(--ease);
+}
+.hero-dots button.active{
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  width:44px;
+  box-shadow:0 0 12px var(--blue-glow);
+}
+
+/* ============================================================
+   ROWS
+   ============================================================ */
+main{padding-bottom:40px;position:relative;z-index:2}
+.row{
+  margin-top:clamp(28px,4vw,54px);
+  position:relative;
+}
+.row-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:0 clamp(16px,3.2vw,54px);
+  margin-bottom:2px;
+}
+.row-head h2{
+  font-size:clamp(17px,1.55vw,22px);
+  font-weight:800;letter-spacing:-.4px;
+  display:flex;align-items:center;gap:10px;
+}
+.row-head h2::before{
+  content:'';width:3px;height:19px;border-radius:3px;
+  background:linear-gradient(180deg,var(--blue-light),var(--gold));
+  box-shadow:0 0 12px var(--blue-glow);
+}
+.row-more{
+  font-size:13px;font-weight:600;color:var(--muted);
+  display:inline-flex;align-items:center;gap:6px;
+  opacity:0;transform:translateX(-6px);
+  transition:.28s var(--ease);
+}
+.row-more svg{width:15px;height:15px;transition:transform .28s var(--ease)}
+.row:hover .row-more{opacity:1;transform:none}
+.row-more:hover{color:var(--gold-light)}
+.row-more:hover svg{transform:translateX(3px)}
+
+.row-wrap{position:relative}
+.row-track{
+  display:flex;gap:13px;
+  overflow-x:auto;overflow-y:hidden;
+  scroll-behavior:auto;           /* auto-scroll butuh instant, bukan smooth */
+  padding:30px clamp(16px,3.2vw,54px);
+  margin:-30px 0;
+  scrollbar-width:none;
+  /* scroll-snap sengaja dihapus supaya auto-scroll tidak "ketarik balik" */
+}
+.row-track::-webkit-scrollbar{display:none}
+
+.row-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:46px;height:78px;z-index:6;
+  display:grid;place-items:center;
+  background:linear-gradient(90deg,rgba(8,8,11,.92),rgba(8,8,11,.55));
+  color:#fff;border-radius:10px;
+  opacity:0;transition:opacity .28s var(--ease),background .28s,transform .2s;
+}
+.row-arrow svg{width:26px;height:26px}
+.row-wrap:hover .row-arrow{opacity:1}
+.row-arrow:hover{background:linear-gradient(90deg,var(--blue),var(--blue-dark))}
+.row-arrow.left{left:6px}
+.row-arrow.right{right:6px;background:linear-gradient(270deg,rgba(8,8,11,.92),rgba(8,8,11,.55))}
+.row-arrow.right:hover{background:linear-gradient(270deg,var(--blue),var(--blue-dark))}
+.row-arrow.is-hidden{opacity:0!important;pointer-events:none}
+
+/* ============================================================
+   CARD / POSTER
+   ============================================================ */
+.card{
+  flex:0 0 auto;
+  width:var(--card-w);
+  cursor:pointer;
+  outline:none;
+}
+.poster{
+  position:relative;
+  aspect-ratio:2/3;
+  border-radius:var(--radius);
+  overflow:hidden;
+  background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 72%);
+  box-shadow:0 10px 24px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.07);
+  transition:transform .38s var(--ease),box-shadow .38s var(--ease);
+  display:flex;flex-direction:column;
+  padding:13px;
+}
+.poster::after{
+  content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    radial-gradient(120% 78% at 22% 2%, rgba(255,255,255,.24), transparent 56%),
+    radial-gradient(105% 70% at 88% 100%, rgba(0,0,0,.62), transparent 62%),
+    repeating-linear-gradient(122deg, rgba(255,255,255,.035) 0 2px, transparent 2px 10px);
+}
+.card:hover .poster,
+.card:focus-visible .poster{
+  transform:translateY(-8px) scale(1.035);
+  box-shadow:0 22px 46px rgba(0,0,0,.66),
+             0 0 0 2px var(--blue),
+             0 0 0 3px rgba(212,175,55,.5),
+             0 0 28px rgba(11,92,255,.35);
+}
+.card:focus-visible{outline:none}
+
+.poster-mono{
+  position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);
+  font-size:118px;font-weight:900;line-height:1;
+  color:rgba(255,255,255,.13);
+  letter-spacing:-8px;user-select:none;z-index:0;
+  font-style:italic;
+}
+.poster-badge{
+  position:absolute;top:11px;left:11px;z-index:4;
+  font-size:8.5px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
+  background:linear-gradient(135deg,var(--blue),var(--blue-dark));
+  color:#fff;
+  padding:4px 8px;border-radius:5px;
+  box-shadow:0 3px 12px rgba(0,0,0,.5), inset 0 0 0 1px rgba(212,175,55,.4);
+}
+.poster-foot{
+  position:relative;z-index:2;margin-top:auto;
+}
+.poster-title{
+  font-size:14px;font-weight:800;line-height:1.22;
+  letter-spacing:-.25px;
+  text-shadow:0 2px 14px rgba(0,0,0,.85);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.poster-sub{
+  font-size:10.5px;color:rgba(255,255,255,.72);
+  margin-top:5px;font-weight:500;
+  display:flex;align-items:center;gap:6px;
+}
+.poster-sub .s{color:var(--gold-light);font-weight:800}
+
+.poster-hover{
+  position:absolute;inset:0;z-index:3;
+  background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,.15) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  opacity:0;transition:opacity .3s var(--ease);
+  padding:14px;
+}
+.card:hover .poster-hover,.card:focus-visible .poster-hover{opacity:1}
+.icon-play{
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  display:grid;place-items:center;color:#fff;
+  box-shadow:0 8px 24px rgba(11,92,255,.5), inset 0 0 0 1.5px rgba(212,175,55,.6);
+  transform:scale(.82);transition:transform .3s var(--ease),box-shadow .3s;
+}
+.icon-play svg{width:21px;height:21px;margin-left:3px}
+.card:hover .icon-play{transform:scale(1)}
+.icon-play:hover{
+  transform:scale(1.1)!important;
+  box-shadow:0 10px 30px rgba(11,92,255,.75), inset 0 0 0 1.5px var(--gold-light);
+}
+.poster-hover-meta{
+  display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center;
+  font-size:11px;font-weight:600;color:#d6d6e4;
+  transform:translateY(8px);opacity:0;
+  transition:.35s var(--ease) .05s;
+}
+.card:hover .poster-hover-meta{transform:none;opacity:1}
+.poster-hover-meta .age{
+  border:1px solid rgba(212,175,55,.5);border-radius:4px;
+  padding:1px 5px;font-size:9.5px;color:var(--gold-light);
+}
+
+.poster-progress{
+  position:absolute;left:11px;right:11px;bottom:9px;z-index:5;
+  height:3px;border-radius:3px;background:rgba(255,255,255,.24);overflow:hidden;
+}
+.poster-progress i{
+  display:block;height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  box-shadow:0 0 8px var(--blue-glow);
+}
+
+.top-item{display:flex;align-items:flex-end;flex:0 0 auto}
+.top-num{
+  font-size:clamp(76px,8.6vw,112px);
+  font-weight:900;line-height:.74;
+  color:transparent;
+  -webkit-text-stroke:2.5px rgba(212,175,55,.5);
+  letter-spacing:-9px;
+  margin-right:-14px;
+  z-index:0;user-select:none;
+  transition:-webkit-text-stroke .3s;
+  font-family:'Inter',sans-serif;
+}
+.top-item:hover .top-num{-webkit-text-stroke-color:var(--blue)}
+.top-item .card{width:calc(var(--card-w) * .82);position:relative;z-index:1}
+
+/* ============================================================
+   SEARCH OVERLAY
+   ============================================================ */
+.search-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(6,6,9,.97);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+  display:flex;flex-direction:column;
+  padding-top:var(--nav-h);
+  overflow-y:auto;
+}
+.search-overlay.open{opacity:1;pointer-events:auto}
+.search-top{
+  display:flex;align-items:center;gap:14px;
+  padding:26px clamp(16px,3.2vw,54px) 18px;
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;background:rgba(6,6,9,.92);
+  backdrop-filter:blur(16px);z-index:2;
+}
+.search-top svg{width:23px;height:23px;color:var(--gold-light);flex-shrink:0}
+.search-top input{
+  flex:1;background:none;border:none;outline:none;
+  font-size:clamp(17px,2.4vw,25px);font-weight:600;color:#fff;
+  letter-spacing:-.4px;
+}
+.search-top input::placeholder{color:#5c5c6e;font-weight:500}
+.search-close{
+  width:40px;height:40px;border-radius:50%;flex-shrink:0;
+  display:grid;place-items:center;color:#c8c8d6;
+  transition:background .25s,transform .25s;
+}
+.search-close:hover{background:rgba(11,92,255,.2);transform:rotate(90deg);color:#fff}
+.search-close svg{width:19px;height:19px}
+
+.search-body{padding:24px clamp(16px,3.2vw,54px) 70px;flex:1}
+.search-label{
+  font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:20px;
+}
+.search-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:clamp(12px,1.6vw,20px);
+}
+.search-grid .card{width:100%}
+.search-empty{
+  text-align:center;padding:70px 20px;color:var(--muted);
+  font-size:16px;display:none;
+}
+.search-empty.show{display:block}
+.search-empty b{color:var(--gold-light)}
+.search-empty svg{width:52px;height:52px;margin:0 auto 18px;color:#2e2e3a}
+
+/* ============================================================
+   MODAL DETAIL
+   ============================================================ */
+.modal{
+  position:fixed;inset:0;z-index:300;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:clamp(12px,4vh,60px) 16px;
+  overflow-y:auto;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-backdrop{
+  position:fixed;inset:0;
+  background:rgba(3,3,5,.82);
+  backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);
+}
+.modal-box{
+  position:relative;width:min(920px,100%);
+  background:var(--bg-soft);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 40px 100px rgba(0,0,0,.8), 0 0 0 1px rgba(212,175,55,.14);
+  transform:translateY(26px) scale(.97);
+  transition:transform .38s var(--ease);
+}
+.modal.open .modal-box{transform:none}
+
+.modal-hero{
+  position:relative;height:clamp(200px,32vw,320px);
+  background-size:cover;
+  display:flex;align-items:flex-end;
+  padding:clamp(20px,3vw,34px);
+}
+.modal-hero::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 18% 0%, rgba(255,255,255,.2), transparent 55%),
+    linear-gradient(0deg,var(--bg-soft) 1%,rgba(13,13,18,.6) 40%,transparent 78%);
+}
+.modal-hero-content{position:relative;z-index:2;width:100%}
+.modal-hero h2{
+  font-size:clamp(25px,3.6vw,42px);
+  font-weight:900;letter-spacing:-1.4px;line-height:1.08;
+  margin-bottom:14px;text-shadow:0 4px 26px rgba(0,0,0,.7);
+}
+.modal-close{
+  position:absolute;top:16px;right:16px;z-index:6;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(10,10,14,.72);backdrop-filter:blur(8px);
+  display:grid;place-items:center;color:#fff;
+  border:1px solid var(--line-2);
+  transition:background .25s,transform .3s var(--ease);
+}
+.modal-close:hover{background:var(--blue);transform:rotate(90deg);box-shadow:0 0 0 1px var(--gold)}
+.modal-close svg{width:17px;height:17px}
+
+.modal-actions{display:flex;gap:11px;flex-wrap:wrap}
+.modal-actions .btn{padding:11px 24px;font-size:14px}
+
+.modal-body{
+  padding:6px clamp(20px,3vw,34px) 26px;
+  display:grid;grid-template-columns:1.7fr 1fr;gap:clamp(20px,3.4vw,42px);
+}
+.modal-desc{color:#c0c0d0;line-height:1.75;font-size:15px;margin-bottom:18px}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{
+  font-size:11.5px;font-weight:700;letter-spacing:.4px;
+  padding:6px 13px;border-radius:999px;
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  color:#cfcfdd;
+  transition:.25s var(--ease);
+}
+.tag:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.5);color:var(--gold-light)}
+
+.modal-side{font-size:13.5px;line-height:1.85;color:var(--muted)}
+.modal-side p{margin-bottom:11px}
+.modal-side span{color:var(--muted-2);display:block;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.modal-side b{color:#e2e2ec;font-weight:600}
+
+.modal-similar{padding:0 clamp(20px,3vw,34px) clamp(24px,3vw,34px)}
+.modal-similar h3{
+  font-size:14px;font-weight:800;letter-spacing:.3px;
+  margin-bottom:16px;color:#e8e8f0;
+  display:flex;align-items:center;gap:9px;
+}
+.modal-similar h3::before{
+  content:'';width:3px;height:15px;border-radius:3px;
+  background:linear-gradient(180deg,var(--blue),var(--gold));
+}
+.similar-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(124px,1fr));
+  gap:13px;
+}
+.similar-grid .card{width:100%}
+.similar-grid .poster-title{font-size:12px}
+
+/* ============================================================
+   PLAYER (DEMO)
+   ============================================================ */
+.player{
+  position:fixed;inset:0;z-index:400;
+  background:#000;
+  opacity:0;pointer-events:none;
+  transition:opacity .35s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+}
+.player.open{opacity:1;pointer-events:auto}
+.player-stage{
+  position:relative;width:100%;height:100%;
+  overflow:hidden;
+}
+.player-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(125deg,#0a2a6b,#08080b);
+  transition:background .6s ease;
+}
+.player-bg::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(100% 80% at 25% 15%, rgba(255,255,255,.16), transparent 55%),
+    radial-gradient(90% 90% at 80% 90%, rgba(0,0,0,.75), transparent 60%),
+    repeating-linear-gradient(118deg, rgba(255,255,255,.025) 0 3px, transparent 3px 12px);
+}
+.player-topbar{
+  position:absolute;top:0;left:0;right:0;z-index:3;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:20px clamp(16px,3vw,34px);
+  background:linear-gradient(180deg,rgba(0,0,0,.75),transparent);
+}
+.player-now{font-size:14px;font-weight:700;color:#fff;letter-spacing:-.2px}
+.player-close{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid var(--line-2);
+  display:grid;place-items:center;color:#fff;
+  transition:background .25s,transform .3s;
+}
+.player-close:hover{background:var(--blue);transform:rotate(90deg)}
+.player-close svg{width:17px;height:17px}
+
+.player-center{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  pointer-events:none;
+}
+.player-bigbtn{
+  width:92px;height:92px;border-radius:50%;
+  background:rgba(11,92,255,.16);
+  border:1.5px solid rgba(11,92,255,.6);
+  backdrop-filter:blur(8px);
+  display:grid;place-items:center;color:#fff;
+  pointer-events:auto;
+  transition:transform .3s var(--ease),background .3s,box-shadow .3s;
+}
+.player-bigbtn svg{width:34px;height:34px}
+.player-bigbtn:hover{
+  transform:scale(1.08);
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  box-shadow:0 0 44px var(--blue-glow), 0 0 0 1px var(--gold);
+}
+.player-hint{
+  font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,255,255,.42);font-weight:700;
+}
+.player.center-hidden .player-center{opacity:0;transition:opacity .3s}
+
+.player-controls{
+  position:absolute;left:0;right:0;bottom:0;z-index:3;
+  display:flex;align-items:center;gap:14px;
+  padding:24px clamp(16px,3vw,34px) clamp(20px,3vw,30px);
+  background:linear-gradient(0deg,rgba(0,0,0,.88),transparent);
+}
+.pc-btn{
+  width:40px;height:40px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;flex-shrink:0;
+  transition:background .25s,transform .2s;
+}
+.pc-btn:hover{background:rgba(11,92,255,.25)}
+.pc-btn svg{width:20px;height:20px}
+.player-bar{
+  flex:1;height:5px;border-radius:5px;
+  background:rgba(255,255,255,.2);
+  cursor:pointer;position:relative;
+  transition:height .2s;
+}
+.player-bar:hover{height:8px}
+.player-bar-fill{
+  height:100%;border-radius:5px;width:0%;
+  background:linear-gradient(90deg,var(--blue),var(--gold));
+  position:relative;
+  box-shadow:0 0 12px var(--blue-glow);
+}
+.player-bar-fill::after{
+  content:'';position:absolute;right:-7px;top:50%;transform:translateY(-50%) scale(0);
+  width:14px;height:14px;border-radius:50%;background:#fff;
+  box-shadow:0 0 10px rgba(0,0,0,.6), 0 0 0 2px var(--gold);
+  transition:transform .2s;
+}
+.player-bar:hover .player-bar-fill::after{transform:translateY(-50%) scale(1)}
+.player-time{
+  font-size:12.5px;font-weight:600;color:#cfcfdb;
+  font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+
+/* ============================================================
+   REAL PLAYER
+   ============================================================ */
+.realplayer{
+  position:fixed;inset:0;z-index:420;background:#000;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+}
+.realplayer.open{opacity:1;pointer-events:auto}
+.realplayer video{width:100%;height:100%;object-fit:contain;background:#000}
+.realplayer-close{
+  position:absolute;top:18px;right:18px;z-index:5;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:1px solid var(--line-2);
+  display:grid;place-items:center;color:#fff;
+  transition:background .25s,transform .3s;
+}
+.realplayer-close:hover{background:var(--blue);transform:rotate(90deg)}
+.realplayer-close svg{width:17px;height:17px}
+.realplayer-title{
+  position:absolute;top:18px;left:18px;z-index:5;
+  font-size:13.5px;font-weight:700;color:#fff;
+  background:rgba(0,0,0,.55);padding:8px 14px;border-radius:9px;
+  backdrop-filter:blur(6px);max-width:60%;
+  border:1px solid rgba(212,175,55,.28);
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast{
+  position:fixed;left:50%;bottom:34px;z-index:500;
+  transform:translate(-50%,26px);
+  background:rgba(24,24,32,.96);
+  border:1px solid var(--line-2);
+  border-left:3px solid var(--gold);
+  color:#f0f0f6;font-size:13.5px;font-weight:600;
+  padding:13px 22px;border-radius:11px;
+  box-shadow:0 16px 44px rgba(0,0,0,.65);
+  backdrop-filter:blur(14px);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease),transform .3s var(--ease);
+  max-width:calc(100vw - 32px);
+  text-align:center;
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer{
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,rgba(11,92,255,.05) 50%, rgba(212,175,55,.04));
+  padding:clamp(40px,6vw,70px) clamp(16px,3.2vw,54px) 34px;
+  margin-top:40px;
+}
+.foot-inner{max-width:1600px;margin:0 auto}
+.foot-top{
+  display:grid;grid-template-columns:1.6fr repeat(3,1fr);
+  gap:clamp(24px,4vw,60px);margin-bottom:48px;
+}
+.foot-brand p{
+  color:var(--muted);font-size:13.5px;line-height:1.75;
+  margin-top:16px;max-width:320px;
+}
+.foot-col h4{
+  font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--gold-light);margin-bottom:18px;
+}
+.foot-col a{
+  display:block;font-size:13.5px;color:var(--muted);
+  padding:6px 0;transition:color .25s,transform .25s var(--ease);
+}
+.foot-col a:hover{color:var(--blue-light);transform:translateX(4px)}
+.foot-bottom{
+  border-top:1px solid var(--line);
+  padding-top:26px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:18px;flex-wrap:wrap;
+}
+.foot-bottom p{font-size:12.5px;color:var(--muted-2)}
+.foot-social{display:flex;gap:10px}
+.foot-social a{
+  width:36px;height:36px;border-radius:10px;
+  border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--muted);
+  transition:.28s var(--ease);
+}
+.foot-social a:hover{
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  border-color:var(--blue);
+  color:#fff;
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(11,92,255,.35), 0 0 0 1px var(--gold);
+}
+.foot-social svg{width:17px;height:17px}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1180px){
+  .nav-links{gap:16px}
+  .nav-links a{font-size:13px}
+}
+@media (max-width:1024px){
+  :root{--card-w:170px;--nav-h:66px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .hero{min-height:84vh}
+  .modal-body{grid-template-columns:1fr;gap:22px}
+  .foot-top{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media (max-width:720px){
+  :root{--card-w:142px;--nav-h:62px}
+  body{font-size:14px}
+  .hero{
+    min-height:78vh;
+    padding-bottom:60px;
+    align-items:flex-end;
+  }
+  .hero-desc{
+    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+    font-size:13.5px;margin-bottom:22px;
+  }
+  .hero-title{letter-spacing:-1.4px;margin-bottom:14px}
+  .hero-meta{font-size:12px;gap:8px 11px}
+  .hero-dots{right:auto;left:16px;bottom:34px}
+  .btn{padding:11px 20px;font-size:14px}
+  .btn svg{width:17px;height:17px}
+  .row-track{gap:10px;padding:24px 16px;margin:-24px 0}
+  .row-head{padding:0 16px}
+  .row-arrow{display:none}
+  .top-num{-webkit-text-stroke-width:2px;letter-spacing:-6px}
+  .modal{padding:0}
+  .modal-box{border-radius:0;min-height:100vh}
+  .modal-hero{border-radius:0}
+  .search-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:11px}
+  .foot-top{grid-template-columns:1fr;gap:30px}
+  .foot-bottom{justify-content:center;text-align:center}
+  .player-time{font-size:11px}
+  .player-controls{gap:10px}
+  .pc-btn{width:36px;height:36px}
+  .avatar-menu{right:-10px;min-width:210px}
+}
+@media (max-width:420px){
+  :root{--card-w:126px}
+  .logo-text{font-size:18px}
+  .logo-mark{width:30px;height:30px}
+  .hide-xs{display:none!important}
+}
+.gold-text{color:var(--gold-light)}
+.gold-border{border-color:rgba(212,175,55,.45)!important}
+@media (max-width:720px){
+  .hero{min-height:78vh;padding-bottom:48px}
+  .hero-content{max-width:100%}
+  .row{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= AUTH GUARD ================= -->
+<script src="js/api.js"></script>
+<script>
+  if (!Auth.isLoggedIn()) { window.location.href = 'login.html'; }
+</script>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="FlixNets Beranda">
+      <span class="logo-mark">
+        <img src="logo/logo.png" alt="FlixNets">
+      </span>
+      <span class="logo-text">Flix<span>Nets</span></span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navigasi utama">
+      <a href="index.html" class="active">Beranda</a>
+      <a href="film.html">Film</a>
+      <a href="serial.html">Serial</a>
+      <a href="original.html">Original</a>
+      <a href="admin.html" class="admin-only" id="navAdminDesktop">Panel Admin</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchBtn" aria-label="Cari film">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+        </svg>
+      </button>
+      <button class="icon-btn hide-xs" id="bellBtn" aria-label="Notifikasi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>
+        </svg>
+      </button>
+      <div class="avatar-wrap">
+        <button class="avatar" id="avatarBtn" aria-label="Profil pengguna">A</button>
+        <div class="avatar-menu" id="avatarMenu">
+          <div class="who"><b id="avatarWhoName">—</b><span id="avatarWhoEmail">—</span></div>
+          <a href="akun.html">Akun Saya</a>
+          <a href="daftar-saya.html">Daftar Saya</a>
+          <a href="admin.html" class="admin-only" id="avatarAdminLink">Panel Admin</a>
+          <button class="danger" id="avatarLogout">Keluar</button>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= MOBILE MENU ================= -->
+<nav class="mobile-menu" id="mobileMenu" aria-label="Menu seluler">
+  <a href="index.html">Beranda</a>
+  <a href="film.html">Film</a>
+  <a href="serial.html">Serial</a>
+  <a href="original.html">FlixNets Original</a>
+  <a href="daftar-saya.html">Daftar Saya</a>
+  <a href="admin.html" class="admin-only" id="navAdminMobile">Panel Admin</a>
+  <a href="bantuan.html">Bantuan</a>
+  <button id="mobileLogout">Keluar</button>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero" id="hero">
+  <div class="hero-layer" id="heroLayerA"></div>
+  <div class="hero-layer" id="heroLayerB"></div>
+  <div class="hero-shade"></div>
+
+  <div class="hero-content" id="heroContent">
+    <span class="hero-tag" id="heroTag">FlixNets Original</span>
+    <h1 class="hero-title" id="heroTitle"></h1>
+    <div class="hero-meta" id="heroMeta"></div>
+    <p class="hero-desc" id="heroDesc"></p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="heroPlay">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>
+        Putar
+      </button>
+      <button class="btn btn-ghost" id="heroInfo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 7.8h.01"/>
+        </svg>
+        Selengkapnya
+      </button>
+    </div>
+  </div>
+
+  <div class="hero-dots" id="heroDots" role="tablist" aria-label="Pilihan unggulan"></div>
+</section>
+
+<!-- ================= MAIN ROWS ================= -->
+<main id="main"></main>
+
+<!-- ================= FOOTER ================= -->
+<footer id="footer">
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark">
+            <img src="logo/logo.png" alt="FlixNets">
+          </span>
+          <span class="logo-text">Flix<span>Nets</span></span>
+        </a>
+        <p>Streaming film, serial, dan karya orisinal pilihan. Nonton tanpa batas di TV, laptop, tablet, dan ponsel — di mana saja, kapan saja.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Jelajahi</h4>
+        <a href="film.html">Film</a>
+        <a href="serial.html">Serial</a>
+        <a href="original.html">FlixNets Original</a>
+        <a href="trending.html">Baru &amp; Populer</a>
+        <a href="daftar-saya.html">Daftar Saya</a>
+      </div>
+      <div class="foot-col">
+        <h4>Bantuan</h4>
+        <a href="bantuan.html">Pusat Bantuan</a>
+        <a href="akun.html">Akun Saya</a>
+        <a href="perangkat.html">Perangkat</a>
+        <a href="kontak.html">Hubungi Kami</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h4>Perusahaan</h4>
+        <a href="tentang.html">Tentang Kami</a>
+        <a href="karier.html">Karier</a>
+        <a href="privasi.html">Kebijakan Privasi</a>
+        <a href="syarat.html">Syarat Layanan</a>
+        <a href="press.html">Media &amp; Pers</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2025 FlixNets. Katalog film/serial di atas adalah tampilan demo; video pada baris "Video yang Diunggah" diputar sungguhan dari server.</p>
+      <div class="foot-social">
+        <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 7.3 10h-5.6l-4.4-6-5 6H3l7.4-8.6L3.4 3h5.7l4 5.5L17.5 3zm-1.1 16h1.8L7.7 4.9H5.8L16.4 19z"/></svg>
+        </a>
+        <a href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.8 4.8 12 4.8 12 4.8s-6.8 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.2 12a29 29 0 0 0 .3 4.8 2.8 2.8 0 0 0 2 2c1.7.4 8.5.4 8.5.4s6.8 0 8.5-.4a2.8 2.8 0 0 0 2-2 29 29 0 0 0 .3-4.8 29 29 0 0 0-.3-4.8zM9.9 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= SEARCH OVERLAY ================= -->
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-label="Pencarian" aria-hidden="true">
+  <div class="search-top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round">
+      <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Cari film, serial, atau genre..." autocomplete="off">
+    <button class="search-close" id="searchClose" aria-label="Tutup pencarian">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="search-body">
+    <p class="search-label" id="searchLabel">Pencarian Populer</p>
+    <div class="search-grid" id="searchGrid"></div>
+    <div class="search-empty" id="searchEmpty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+        <circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>
+      </svg>
+      Tidak ada hasil untuk “<b id="searchTerm"></b>”. Coba kata kunci lain.
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL DETAIL ================= -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Detail judul">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose" aria-label="Tutup">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="modal-hero" id="modalHero">
+      <div class="modal-hero-content">
+        <h2 id="modalTitle"></h2>
+        <div class="hero-meta" id="modalMeta"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="modalPlay">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>
+            Putar
+          </button>
+          <button class="btn btn-ghost" id="modalList">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Daftar Saya
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-tags" id="modalTags"></div>
+      </div>
+      <aside class="modal-side" id="modalSide"></aside>
+    </div>
+    <div class="modal-similar">
+      <h3>Judul Serupa</h3>
+      <div class="similar-grid" id="similarGrid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= PLAYER DEMO ================= -->
+<div class="player" id="player" role="dialog" aria-label="Pemutar video" aria-hidden="true">
+  <div class="player-stage" id="playerStage">
+    <div class="player-bg" id="playerBg"></div>
+
+    <div class="player-topbar">
+      <span class="player-now" id="playerNow"></span>
+      <button class="player-close" id="playerClose" aria-label="Tutup pemutar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+
+    <div class="player-center" id="playerCenter">
+      <button class="player-bigbtn" id="playerBigBtn" aria-label="Putar / Jeda">
+        <svg viewBox="0 0 24 24" fill="currentColor" id="playerBigIcon"><path d="M7 4.8v14.4L19 12z"/></svg>
+      </button>
+      <p class="player-hint">Demo Pemutar FlixNets</p>
+    </div>
+
+    <div class="player-controls">
+      <button class="pc-btn" id="playerToggle" aria-label="Putar / Jeda">
+        <svg viewBox="0 0 24 24" fill="currentColor" id="playerToggleIcon"><path d="M7 4.8v14.4L19 12z"/></svg>
+      </button>
+      <div class="player-bar" id="playerBar">
+        <div class="player-bar-fill" id="playerFill"></div>
+      </div>
+      <span class="player-time" id="playerTime">0:00 / 0:00</span>
+      <button class="pc-btn hide-xs" id="playerMute" aria-label="Volume">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/>
+        </svg>
+      </button>
+      <button class="pc-btn hide-xs" id="playerFull" aria-label="Layar penuh">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= REAL PLAYER ================= -->
+<div class="realplayer" id="realPlayer" role="dialog" aria-label="Pemutar video terunggah" aria-hidden="true">
+  <span class="realplayer-title" id="realPlayerTitle"></span>
+  <button class="realplayer-close" id="realPlayerClose" aria-label="Tutup pemutar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <video id="realVideoEl" controls playsinline></video>
+</div>
+
+<!-- ================= TOAST ================= -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   FLIXNETS — DATA DEMO
+   ============================================================ */
+const MOVIES = [
+  { id:1,  title:'Crimson Horizon',        year:2025, score:8.7, rating:'17+', duration:'2j 14m',
+    genres:['Aksi','Sci-Fi'], c1:'#0b5cff', c2:'#2a0710', badge:'FlixNets Original',
+    desc:'Ketika sebuah stasiun orbit kehilangan kendali, seorang teknisi muda harus memilih antara menyelamatkan kota di bawahnya atau satu-satunya orang yang ia cintai.',
+    cast:'Arya Wibowo, Nadia Prameswari, Rendra Kusuma', director:'Bagas Prasetyo' },
+  { id:2,  title:'Kota Tanpa Cahaya',      year:2024, score:8.2, rating:'17+', duration:'1j 58m',
+    genres:['Thriller','Misteri'], c1:'#4f7cff', c2:'#071026',
+    desc:'Seorang detektif insomnia menelusuri hilangnya listrik selama 72 jam di sebuah kota — dan menemukan konspirasi yang jauh lebih gelap.',
+    cast:'Ilham Nugraha, Sari Anjani, Bayu Setiawan', director:'Ratna Melati' },
+  { id:3,  title:'Selamanya Musim Panas',  year:2025, score:7.9, rating:'13+', duration:'1j 46m',
+    genres:['Drama','Romansa'], c1:'#d4af37', c2:'#2a1405',
+    desc:'Dua sahabat menghabiskan musim panas terakhir sebelum kuliah, tanpa menyadari bahwa perpisahan akan mengubah segalanya.',
+    cast:'Kirana Dewi, Alif Ramadhan, Mega Suryani', director:'Dian Kartika' },
+  { id:4,  title:'Bayangan Nusantara',     year:2025, score:8.9, rating:'13+', duration:'2j 22m',
+    genres:['Petualangan','Fantasi'], c1:'#8b5cf6', c2:'#150a2e', badge:'Baru',
+    desc:'Seorang pemuda menemukan pusaka kuno yang membuka gerbang ke dunia bayangan — dan membangkitkan perang yang tertidur selama berabad-abad.',
+    cast:'Reza Mahendra, Laras Ayu, Damar Wicaksono', director:'Surya Adhitama' },
+  { id:5,  title:'Protokol 7',             year:2024, score:8.4, rating:'17+', duration:'2j 05m',
+    genres:['Aksi','Thriller'], c1:'#0ea5b8', c2:'#032622',
+    desc:'Tujuh agen, satu misi mustahil, dan hitungan mundur yang tidak bisa dihentikan. Tidak semua dari mereka akan pulang.',
+    cast:'Fajar Ramadhan, Citra Lestari, Hendra Wijaya', director:'Yoga Pratama' },
+  { id:6,  title:'Aurora Terakhir',        year:2025, score:8.6, rating:'13+', duration:'2j 31m',
+    genres:['Sci-Fi','Drama'], c1:'#22d3ee', c2:'#06202b', badge:'FlixNets Original',
+    desc:'Di planet yang mataharinya sekarat, seorang astronom mengirim pesan terakhir ke Bumi — tanpa tahu bahwa seseorang akhirnya menjawab.',
+    cast:'Anindya Putri, Gilang Saputra, Maya Anggraini', director:'Rizky Hidayat' },
+  { id:7,  title:'Rumah di Ujung Rel',     year:2023, score:7.6, rating:'17+', duration:'1j 42m',
+    genres:['Horor','Misteri'], c1:'#ef4444', c2:'#1a0505',
+    desc:'Sebuah keluarga pindah ke rumah tua dekat rel kereta, dan mulai mendengar suara kereta yang melintas setiap pukul 03.00 — padahal relnya sudah lama mati.',
+    cast:'Wulan Sari, Doni Firmansyah, Ratih Kumala', director:'Andra Permana' },
+  { id:8,  title:'Jantung Samudra',        year:2024, score:8.0, rating:'SU', duration:'1j 52m',
+    genres:['Petualangan','Keluarga'], c1:'#0ea5e9', c2:'#052033',
+    desc:'Seorang gadis dan kakeknya berlayar mencari terumbu karang legendaris yang katanya mampu menyembuhkan laut yang sekarat.',
+    cast:'Bintang Ramadhani, Eko Prasetyo, Sinta Amelia', director:'Nurul Hasanah' },
+  { id:9,  title:'Neon Jakarta',           year:2025, score:8.5, rating:'17+', duration:'2j 08m',
+    genres:['Aksi','Cyberpunk'], c1:'#f43f9d', c2:'#28051a', badge:'Trending',
+    desc:'Di kota yang dijual pada korporasi, seorang kurir data ilegal menemukan file yang bisa meruntuhkan seluruh sistem.',
+    cast:'Bagas Kurniawan, Tiara Amelia, Yusuf Hakim', director:'Lintang Maharani' },
+  { id:10, title:'Suara dari Sumur',       year:2023, score:7.4, rating:'17+', duration:'1j 38m',
+    genres:['Horor'], c1:'#64748b', c2:'#0c1016',
+    desc:'Setiap malam, sumur tua di belakang rumah itu memanggil namanya. Dan malam ini, ia memutuskan untuk menjawab.',
+    cast:'Nadia Safira, Rian Aditya, Putri Handayani', director:'Galih Nugroho' },
+  { id:11, title:'Langit Kedua',           year:2024, score:8.3, rating:'13+', duration:'2j 16m',
+    genres:['Drama','Sci-Fi'], c1:'#60a5fa', c2:'#0a1730',
+    desc:'Setelah Bumi tak lagi layak huni, sekelompok remaja dikirim ke koloni baru — dan harus memutuskan masa depan seperti apa yang ingin mereka bangun.',
+    cast:'Alya Rahmawati, Bima Arya, Cinta Laura', director:'Farhan Maulana' },
+  { id:12, title:'Pemburu Fajar',          year:2025, score:8.1, rating:'13+', duration:'2j 02m',
+    genres:['Aksi','Petualangan'], c1:'#fb923c', c2:'#2b1206',
+    desc:'Seorang pemburu bayaran menerima pekerjaan terakhir: mengantar seorang anak melintasi gurun yang dikuasai milisi.',
+    cast:'Jaka Perdana, Salsa Nabila, Arif Budiman', director:'Wahyu Santoso' },
+  { id:13, title:'Tarian Hujan',           year:2023, score:7.8, rating:'13+', duration:'1j 49m',
+    genres:['Romansa','Drama'], c1:'#a78bfa', c2:'#1a1030',
+    desc:'Seorang penari tradisional bertemu seorang musisi jalanan di kota yang tidak pernah berhenti hujan.',
+    cast:'Sekar Ayu, Dimas Prasetya, Rina Marlina', director:'Ayu Wulandari' },
+  { id:14, title:'Labirin Merah',          year:2024, score:8.2, rating:'17+', duration:'2j 11m',
+    genres:['Thriller','Kriminal'], c1:'#dc2626', c2:'#220606',
+    desc:'Seorang profiler harus masuk ke dalam pikiran seorang pembunuh berantai sebelum labirin berikutnya menelan korban baru.',
+    cast:'Hendra Gunawan, Maria Fitri, Taufik Hidayat', director:'Bramantyo Adi' },
+  { id:15, title:'Anak Gunung Api',        year:2025, score:7.7, rating:'SU', duration:'1j 44m',
+    genres:['Petualangan','Keluarga'], c1:'#f59e0b', c2:'#2a1704',
+    desc:'Dua kakak beradik terjebak di lereng gunung saat erupsi — dan harus bekerja sama untuk turun sebelum pagi.',
+    cast:'Raka Pratama, Naila Zahra, Sukma Wijaya', director:'Indah Permatasari' },
+  { id:16, title:'Frekuensi Hilang',       year:2024, score:8.0, rating:'17+', duration:'1j 55m',
+    genres:['Misteri','Thriller'], c1:'#14b8a6', c2:'#04211f',
+    desc:'Seorang operator radio malam menangkap siaran yang memprediksi kematian — termasuk kematiannya sendiri.',
+    cast:'Yoga Saputra, Dewi Anggraini, Fikri Ramadhan', director:'Sinta Maharani' },
+  { id:17, title:'Bintang Jatuh Terakhir', year:2025, score:8.8, rating:'13+', duration:'2j 19m',
+    genres:['Sci-Fi','Romansa'], c1:'#818cf8', c2:'#131538', badge:'FlixNets Original',
+    desc:'Dua astronom dari benua berbeda menghabiskan bertahun-tahun mengamati bintang yang sama, tanpa pernah bertemu.',
+    cast:'Livia Anggraini, Rehan Maulana, Kirana Sari', director:'Dimas Ardiansyah' },
+  { id:18, title:'Dapur Ibu Sari',         year:2023, score:7.9, rating:'SU', duration:'1j 36m',
+    genres:['Komedi','Drama'], c1:'#d4af37', c2:'#2a2205',
+    desc:'Sebuah warung kecil di sudut gang menjadi tempat bertemunya segala rahasia, tawa, dan air mata satu kampung.',
+    cast:'Sri Wahyuni, Bambang Sutrisno, Endang Lestari', director:'Tuti Herawati' },
+  { id:19, title:'Perang Bayangan',        year:2024, score:8.6, rating:'17+', duration:'2j 28m',
+    genres:['Aksi','Sejarah'], c1:'#94a3b8', c2:'#0f141b',
+    desc:'Di balik garis depan, sekelompok mata-mata tanpa nama menentukan arah sejarah yang tidak akan pernah tercatat.',
+    cast:'Agus Salim, Retno Wulandari, Surya Dharma', director:'Pandu Wicaksono' },
+  { id:20, title:'Kota Tenggelam',         year:2025, score:8.1, rating:'13+', duration:'2j 07m',
+    genres:['Bencana','Drama'], c1:'#0891b2', c2:'#04222c',
+    desc:'Saat air laut menelan separuh kota dalam satu malam, seorang insinyur harus memilih siapa yang diselamatkan lebih dulu.',
+    cast:'Arif Setiawan, Maya Kusuma, Dwi Handayani', director:'Nanda Pratama' },
+  { id:21, title:'Mimpi Palsu',            year:2024, score:8.3, rating:'17+', duration:'2j 01m',
+    genres:['Thriller','Psikologis'], c1:'#c084fc', c2:'#200a30',
+    desc:'Sebuah terapi tidur eksperimental menjanjikan mimpi sempurna — sampai para pasien tidak bisa lagi membedakan mimpi dan kenyataan.',
+    cast:'Cindy Marcella, Rendy Pangestu, Ayu Lestari', director:'Reza Fadillah' },
+  { id:22, title:'Sang Penjaga Hutan',     year:2025, score:8.4, rating:'SU', duration:'1j 57m',
+    genres:['Fantasi','Petualangan'], c1:'#22c55e', c2:'#05230f', badge:'Baru',
+    desc:'Seorang anak menemukan bahwa hutan di belakang rumahnya dijaga oleh makhluk yang hanya terlihat oleh mereka yang percaya.',
+    cast:'Alika Putri, Galih Ramadhan, Nadin Amizah', director:'Kartika Sari' },
+  { id:23, title:'Malam Terpanjang',       year:2023, score:7.8, rating:'17+', duration:'1j 51m',
+    genres:['Kriminal','Thriller'], c1:'#3b82f6', c2:'#06122b',
+    desc:'Satu perampokan, delapan tersangka, dan satu malam yang tidak akan pernah berakhir bagi siapa pun yang terlibat.',
+    cast:'Tommy Pratama, Sandra Dewi, Lukman Hakim', director:'Ivan Kurniawan' },
+  { id:24, title:'Cahaya di Utara',        year:2024, score:8.5, rating:'13+', duration:'2j 12m',
+    genres:['Drama','Petualangan'], c1:'#38bdf8', c2:'#06202e',
+    desc:'Seorang fotografer kehilangan arah hidupnya dan menemukan kembali dirinya di tengah dinginnya tanah utara.',
+    cast:'Naura Ayu, Baskara Mahendra, Larasati', director:'Maharani Putri' }
+];
+
+const byId = id => MOVIES.find(m => m.id === id);
+
+const PROGRESS = [64, 31, 82, 17, 55, 43];
+
+const ROW_CONFIG = [
+  { title:'Trending Sekarang',             ids:[1,9,4,5,17,14,2,20,11,23] },
+  { title:'Top 10 di Indonesia Hari Ini',  ids:[1,9,17,4,19,6,22,24,5,12], variant:'top10' },
+  { title:'Lanjutkan Menonton untuk Anda', ids:[3,12,6,18,22], variant:'progress' },
+  { title:'FlixNets Original',             ids:[1,6,17,4,22,11,9] },
+  { title:'Aksi & Petualangan',            ids:[5,9,12,19,14,1,23,4,15] },
+  { title:'Drama & Romansa',               ids:[3,13,11,24,18,17,6] },
+  { title:'Horor & Misteri',               ids:[7,10,16,21,14,2] },
+  { title:'Tontonan Keluarga',             ids:[8,15,18,22,3,24] }
+];
+
+const HERO_IDS = [1, 9, 4];
+
+const ICON_PLAY  = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 5h4v14h-4zM13.5 5h4v14h-4z"/></svg>';
+const ICON_CHEV_L = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+const ICON_CHEV_R = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+const ICON_ARROW  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const $  = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+function escHtml(s){
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function parseDuration(str){
+  const h = /(\d+)\s*j/.exec(str);
+  const m = /(\d+)\s*m/.exec(str);
+  return ((h ? +h[1] : 0) * 60 + (m ? +m[1] : 0)) * 60;
+}
+function fmtTime(sec){
+  sec = Math.max(0, Math.floor(sec));
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  if (h > 0) return h + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  return m + ':' + String(s).padStart(2,'0');
+}
+
+let toastTimer;
+function toast(msg){
+  const el = $('#toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+/* ============================================================
+   POSTER / CARD
+   ============================================================ */
+function posterHTML(m, opts = {}){
+  const badge = m.badge ? `<span class="poster-badge">${m.badge}</span>` : '';
+  const progress = opts.progress
+    ? `<div class="poster-progress"><i style="width:${opts.progress}%"></i></div>`
+    : '';
+
+  return `
+  <article class="card" data-id="${m.id}" tabindex="0" role="button" aria-label="${m.title}">
+    <div class="poster" style="--c1:${m.c1};--c2:${m.c2}">
+      <span class="poster-mono" aria-hidden="true">${m.title.charAt(0)}</span>
+      ${badge}
+      <div class="poster-foot">
+        <h3 class="poster-title">${m.title}</h3>
+        <div class="poster-sub"><span class="s">★ ${m.score}</span> ${m.year} · ${m.genres[0]}</div>
+      </div>
+      <div class="poster-hover">
+        <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+        <div class="poster-hover-meta">
+          <span>${m.duration}</span>
+          <span class="age">${m.rating}</span>
+        </div>
+      </div>
+      ${progress}
+    </div>
+  </article>`;
+}
+
+/* ============================================================
+   POSTER — VIDEO SUNGGUHAN
+   ============================================================ */
+const REAL_PALETTE = [
+  ['#0b5cff','#2a0710'], ['#4f7cff','#071026'], ['#22d3ee','#06202b'],
+  ['#8b5cf6','#150a2e'], ['#d4af37','#2a1704'], ['#22c55e','#05230f'],
+  ['#f43f9d','#28051a'], ['#0ea5e9','#052033']
+];
+function colorFor(id){
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+  return REAL_PALETTE[hash % REAL_PALETTE.length];
+}
+
+let REAL_VIDEOS = [];
+
+function realPosterHTML(v){
+  const [c1, c2] = colorFor(v.id);
+  const initial = (v.title || '?').charAt(0).toUpperCase();
+  return `
+  <article class="card" data-real-id="${v.id}" tabindex="0" role="button" aria-label="${escHtml(v.title)}">
+    <div class="poster" style="--c1:${c1};--c2:${c2}">
+      <span class="poster-mono" aria-hidden="true">${initial}</span>
+      <span class="poster-badge">Diunggah</span>
+      <div class="poster-foot">
+        <h3 class="poster-title">${escHtml(v.title)}</h3>
+        <div class="poster-sub">${escHtml(v.genre)} · ${escHtml(v.language)}</div>
+      </div>
+      <div class="poster-hover">
+        <button class="icon-play" data-real-play="${v.id}" aria-label="Putar ${escHtml(v.title)}">${ICON_PLAY}</button>
+        <div class="poster-hover-meta">
+          <span>${Math.round((v.duration || 0) / 60)} menit</span>
+          <span class="age">${escHtml(v.rating)}</span>
+        </div>
+      </div>
+    </div>
+  </article>`;
+}
+
+async function loadRealVideos(){
+  try {
+    const { videos } = await api('/videos');
+    REAL_VIDEOS = videos;
+    renderRealRow(videos);
+  } catch (err) {
+    console.warn('Gagal memuat video terunggah:', err.message);
+  }
+}
+
+function renderRealRow(videos){
+  document.querySelectorAll('.assignment-real-row').forEach(el => el.remove());
+  if (!videos.length) return;
+
+  const genres = ['Aksi','Drama','Komedi','Horor','Sci-Fi'];
+  genres.slice().reverse().forEach(genre => {
+    const items = videos.filter(v => String(v.genre).toLowerCase() === genre.toLowerCase());
+    if (!items.length) return;
+    const section = document.createElement('section');
+    section.className = 'row reveal in assignment-real-row';
+    section.innerHTML = `
+      <div class="row-head">
+        <h2>${genre}</h2>
+      </div>
+      <div class="row-wrap">
+        <button class="row-arrow left" aria-label="Geser ke kiri">${ICON_CHEV_L}</button>
+        <div class="row-track">${items.map(realPosterHTML).join('')}</div>
+        <button class="row-arrow right" aria-label="Geser ke kanan">${ICON_CHEV_R}</button>
+      </div>`;
+    $('#main').prepend(section);
+    initCarousel($('.row-wrap', section));
+  });
+}
+
+/* ============================================================
+   BUILD ROWS
+   ============================================================ */
+function buildRows(){
+  const main = $('#main');
+  main.innerHTML = ROW_CONFIG.map(cfg => {
+    const cards = cfg.ids.map((id, i) => {
+      const m = byId(id);
+      if (!m) return '';
+
+      if (cfg.variant === 'top10'){
+        return `<div class="top-item">
+                  <span class="top-num" aria-hidden="true">${i + 1}</span>
+                  ${posterHTML(m)}
+                </div>`;
+      }
+      if (cfg.variant === 'progress'){
+        return posterHTML(m, { progress: PROGRESS[i % PROGRESS.length] });
+      }
+      return posterHTML(m);
+    }).join('');
+
+    return `
+    <section class="row reveal">
+      <div class="row-head">
+        <h2>${cfg.title}</h2>
+        <button class="row-more" data-more="${cfg.title}">Lihat semua ${ICON_ARROW}</button>
+      </div>
+      <div class="row-wrap">
+        <button class="row-arrow left" aria-label="Geser ke kiri">${ICON_CHEV_L}</button>
+        <div class="row-track">${cards}</div>
+        <button class="row-arrow right" aria-label="Geser ke kanan">${ICON_CHEV_R}</button>
+      </div>
+    </section>`;
+  }).join('');
+}
+
+/* ============================================================
+   AUTO-SCROLL SETTING
+   ============================================================ */
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const AUTO_SPEED = 0.7;          // px per frame
+const USER_PAUSE_MS = 4000;      // jeda setelah user berinteraksi
+
+/* ============================================================
+   CAROUSEL + AUTO-SCROLL
+   ============================================================ */
+function initCarousel(wrap){
+  const track = $('.row-track', wrap);
+  const left  = $('.row-arrow.left', wrap);
+  const right = $('.row-arrow.right', wrap);
+
+  const update = () => {
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    left.classList.toggle('is-hidden', track.scrollLeft <= 4);
+    right.classList.toggle('is-hidden', track.scrollLeft >= maxScroll - 4);
+  };
+
+  left.addEventListener('click', () => {
+    track.scrollBy({ left: -track.clientWidth * 0.85, behavior:'smooth' });
+  });
+  right.addEventListener('click', () => {
+    track.scrollBy({ left:  track.clientWidth * 0.85, behavior:'smooth' });
+  });
+  track.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', update);
+  setTimeout(update, 120);
+
+  initAutoScroll(track);
+}
+
+function initAutoScroll(track){
+  if (REDUCED_MOTION) return;
+
+  let dir = 1;                    // 1 = ke kanan, -1 = ke kiri
+  let hoverPaused = false;
+  let userPausedUntil = 0;
+  let visible = true;
+
+  if ('IntersectionObserver' in window){
+    new IntersectionObserver(entries => {
+      visible = entries[0].isIntersecting;
+    }, { threshold: 0 }).observe(track);
+  }
+
+  track.addEventListener('mouseenter', () => { hoverPaused = true; });
+  track.addEventListener('mouseleave', () => { hoverPaused = false; });
+
+  const pauseByUser = () => { userPausedUntil = Date.now() + USER_PAUSE_MS; };
+  track.addEventListener('pointerdown', pauseByUser);
+  track.addEventListener('wheel', pauseByUser, { passive:true });
+  track.addEventListener('touchstart', () => {
+    hoverPaused = true;
+    pauseByUser();
+  }, { passive:true });
+  track.addEventListener('touchend', () => {
+    setTimeout(() => { hoverPaused = false; }, 1200);
+  });
+
+  function step(){
+    const max = track.scrollWidth - track.clientWidth;
+    const now = Date.now();
+
+    if (visible && !hoverPaused && now > userPausedUntil && max > 4){
+      // Set scrollLeft langsung (instan) supaya tidak ketarik smooth-scroll
+      track.scrollLeft = track.scrollLeft + AUTO_SPEED * dir;
+
+      if (track.scrollLeft >= max - 0.5){
+        track.scrollLeft = max;
+        dir = -1;
+      } else if (track.scrollLeft <= 0.5){
+        track.scrollLeft = 0;
+        dir = 1;
+      }
+    }
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function initCarousels(){
+  $$('.row-wrap').forEach(initCarousel);
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+let heroIndex = 0;
+let heroLayerToggle = 0;
+let heroTimer = null;
+
+const heroA = $('#heroLayerA');
+const heroB = $('#heroLayerB');
+
+function paintHeroLayer(m){
+  const layers = [heroA, heroB];
+  const next = layers[1 - heroLayerToggle];
+  const prev = layers[heroLayerToggle];
+  next.style.background = `linear-gradient(118deg, ${m.c1} 0%, ${m.c2} 52%, #08080b 100%)`;
+  next.classList.add('on');
+  prev.classList.remove('on');
+  heroLayerToggle = 1 - heroLayerToggle;
+}
+
+function setHero(i, animate = true){
+  heroIndex = i;
+  const m = byId(HERO_IDS[i]);
+  const content = $('#heroContent');
+
+  const apply = () => {
+    $('#heroTag').textContent   = m.badge || 'FlixNets Original';
+    $('#heroTitle').textContent = m.title;
+    $('#heroDesc').textContent  = m.desc;
+    $('#heroMeta').innerHTML = `
+      <span class="score">★ ${m.score}</span>
+      <span class="dot"></span><span>${m.year}</span>
+      <span class="dot"></span><span>${m.duration}</span>
+      <span class="chip age">${m.rating}</span>
+      <span class="chip">${m.genres[0]}</span>
+      <span class="chip">${m.genres[1] || 'Serial'}</span>`;
+
+    $$('#heroDots button').forEach((b, idx) => b.classList.toggle('active', idx === i));
+    paintHeroLayer(m);
+    content.classList.remove('fade');
+  };
+
+  if (animate){
+    content.classList.add('fade');
+    setTimeout(apply, 320);
+  } else {
+    apply();
+  }
+}
+
+function buildHeroDots(){
+  $('#heroDots').innerHTML = HERO_IDS.map((_, i) =>
+    `<button data-hero="${i}" aria-label="Unggulan ${i + 1}" class="${i === 0 ? 'active' : ''}"></button>`
+  ).join('');
+
+  $('#heroDots').addEventListener('click', e => {
+    const btn = e.target.closest('[data-hero]');
+    if (!btn) return;
+    setHero(+btn.dataset.hero);
+    restartHeroTimer();
+  });
+}
+
+function restartHeroTimer(){
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => {
+    setHero((heroIndex + 1) % HERO_IDS.length);
+  }, 9000);
+}
+
+/* ============================================================
+   MODAL DETAIL
+   ============================================================ */
+const modal = $('#modal');
+let currentModalId = null;
+let lastFocused = null;
+
+function openModal(id){
+  const m = byId(id);
+  if (!m) return;
+
+  currentModalId = id;
+  lastFocused = document.activeElement;
+
+  $('#modalHero').style.background = `linear-gradient(125deg, ${m.c1} 0%, ${m.c2} 65%, #0d0d12 100%)`;
+  $('#modalTitle').textContent = m.title;
+
+  $('#modalMeta').innerHTML = `
+    <span class="score">★ ${m.score}</span>
+    <span class="dot"></span><span>${m.year}</span>
+    <span class="dot"></span><span>${m.duration}</span>
+    <span class="chip age">${m.rating}</span>`;
+
+  $('#modalDesc').textContent = m.desc;
+
+  $('#modalTags').innerHTML = [...m.genres, 'HD', 'Dolby Atmos']
+    .map(g => `<span class="tag">${g}</span>`).join('');
+
+  $('#modalSide').innerHTML = `
+    <p><span>Pemeran</span><b>${m.cast}</b></p>
+    <p><span>Sutradara</span><b>${m.director}</b></p>
+    <p><span>Genre</span><b>${m.genres.join(', ')}</b></p>
+    <p><span>Kualitas</span><b>4K Ultra HD · HDR</b></p>
+    <p><span>Audio</span><b>Indonesia, Inggris</b></p>`;
+
+  const similar = MOVIES
+    .filter(x => x.id !== m.id && x.genres.some(g => m.genres.includes(g)))
+    .slice(0, 6);
+
+  $('#similarGrid').innerHTML = similar.map(x => posterHTML(x)).join('');
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  modal.classList.remove('open');
+  if (!player.classList.contains('open') && !realPlayer.classList.contains('open')) document.body.style.overflow = '';
+  if (lastFocused) lastFocused.focus?.();
+}
+
+/* ============================================================
+   PLAYER DEMO
+   ============================================================ */
+const player = $('#player');
+let playerTotal = 0;
+let playerPos = 0;
+let playerPlaying = false;
+let playerInterval = null;
+
+function updatePlayerUI(){
+  const pct = playerTotal ? (playerPos / playerTotal) * 100 : 0;
+  $('#playerFill').style.width = pct + '%';
+  $('#playerTime').textContent = fmtTime(playerPos) + ' / ' + fmtTime(playerTotal);
+  const icon = playerPlaying ? ICON_PAUSE : ICON_PLAY;
+  $('#playerToggleIcon').innerHTML = icon;
+  $('#playerBigIcon').innerHTML = icon;
+  $('#playerStage').classList.toggle('center-hidden', playerPlaying);
+}
+
+function startPlayerTick(){
+  clearInterval(playerInterval);
+  playerInterval = setInterval(() => {
+    if (!playerPlaying) return;
+    playerPos += 1;
+    if (playerPos >= playerTotal){
+      playerPos = playerTotal;
+      playerPlaying = false;
+      clearInterval(playerInterval);
+      toast('Pemutaran selesai');
+    }
+    updatePlayerUI();
+  }, 500);
+}
+
+function openPlayer(id){
+  const m = byId(id);
+  if (!m) return;
+
+  playerTotal = parseDuration(m.duration);
+  playerPos = 0;
+  playerPlaying = true;
+
+  $('#playerBg').style.background = `linear-gradient(125deg, ${m.c1} 0%, ${m.c2} 60%, #08080b 100%)`;
+  $('#playerNow').textContent = m.title + ' · ' + m.year + ' (demo)';
+
+  player.classList.add('open');
+  player.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+
+  updatePlayerUI();
+  startPlayerTick();
+}
+
+function closePlayer(){
+  player.classList.remove('open');
+  player.setAttribute('aria-hidden', 'true');
+  playerPlaying = false;
+  clearInterval(playerInterval);
+  if (!modal.classList.contains('open') && !realPlayer.classList.contains('open')) document.body.style.overflow = '';
+}
+
+function togglePlay(){
+  playerPlaying = !playerPlaying;
+  if (playerPlaying && playerPos >= playerTotal) playerPos = 0;
+  updatePlayerUI();
+}
+
+/* ============================================================
+   REAL PLAYER
+   ============================================================ */
+const realPlayer = $('#realPlayer');
+const realVideoEl = $('#realVideoEl');
+
+function openRealPlayer(id, title){
+  realVideoEl.src = streamUrl(id);
+  $('#realPlayerTitle').textContent = title || '';
+  realPlayer.classList.add('open');
+  realPlayer.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  realVideoEl.play().catch(() => {});
+}
+
+function closeRealPlayer(){
+  realPlayer.classList.remove('open');
+  realPlayer.setAttribute('aria-hidden', 'true');
+  realVideoEl.pause();
+  realVideoEl.removeAttribute('src');
+  realVideoEl.load();
+  if (!modal.classList.contains('open') && !player.classList.contains('open')) document.body.style.overflow = '';
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const searchOverlay = $('#searchOverlay');
+const searchInput = $('#searchInput');
+
+function renderSearch(query){
+  const grid = $('#searchGrid');
+  const empty = $('#searchEmpty');
+  const label = $('#searchLabel');
+  const q = query.trim().toLowerCase();
+
+  let results;
+  if (!q){
+    label.textContent = 'Pencarian Populer';
+    results = MOVIES.slice().sort((a,b) => b.score - a.score).slice(0, 12);
+    empty.classList.remove('show');
+  } else {
+    results = MOVIES.filter(m =>
+      m.title.toLowerCase().includes(q) ||
+      m.genres.some(g => g.toLowerCase().includes(q)) ||
+      String(m.year).includes(q) ||
+      m.director.toLowerCase().includes(q)
+    );
+    label.textContent = results.length + ' Hasil untuk “' + query.trim() + '”';
+    $('#searchTerm').textContent = query.trim();
+    empty.classList.toggle('show', results.length === 0);
+  }
+
+  grid.innerHTML = results.map(m => posterHTML(m)).join('');
+}
+
+function openSearch(){
+  searchOverlay.classList.add('open');
+  searchOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+  renderSearch('');
+  setTimeout(() => searchInput.focus(), 120);
+}
+
+function closeSearch(){
+  searchOverlay.classList.remove('open');
+  searchOverlay.setAttribute('aria-hidden', 'true');
+  searchInput.value = '';
+  if (!modal.classList.contains('open') && !player.classList.contains('open') && !realPlayer.classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
+}
+
+/* ============================================================
+   AKUN / NAVBAR PENGGUNA
+   ============================================================ */
+function applyUserUI(){
+  const user = Auth.getUser();
+  if (!user) return;
+  $('#avatarBtn').textContent = (user.name || '?').charAt(0).toUpperCase();
+  $('#avatarWhoName').textContent = user.name;
+  $('#avatarWhoEmail').textContent = user.email;
+  if (user.role === 'admin'){
+    $$('.admin-only').forEach(el => { el.style.display = ''; });
+  }
+}
+
+function initAccountMenu(){
+  const avatarBtn = $('#avatarBtn');
+  const avatarMenu = $('#avatarMenu');
+
+  avatarBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    avatarMenu.classList.toggle('open');
+  });
+  document.addEventListener('click', () => avatarMenu.classList.remove('open'));
+  avatarMenu.addEventListener('click', e => e.stopPropagation());
+
+  $('#avatarLogout').addEventListener('click', () => Auth.logout());
+  $('#mobileLogout').addEventListener('click', () => Auth.logout());
+}
+
+/* ============================================================
+   EVENT BINDINGS
+   ============================================================ */
+function initEvents(){
+
+  const navbar = $('#navbar');
+  const onScroll = () => navbar.classList.toggle('scrolled', window.scrollY > 24);
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  const burger = $('#burger');
+  const mobileMenu = $('#mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = mobileMenu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  $$('#mobileMenu a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('open');
+  }));
+
+  $('#searchBtn').addEventListener('click', openSearch);
+  $('#searchClose').addEventListener('click', closeSearch);
+  searchInput.addEventListener('input', e => renderSearch(e.target.value));
+  searchOverlay.addEventListener('click', e => {
+    if (e.target === searchOverlay) closeSearch();
+  });
+
+  $('#bellBtn').addEventListener('click', () => toast('Belum ada notifikasi baru'));
+
+  $('#heroPlay').addEventListener('click', () => openPlayer(HERO_IDS[heroIndex]));
+  $('#heroInfo').addEventListener('click', () => openModal(HERO_IDS[heroIndex]));
+
+  document.addEventListener('click', e => {
+    const realPlayBtn = e.target.closest('[data-real-play]');
+    if (realPlayBtn){
+      e.stopPropagation();
+      const v = REAL_VIDEOS.find(x => x.id === realPlayBtn.dataset.realPlay);
+      openRealPlayer(realPlayBtn.dataset.realPlay, v ? v.title : 'Video');
+      return;
+    }
+
+    const playBtn = e.target.closest('[data-play]');
+    if (playBtn){
+      e.stopPropagation();
+      openPlayer(+playBtn.dataset.play);
+      return;
+    }
+
+    const realCard = e.target.closest('[data-real-id]');
+    if (realCard){
+      const id = realCard.dataset.realId;
+      const v = REAL_VIDEOS.find(x => x.id === id);
+      openRealPlayer(id, v ? v.title : 'Video');
+      return;
+    }
+
+    const card = e.target.closest('.card');
+    if (card && card.dataset.id){
+      openModal(+card.dataset.id);
+      return;
+    }
+
+    const more = e.target.closest('[data-more]');
+    if (more){
+      toast('Menampilkan semua: ' + more.dataset.more);
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){
+      const card = e.target.closest?.('.card');
+      if (card && document.activeElement === card){
+        e.preventDefault();
+        if (card.dataset.realId){
+          const v = REAL_VIDEOS.find(x => x.id === card.dataset.realId);
+          openRealPlayer(card.dataset.realId, v ? v.title : 'Video');
+        } else if (card.dataset.id){
+          openModal(+card.dataset.id);
+        }
+      }
+    }
+  });
+
+  $('#modalClose').addEventListener('click', closeModal);
+  $('#modalBackdrop').addEventListener('click', closeModal);
+  $('#modalPlay').addEventListener('click', () => {
+    const id = currentModalId;
+    closeModal();
+    openPlayer(id);
+  });
+  $('#modalList').addEventListener('click', () => {
+    const m = byId(currentModalId);
+    toast(m.title + ' ditambahkan ke Daftar Saya');
+  });
+
+  $('#playerClose').addEventListener('click', closePlayer);
+  $('#playerToggle').addEventListener('click', togglePlay);
+  $('#playerBigBtn').addEventListener('click', togglePlay);
+  $('#playerMute').addEventListener('click', () => toast('Audio: ' + (Math.random() > .5 ? 'Aktif' : 'Bisu')));
+  $('#playerFull').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      player.requestFullscreen?.().catch(() => toast('Layar penuh tidak didukung browser ini'));
+    } else {
+      document.exitFullscreen?.();
+    }
+  });
+
+  $('#playerBar').addEventListener('click', e => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    playerPos = ratio * playerTotal;
+    updatePlayerUI();
+  });
+
+  $('#realPlayerClose').addEventListener('click', closeRealPlayer);
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape') return;
+    if (realPlayer.classList.contains('open'))   { closeRealPlayer(); return; }
+    if (player.classList.contains('open'))       { closePlayer();  return; }
+    if (modal.classList.contains('open'))        { closeModal();   return; }
+    if (searchOverlay.classList.contains('open')){ closeSearch();  return; }
+    if (mobileMenu.classList.contains('open'))   {
+      mobileMenu.classList.remove('open');
+      burger.classList.remove('open');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.code === 'Space' && player.classList.contains('open')){
+      e.preventDefault();
+      togglePlay();
+    }
+  });
+}
+
+/* ============================================================
+   REVEAL
+   ============================================================ */
+function initReveal(){
+  if (!('IntersectionObserver' in window)){
+    $$('.reveal').forEach(el => el.classList.add('in'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting){
+        en.target.classList.add('in');
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+  $$('.row.reveal').forEach(el => io.observe(el));
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+function init(){
+  buildRows();
+  buildHeroDots();
+  setHero(0, false);
+  restartHeroTimer();
+  initCarousels();
+  initEvents();
+  initReveal();
+  applyUserUI();
+  initAccountMenu();
+  loadRealVideos();
+
+  console.log('%cFlixNets', 'color:#0b5cff;font-size:26px;font-weight:900;letter-spacing:-1px',
+              '— siap. Katalog demo:', MOVIES.length, '| Auto-scroll:', !REDUCED_MOTION);
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

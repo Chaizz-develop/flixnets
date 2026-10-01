@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08080b">
+<title>FlixNets Original — FlixNets</title>
+<meta name="description" content="Karya orisinal eksklusif FlixNets — hanya di sini.">
+<link rel="icon" type="image/png" href="logo/logo.png">
+<link rel="apple-touch-icon" href="logo/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ---------- CSS sama seperti serial.html (tidak diulang demi keringkasan — copy dari file serial.html) ---------- */
+:root{--bg:#08080b;--bg-soft:#0d0d12;--surface:#14141b;--line:rgba(255,255,255,.08);--line-2:rgba(255,255,255,.14);--text:#f3f3f7;--muted:#9a9aab;--muted-2:#6e6e80;--blue:#0b5cff;--blue-dark:#0639a6;--blue-light:#4f8cff;--blue-glow:rgba(11,92,255,.42);--gold:#d4af37;--gold-light:#f1d36b;--gold-glow:rgba(212,175,55,.34);--radius:14px;--nav-h:72px;--card-w:196px;--ease:cubic-bezier(.22,.8,.26,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:15px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+button,input{font:inherit;color:inherit}
+button{background:none;border:none;cursor:pointer}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--blue);color:#fff}
+body::-webkit-scrollbar{width:10px}
+body::-webkit-scrollbar-track{background:#0b0b0f}
+body::-webkit-scrollbar-thumb{background:#26262f;border-radius:8px;border:2px solid #0b0b0f}
+body::-webkit-scrollbar-thumb:hover{background:#3a3a48}
+.navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:120;background:rgba(8,8,11,.86);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav-inner{height:100%;max-width:1600px;margin:0 auto;padding:0 clamp(16px,3.2vw,54px);display:flex;align-items:center;gap:clamp(14px,2.4vw,38px)}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.logo-mark{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;overflow:hidden;background:#08080b;box-shadow:0 4px 16px var(--blue-glow),0 0 0 1px rgba(212,175,55,.28);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:9px}
+.logo:hover .logo-mark{transform:rotate(-6deg) scale(1.06);box-shadow:0 6px 24px var(--blue-glow),0 0 0 1px var(--gold)}
+.logo-text{font-size:21px;font-weight:800;letter-spacing:-.6px;color:#fff}
+.logo-text span{background:linear-gradient(90deg,var(--blue-light) 0%,var(--gold-light) 100%);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,1.6vw,26px);flex:1}
+.nav-links a{font-size:14px;font-weight:500;color:#c9c9d4;position:relative;padding:6px 0;white-space:nowrap;transition:color .25s var(--ease)}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:0;height:2px;width:0;background:linear-gradient(90deg,var(--blue),var(--gold));border-radius:2px;transition:width .3s var(--ease)}
+.nav-links a:hover{color:#fff}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-links a.active{color:#fff;font-weight:600}
+.nav-actions{display:flex;align-items:center;gap:8px;margin-left:auto}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e6e6ee;transition:.25s var(--ease)}
+.icon-btn:hover{background:rgba(11,92,255,.18);transform:translateY(-1px);color:#fff}
+.icon-btn svg{width:20px;height:20px}
+.avatar-wrap{position:relative}
+.avatar{width:36px;height:36px;border-radius:10px;background:linear-gradient(140deg,#3a3a4a,#20202a);display:grid;place-items:center;font-size:14px;font-weight:700;color:#fff;border:1px solid var(--line-2);transition:.25s}
+.avatar:hover{box-shadow:0 0 0 2px var(--gold);transform:translateY(-1px)}
+.avatar-menu{position:absolute;top:50px;right:0;min-width:230px;z-index:150;background:var(--surface);border:1px solid var(--line-2);border-radius:13px;box-shadow:0 24px 54px rgba(0,0,0,.6);padding:8px;opacity:0;transform:translateY(-8px);pointer-events:none;transition:.22s var(--ease)}
+.avatar-menu.open{opacity:1;transform:none;pointer-events:auto}
+.avatar-menu .who{padding:10px 11px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.avatar-menu .who b{display:block;font-size:13.5px;color:#fff;font-weight:700}
+.avatar-menu .who span{font-size:11.5px;color:var(--muted)}
+.avatar-menu a,.avatar-menu button{display:block;width:100%;text-align:left;padding:9px 11px;border-radius:8px;font-size:13px;font-weight:600;color:#d8d8e2;transition:.2s}
+.avatar-menu a:hover,.avatar-menu button:hover{background:rgba(11,92,255,.14);color:#fff}
+.avatar-menu button.danger:hover{background:rgba(212,175,55,.16);color:var(--gold-light)}
+.burger{display:none;width:42px;height:42px;border-radius:10px;flex-direction:column;justify-content:center;align-items:center;gap:5px}
+.burger:hover{background:rgba(255,255,255,.09)}
+.burger span{display:block;width:19px;height:2px;background:#e9e9f0;border-radius:2px;transition:.3s var(--ease)}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;z-index:115;background:rgba(10,10,14,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);padding:10px 22px 26px;display:flex;flex-direction:column;transform:translateY(-14px);opacity:0;pointer-events:none;transition:.3s var(--ease)}
+.mobile-menu.open{opacity:1;transform:none;pointer-events:auto}
+.mobile-menu a,.mobile-menu button{padding:15px 4px;font-size:16px;font-weight:600;color:#d5d5e0;border-bottom:1px solid rgba(255,255,255,.05);display:flex;justify-content:space-between;width:100%;text-align:left}
+.mobile-menu a:last-child,.mobile-menu button:last-child{border-bottom:none}
+.mobile-menu a:hover,.mobile-menu button:hover{color:var(--gold-light);padding-left:10px}
+.admin-only{display:none}
+
+/* PAGE HERO ORIGINAL (lebih megah) */
+.page-hero{position:relative;padding:calc(var(--nav-h) + 80px) clamp(16px,3.2vw,54px) 56px;overflow:hidden;isolation:isolate;text-align:center}
+.page-hero::before{content:'';position:absolute;inset:0;z-index:-2;background:
+  radial-gradient(60% 50% at 50% 0%, rgba(11,92,255,.35), transparent 65%),
+  radial-gradient(50% 40% at 15% 100%, rgba(212,175,55,.18), transparent 65%),
+  radial-gradient(50% 40% at 85% 100%, rgba(212,175,55,.18), transparent 65%)}
+.page-hero::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:repeating-linear-gradient(118deg,rgba(255,255,255,.022) 0 3px,transparent 3px 11px)}
+.page-hero-inner{max-width:900px;margin:0 auto}
+.page-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#08080b;background:linear-gradient(135deg,var(--gold-light),var(--gold));border:1px solid rgba(255,255,255,.25);padding:8px 18px;border-radius:999px;margin-bottom:20px;box-shadow:0 6px 26px rgba(212,175,55,.35), inset 0 0 0 1px rgba(255,255,255,.25)}
+.page-eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:#08080b;box-shadow:0 0 10px rgba(0,0,0,.6)}
+.page-title{font-size:clamp(34px,5.4vw,72px);font-weight:900;letter-spacing:-2.4px;line-height:1.02;margin-bottom:16px}
+.page-title span{background:linear-gradient(90deg,var(--blue-light) 0%,var(--gold-light) 55%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.page-subtitle{font-size:clamp(14px,1.4vw,17px);color:#c0c0d0;max-width:620px;margin:0 auto;line-height:1.7}
+
+.filters{max-width:1600px;margin:0 auto;padding:8px clamp(16px,3.2vw,54px);display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:relative;z-index:2}
+.chip-filter{font-size:12.5px;font-weight:700;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--line);color:#c8c8d6;transition:.25s var(--ease)}
+.chip-filter:hover{background:rgba(11,92,255,.14);border-color:rgba(11,92,255,.5);color:#fff;transform:translateY(-1px)}
+.chip-filter.active{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(11,92,255,.36),inset 0 0 0 1px rgba(212,175,55,.5)}
+main{padding:20px 0 60px;position:relative;z-index:2}
+.catalog{max-width:1600px;margin:0 auto;padding:0 clamp(16px,3.2vw,54px)}
+.catalog-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.catalog-title{font-size:clamp(17px,1.6vw,22px);font-weight:800;letter-spacing:-.4px;display:flex;align-items:center;gap:10px}
+.catalog-title::before{content:'';width:3px;height:19px;border-radius:3px;background:linear-gradient(180deg,var(--blue-light),var(--gold));box-shadow:0 0 12px var(--blue-glow)}
+.catalog-count{font-size:13px;color:var(--muted);font-weight:600}
+.catalog-count b{color:var(--gold-light)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr));gap:clamp(12px,1.8vw,22px)}
+.grid .card{width:100%}
+.empty{text-align:center;padding:80px 20px;color:var(--muted);display:none}
+.empty.show{display:block}
+.empty svg{width:52px;height:52px;margin:0 auto 18px;color:#2e2e3a}
+.card{flex:0 0 auto;width:var(--card-w);cursor:pointer;outline:none}
+.poster{position:relative;aspect-ratio:2/3;border-radius:var(--radius);overflow:hidden;background:linear-gradient(158deg,var(--c1) 0%,var(--c2) 72%);box-shadow:0 10px 24px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.07);transition:transform .38s var(--ease),box-shadow .38s var(--ease);display:flex;flex-direction:column;padding:13px}
+.poster::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 78% at 22% 2%,rgba(255,255,255,.24),transparent 56%),radial-gradient(105% 70% at 88% 100%,rgba(0,0,0,.62),transparent 62%),repeating-linear-gradient(122deg,rgba(255,255,255,.035) 0 2px,transparent 2px 10px)}
+.card:hover .poster,.card:focus-visible .poster{transform:translateY(-8px) scale(1.035);box-shadow:0 22px 46px rgba(0,0,0,.66),0 0 0 2px var(--blue),0 0 0 3px rgba(212,175,55,.55),0 0 28px rgba(11,92,255,.35)}
+.card:focus-visible{outline:none}
+.poster-mono{position:absolute;top:47%;left:50%;transform:translate(-50%,-50%);font-size:118px;font-weight:900;line-height:1;color:rgba(255,255,255,.13);letter-spacing:-8px;user-select:none;z-index:0;font-style:italic}
+.poster-badge{position:absolute;top:11px;left:11px;z-index:4;font-size:8.5px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;background:linear-gradient(135deg,var(--gold-light),var(--gold));color:#08080b;padding:4px 8px;border-radius:5px;box-shadow:0 3px 12px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.35)}
+.poster-foot{position:relative;z-index:2;margin-top:auto}
+.poster-title{font-size:14px;font-weight:800;line-height:1.22;letter-spacing:-.25px;text-shadow:0 2px 14px rgba(0,0,0,.85);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.poster-sub{font-size:10.5px;color:rgba(255,255,255,.72);margin-top:5px;font-weight:500;display:flex;align-items:center;gap:6px}
+.poster-sub .s{color:var(--gold-light);font-weight:800}
+.poster-hover{position:absolute;inset:0;z-index:3;background:linear-gradient(0deg,rgba(0,0,0,.9) 0%,rgba(0,0,0,.45) 45%,rgba(0,0,0,.15) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;opacity:0;transition:opacity .3s var(--ease);padding:14px}
+.card:hover .poster-hover,.card:focus-visible .poster-hover{opacity:1}
+.icon-play{width:52px;height:52px;border-radius:50%;background:linear-gradient(140deg,var(--blue),var(--blue-dark));display:grid;place-items:center;color:#fff;box-shadow:0 8px 24px rgba(11,92,255,.5),inset 0 0 0 1.5px rgba(212,175,55,.7);transform:scale(.82);transition:.3s var(--ease)}
+.icon-play svg{width:21px;height:21px;margin-left:3px}
+.card:hover .icon-play{transform:scale(1)}
+.icon-play:hover{transform:scale(1.1)!important;box-shadow:0 10px 30px rgba(11,92,255,.75),inset 0 0 0 1.5px var(--gold-light)}
+.poster-hover-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:center;font-size:11px;font-weight:600;color:#d6d6e4;transform:translateY(8px);opacity:0;transition:.35s var(--ease) .05s}
+.card:hover .poster-hover-meta{transform:none;opacity:1}
+.poster-hover-meta .age{border:1px solid rgba(212,175,55,.5);border-radius:4px;padding:1px 5px;font-size:9.5px;color:var(--gold-light)}
+
+.search-overlay{position:fixed;inset:0;z-index:200;background:rgba(6,6,9,.97);backdrop-filter:blur(22px);opacity:0;pointer-events:none;transition:opacity .3s var(--ease);display:flex;flex-direction:column;padding-top:var(--nav-h);overflow-y:auto}
+.search-overlay.open{opacity:1;pointer-events:auto}
+.search-top{display:flex;align-items:center;gap:14px;padding:26px clamp(16px,3.2vw,54px) 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(6,6,9,.92);backdrop-filter:blur(16px);z-index:2}
+.search-top svg{width:23px;height:23px;color:var(--gold-light);flex-shrink:0}
+.search-top input{flex:1;background:none;border:none;outline:none;font-size:clamp(17px,2.4vw,25px);font-weight:600;color:#fff;letter-spacing:-.4px}
+.search-top input::placeholder{color:#5c5c6e;font-weight:500}
+.search-close{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#c8c8d6;transition:.25s}
+.search-close:hover{background:rgba(11,92,255,.2);transform:rotate(90deg);color:#fff}
+.search-close svg{width:19px;height:19px}
+.search-body{padding:24px clamp(16px,3.2vw,54px) 70px;flex:1}
+.search-label{font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-light);margin-bottom:20px}
+.search-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:clamp(12px,1.6vw,20px)}
+.search-grid .card{width:100%}
+
+.modal{position:fixed;inset:0;z-index:300;display:flex;align-items:flex-start;justify-content:center;padding:clamp(12px,4vh,60px) 16px;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity .3s var(--ease)}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-backdrop{position:fixed;inset:0;background:rgba(3,3,5,.82);backdrop-filter:blur(9px)}
+.modal-box{position:relative;width:min(920px,100%);background:var(--bg-soft);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.8),0 0 0 1px rgba(212,175,55,.18);transform:translateY(26px) scale(.97);transition:transform .38s var(--ease)}
+.modal.open .modal-box{transform:none}
+.modal-hero{position:relative;height:clamp(200px,32vw,320px);background-size:cover;display:flex;align-items:flex-end;padding:clamp(20px,3vw,34px)}
+.modal-hero::after{content:'';position:absolute;inset:0;background:radial-gradient(120% 90% at 18% 0%,rgba(255,255,255,.2),transparent 55%),linear-gradient(0deg,var(--bg-soft) 1%,rgba(13,13,18,.6) 40%,transparent 78%)}
+.modal-hero-content{position:relative;z-index:2;width:100%}
+.modal-hero h2{font-size:clamp(25px,3.6vw,42px);font-weight:900;letter-spacing:-1.4px;line-height:1.08;margin-bottom:14px;text-shadow:0 4px 26px rgba(0,0,0,.7)}
+.modal-close{position:absolute;top:16px;right:16px;z-index:6;width:40px;height:40px;border-radius:50%;background:rgba(10,10,14,.72);backdrop-filter:blur(8px);display:grid;place-items:center;color:#fff;border:1px solid var(--line-2);transition:.25s}
+.modal-close:hover{background:var(--blue);transform:rotate(90deg);box-shadow:0 0 0 1px var(--gold)}
+.modal-close svg{width:17px;height:17px}
+.modal-meta{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;font-size:13.5px;color:#c4c4d2;margin-bottom:18px;font-weight:500}
+.modal-meta .score{color:var(--gold-light);font-weight:800}
+.modal-meta .dot{width:4px;height:4px;border-radius:50%;background:#5a5a6b}
+.chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px;border:1px solid var(--line-2);color:#d6d6e2}
+.chip.age{border-color:rgba(212,175,55,.4);background:rgba(212,175,55,.1);color:var(--gold-light)}
+.modal-actions{display:flex;gap:11px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 24px;border-radius:11px;font-size:14px;font-weight:700;transition:.25s var(--ease)}
+.btn svg{width:19px;height:19px}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;box-shadow:0 8px 26px rgba(11,92,255,.34),inset 0 0 0 1px rgba(255,255,255,.06)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5),inset 0 0 0 1px var(--gold)}
+.btn-ghost{background:rgba(255,255,255,.11);color:#fff;border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:rgba(212,175,55,.16);border-color:rgba(212,175,55,.5);transform:translateY(-2px)}
+.modal-body{padding:6px clamp(20px,3vw,34px) 26px;display:grid;grid-template-columns:1.7fr 1fr;gap:clamp(20px,3.4vw,42px)}
+.modal-desc{color:#c0c0d0;line-height:1.75;font-size:15px;margin-bottom:18px}
+.modal-tags{display:flex;gap:8px;flex-wrap:wrap}
+.tag{font-size:11.5px;font-weight:700;padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);color:#cfcfdd;transition:.25s}
+.tag:hover{background:rgba(212,175,55,.14);border-color:rgba(212,175,55,.5);color:var(--gold-light)}
+.modal-side{font-size:13.5px;line-height:1.85;color:var(--muted)}
+.modal-side p{margin-bottom:11px}
+.modal-side span{color:var(--muted-2);display:block;font-size:11px;letter-spacing:1.3px;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.modal-side b{color:#e2e2ec;font-weight:600}
+.modal-similar{padding:0 clamp(20px,3vw,34px) clamp(24px,3vw,34px)}
+.modal-similar h3{font-size:14px;font-weight:800;margin-bottom:16px;color:#e8e8f0;display:flex;align-items:center;gap:9px}
+.modal-similar h3::before{content:'';width:3px;height:15px;border-radius:3px;background:linear-gradient(180deg,var(--gold),var(--blue))}
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:13px}
+.similar-grid .card{width:100%}
+.similar-grid .poster-title{font-size:12px}
+
+.toast{position:fixed;left:50%;bottom:34px;z-index:500;transform:translate(-50%,26px);background:rgba(24,24,32,.96);border:1px solid var(--line-2);border-left:3px solid var(--gold);color:#f0f0f6;font-size:13.5px;font-weight:600;padding:13px 22px;border-radius:11px;box-shadow:0 16px 44px rgba(0,0,0,.65);backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:.3s var(--ease);max-width:calc(100vw - 32px);text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+footer{border-top:1px solid var(--line);background:linear-gradient(180deg,transparent,rgba(11,92,255,.05) 50%,rgba(212,175,55,.04));padding:clamp(40px,6vw,70px) clamp(16px,3.2vw,54px) 34px;margin-top:40px}
+.foot-inner{max-width:1600px;margin:0 auto}
+.foot-top{display:grid;grid-template-columns:1.6fr repeat(3,1fr);gap:clamp(24px,4vw,60px);margin-bottom:48px}
+.foot-brand p{color:var(--muted);font-size:13.5px;line-height:1.75;margin-top:16px;max-width:320px}
+.foot-col h4{font-size:12px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--gold-light);margin-bottom:18px}
+.foot-col a{display:block;font-size:13.5px;color:var(--muted);padding:6px 0;transition:.25s var(--ease)}
+.foot-col a:hover{color:var(--blue-light);transform:translateX(4px)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.foot-bottom p{font-size:12.5px;color:var(--muted-2)}
+.foot-social{display:flex;gap:10px}
+.foot-social a{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted);transition:.28s var(--ease)}
+.foot-social a:hover{background:linear-gradient(140deg,var(--blue),var(--blue-dark));border-color:var(--blue);color:#fff;transform:translateY(-3px);box-shadow:0 8px 20px rgba(11,92,255,.35),0 0 0 1px var(--gold)}
+.foot-social svg{width:17px;height:17px}
+
+@media (max-width:1024px){:root{--card-w:170px;--nav-h:66px}.nav-links{display:none}.burger{display:flex}.modal-body{grid-template-columns:1fr;gap:22px}.foot-top{grid-template-columns:1fr 1fr;gap:32px}}
+@media (max-width:720px){:root{--card-w:142px;--nav-h:62px}body{font-size:14px}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px}.search-grid{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:11px}.modal{padding:0}.modal-box{border-radius:0;min-height:100vh}.foot-top{grid-template-columns:1fr;gap:30px}.foot-bottom{justify-content:center;text-align:center}.page-hero{padding-top:calc(var(--nav-h) + 50px)}.avatar-menu{right:-10px;min-width:210px}}
+@media (max-width:420px){:root{--card-w:126px}.logo-text{font-size:18px}.logo-mark{width:30px;height:30px}.hide-xs{display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<script src="js/api.js"></script>
+<script>if (!Auth.isLoggedIn()) { window.location.href = 'login.html'; }</script>
+
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
+      <span class="logo-text">Flix<span>Nets</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Beranda</a>
+      <a href="film.html">Film</a>
+      <a href="serial.html">Serial</a>
+      <a href="original.html" class="active">Original</a>
+      <a href="admin.html" class="admin-only" id="navAdminDesktop">Panel Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="searchBtn" aria-label="Cari"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+      <button class="icon-btn hide-xs" id="bellBtn" aria-label="Notifikasi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+      <div class="avatar-wrap">
+        <button class="avatar" id="avatarBtn">A</button>
+        <div class="avatar-menu" id="avatarMenu">
+          <div class="who"><b id="avatarWhoName">—</b><span id="avatarWhoEmail">—</span></div>
+          <a href="akun.html">Akun Saya</a>
+          <a href="daftar-saya.html">Daftar Saya</a>
+          <a href="admin.html" class="admin-only" id="avatarAdminLink">Panel Admin</a>
+          <button class="danger" id="avatarLogout">Keluar</button>
+        </div>
+      </div>
+      <button class="burger" id="burger" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Beranda</a>
+  <a href="film.html">Film</a>
+  <a href="serial.html">Serial</a>
+  <a href="original.html">FlixNets Original</a>
+  <a href="daftar-saya.html">Daftar Saya</a>
+  <a href="admin.html" class="admin-only" id="navAdminMobile">Panel Admin</a>
+  <a href="bantuan.html">Bantuan</a>
+  <button id="mobileLogout">Keluar</button>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-eyebrow">Exclusive</span>
+    <h1 class="page-title">FlixNets <span>Original</span></h1>
+    <p class="page-subtitle">Karya orisinal yang hanya bisa kamu tonton di FlixNets. Diproduksi dengan standar sinematik, dibuat oleh kreator terbaik Indonesia.</p>
+  </div>
+</section>
+
+<div class="filters" id="filters"></div>
+
+<main>
+  <div class="catalog">
+    <div class="catalog-head">
+      <h2 class="catalog-title" id="catalogTitle">Semua Original</h2>
+      <div class="catalog-count" id="catalogCount"><b>0</b> judul</div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      Tidak ada judul original untuk filter ini.
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="index.html" class="logo">
+          <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
+          <span class="logo-text">Flix<span>Nets</span></span>
+        </a>
+        <p>Streaming film, serial, dan karya orisinal pilihan. Nonton tanpa batas di TV, laptop, tablet, dan ponsel — di mana saja, kapan saja.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Jelajahi</h4>
+        <a href="film.html">Film</a>
+        <a href="serial.html">Serial</a>
+        <a href="original.html">FlixNets Original</a>
+        <a href="trending.html">Baru &amp; Populer</a>
+        <a href="daftar-saya.html">Daftar Saya</a>
+      </div>
+      <div class="foot-col">
+        <h4>Bantuan</h4>
+        <a href="bantuan.html">Pusat Bantuan</a>
+        <a href="akun.html">Akun Saya</a>
+        <a href="perangkat.html">Perangkat</a>
+        <a href="kontak.html">Hubungi Kami</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h4>Perusahaan</h4>
+        <a href="tentang.html">Tentang Kami</a>
+        <a href="karier.html">Karier</a>
+        <a href="privasi.html">Kebijakan Privasi</a>
+        <a href="syarat.html">Syarat Layanan</a>
+        <a href="press.html">Media &amp; Pers</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p>© 2025 FlixNets. Semua hak dilindungi.</p>
+      <div class="foot-social">
+        <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://x.com/" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 3h3.2l-7 8 7.3 10h-5.6l-4.4-6-5 6H3l7.4-8.6L3.4 3h5.7l4 5.5L17.5 3zm-1.1 16h1.8L7.7 4.9H5.8L16.4 19z"/></svg></a>
+        <a href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.5 7.2a2.8 2.8 0 0 0-2-2C18.8 4.8 12 4.8 12 4.8s-6.8 0-8.5.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 1.2 12a29 29 0 0 0 .3 4.8 2.8 2.8 0 0 0 2 2c1.7.4 8.5.4 8.5.4s6.8 0 8.5-.4a2.8 2.8 0 0 0 2-2 29 29 0 0 0 .3-4.8 29 29 0 0 0-.3-4.8zM9.9 15.3V8.7l5.7 3.3-5.7 3.3z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="search-overlay" id="searchOverlay" aria-hidden="true">
+  <div class="search-top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <input type="text" id="searchInput" placeholder="Cari judul original..." autocomplete="off">
+    <button class="search-close" id="searchClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="search-body">
+    <p class="search-label" id="searchLabel">Pencarian Populer</p>
+    <div class="search-grid" id="searchGrid"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-box">
+    <button class="modal-close" id="modalClose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="modal-hero" id="modalHero">
+      <div class="modal-hero-content">
+        <h2 id="modalTitle"></h2>
+        <div class="modal-meta" id="modalMeta"></div>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="modalPlay"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>Putar</button>
+          <button class="btn btn-ghost" id="modalList"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Daftar Saya</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <div class="modal-tags" id="modalTags"></div>
+      </div>
+      <aside class="modal-side" id="modalSide"></aside>
+    </div>
+    <div class="modal-similar">
+      <h3>Original Lainnya</h3>
+      <div class="similar-grid" id="similarGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ================= DATA ORIGINAL ================= */
+const MOVIES = [
+  { id:201, title:'Crimson Horizon', year:2025, score:8.7, rating:'17+', duration:'2j 14m', type:'Film', genres:['Aksi','Sci-Fi'], c1:'#0b5cff', c2:'#2a0710', badge:'Original', desc:'Ketika sebuah stasiun orbit kehilangan kendali, seorang teknisi muda harus memilih antara menyelamatkan kota di bawahnya atau satu-satunya orang yang ia cintai.', cast:'Arya Wibowo, Nadia Prameswari, Rendra Kusuma', director:'Bagas Prasetyo' },
+  { id:202, title:'Aurora Terakhir', year:2025, score:8.6, rating:'13+', duration:'2j 31m', type:'Film', genres:['Sci-Fi','Drama'], c1:'#22d3ee', c2:'#06202b', badge:'Original', desc:'Di planet yang mataharinya sekarat, seorang astronom mengirim pesan terakhir ke Bumi — tanpa tahu bahwa seseorang akhirnya menjawab.', cast:'Anindya Putri, Gilang Saputra, Maya Anggraini', director:'Rizky Hidayat' },
+  { id:203, title:'Bintang Jatuh Terakhir', year:2025, score:8.8, rating:'13+', duration:'1 Musim · 10 Eps', type:'Serial', genres:['Sci-Fi','Romansa'], c1:'#818cf8', c2:'#131538', badge:'Original', desc:'Dua astronom dari benua berbeda menghabiskan bertahun-tahun mengamati bintang yang sama, tanpa pernah bertemu.', cast:'Livia Anggraini, Rehan Maulana, Kirana Sari', director:'Dimas Ardiansyah' },
+  { id:204, title:'Setia & Rahasia', year:2025, score:8.2, rating:'17+', duration:'2 Musim · 16 Eps', type:'Serial', genres:['Thriller','Drama'], c1:'#0891b2', c2:'#04222c', badge:'Original', desc:'Seorang pengacara muda menemukan bahwa klien terbesarnya menyimpan rahasia yang bisa menghancurkan seluruh keluarganya.', cast:'Alya Rahmawati, Bima Arya, Reza Mahendra', director:'Maharani Putri' },
+  { id:205, title:'Kabut Merapi', year:2025, score:8.4, rating:'13+', duration:'1j 52m', type:'Film', genres:['Bencana','Drama'], c1:'#f59e0b', c2:'#2a1704', badge:'Original', desc:'Di kaki gunung berapi, sebuah keluarga harus menghadapi pilihan sulit saat kabut panas datang tanpa peringatan.', cast:'Reza Mahendra, Nadia Prameswari, Bayu Setiawan', director:'Surya Adhitama' },
+  { id:206, title:'Jeda Waktu', year:2025, score:8.5, rating:'13+', duration:'1j 48m', type:'Film', genres:['Sci-Fi','Romansa'], c1:'#0b5cff', c2:'#071026', badge:'Original', desc:'Seorang peneliti menemukan cara mengulang lima menit terakhir — dan menggunakannya untuk memperbaiki masa lalu yang menyakitkan.', cast:'Kirana Dewi, Alif Ramadhan, Mega Suryani', director:'Dian Kartika' },
+  { id:207, title:'Pemburu Badai', year:2025, score:8.3, rating:'13+', duration:'2 Musim · 20 Eps', type:'Serial', genres:['Petualangan','Thriller'], c1:'#14b8a6', c2:'#04211f', badge:'Original', desc:'Sekelompok tim penyelamat badai menemukan sesuatu yang jauh lebih berbahaya di mata badai yang tidak pernah tercatat.', cast:'Fajar Ramadhan, Citra Lestari, Hendra Wijaya', director:'Yoga Pratama' },
+  { id:208, title:'Tanah Para Dewa', year:2025, score:8.6, rating:'13+', duration:'2j 22m', type:'Film', genres:['Fantasi','Petualangan'], c1:'#8b5cf6', c2:'#150a2e', badge:'Original', desc:'Seorang arkeolog menemukan peta menuju kuil yang konon menyimpan kekuatan para dewa purba Nusantara.', cast:'Reza Mahendra, Laras Ayu, Damar Wicaksono', director:'Surya Adhitama' },
+  { id:209, title:'Bayang-Bayang Jakarta', year:2024, score:8.1, rating:'17+', duration:'1 Musim · 8 Eps', type:'Serial', genres:['Kriminal','Thriller'], c1:'#dc2626', c2:'#220606', badge:'Original', desc:'Detektif muda menelusuri pembunuhan berantai yang jejaknya menuju ke gedung pencakar langit paling berkuasa di Jakarta.', cast:'Hendra Gunawan, Maria Fitri, Taufik Hidayat', director:'Bramantyo Adi' },
+  { id:210, title:'Ketika Hujan Turun', year:2024, score:8.0, rating:'13+', duration:'1j 41m', type:'Film', genres:['Drama','Romansa'], c1:'#a78bfa', c2:'#1a1030', badge:'Original', desc:'Seorang penulis yang kehilangan inspirasinya bertemu seorang perempuan yang membawa hujan ke setiap tempat yang ia datangi.', cast:'Sekar Ayu, Dimas Prasetya, Rina Marlina', director:'Ayu Wulandari' },
+  { id:211, title:'Perisai Nusantara', year:2024, score:8.4, rating:'13+', duration:'2j 08m', type:'Film', genres:['Aksi','Sejarah'], c1:'#94a3b8', c2:'#0f141b', badge:'Original', desc:'Di era kerajaan yang runtuh, seorang prajurit muda diangkat menjadi pelindung terakhir putri mahkota.', cast:'Agus Salim, Retno Wulandari, Surya Dharma', director:'Pandu Wicaksono' },
+  { id:212, title:'Suara dari Timur', year:2024, score:8.2, rating:'13+', duration:'1 Musim · 12 Eps', type:'Serial', genres:['Misteri','Fantasi'], c1:'#22c55e', c2:'#05230f', badge:'Original', desc:'Seorang gadis dari desa kecil mendengar suara yang membawanya pada rahasia generasi yang telah lama terkubur.', cast:'Alika Putri, Galih Ramadhan, Nadin Amizah', director:'Kartika Sari' }
+];
+
+const $ = (s,c=document) => c.querySelector(s);
+const $$ = (s,c=document) => Array.from(c.querySelectorAll(s));
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>';
+const byId = id => MOVIES.find(m => m.id === id);
+let toastTimer;
+function toast(msg){ const el = $('#toast'); el.textContent = msg; el.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600); }
+
+function posterHTML(m){
+  return `<article class="card" data-id="${m.id}" tabindex="0" role="button" aria-label="${m.title}">
+    <div class="poster" style="--c1:${m.c1};--c2:${m.c2}">
+      <span class="poster-mono" aria-hidden="true">${m.title.charAt(0)}</span>
+      ${m.badge ? `<span class="poster-badge">${m.badge}</span>` : ''}
+      <div class="poster-foot">
+        <h3 class="poster-title">${m.title}</h3>
+        <div class="poster-sub"><span class="s">★ ${m.score}</span> ${m.type} · ${m.genres[0]}</div>
+      </div>
+      <div class="poster-hover">
+        <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+        <div class="poster-hover-meta"><span>${m.duration}</span><span class="age">${m.rating}</span></div>
+      </div>
+    </div>
+  </article>`;
+}
+
+const ALL_GENRES = ['Semua', 'Film', 'Serial', ...Array.from(new Set(MOVIES.flatMap(m => m.genres))).sort()];
+let activeFilter = 'Semua';
+function renderFilters(){
+  $('#filters').innerHTML = ALL_GENRES.map(g => `<button class="chip-filter${g===activeFilter?' active':''}" data-filter="${g}">${g}</button>`).join('');
+}
+function renderGrid(){
+  let list;
+  if (activeFilter === 'Semua') list = MOVIES;
+  else if (activeFilter === 'Film' || activeFilter === 'Serial') list = MOVIES.filter(m => m.type === activeFilter);
+  else list = MOVIES.filter(m => m.genres.includes(activeFilter));
+  $('#grid').innerHTML = list.map(posterHTML).join('');
+  $('#catalogCount').innerHTML = `<b>${list.length}</b> judul`;
+  $('#catalogTitle').textContent = activeFilter === 'Semua' ? 'Semua Original' : 'Original · ' + activeFilter;
+  $('#empty').classList.toggle('show', list.length === 0);
+}
+$('#filters').addEventListener('click', e => {
+  const b = e.target.closest('[data-filter]');
+  if (!b) return;
+  activeFilter = b.dataset.filter;
+  renderFilters();
+  renderGrid();
+});
+
+const modal = $('#modal');
+let lastFocused = null;
+function openModal(id){
+  const m = byId(id);
+  if (!m) return;
+  lastFocused = document.activeElement;
+  $('#modalHero').style.background = `linear-gradient(125deg, ${m.c1} 0%, ${m.c2} 65%, #0d0d12 100%)`;
+  $('#modalTitle').textContent = m.title;
+  $('#modalMeta').innerHTML = `<span class="score">★ ${m.score}</span><span class="dot"></span><span>${m.year}</span><span class="dot"></span><span>${m.duration}</span><span class="chip age">${m.rating}</span><span class="chip" style="border-color:rgba(212,175,55,.5);color:var(--gold-light)">FlixNets Original</span>`;
+  $('#modalDesc').textContent = m.desc;
+  $('#modalTags').innerHTML = [...m.genres,'4K HDR','Dolby Atmos','Exclusive'].map(g => `<span class="tag">${g}</span>`).join('');
+  $('#modalSide').innerHTML = `
+    <p><span>Pemeran</span><b>${m.cast}</b></p>
+    <p><span>Sutradara</span><b>${m.director}</b></p>
+    <p><span>Tipe</span><b>${m.type}</b></p>
+    <p><span>Genre</span><b>${m.genres.join(', ')}</b></p>
+    <p><span>Kualitas</span><b>4K Ultra HD · HDR</b></p>`;
+  const similar = MOVIES.filter(x => x.id !== m.id && x.genres.some(g => m.genres.includes(g))).slice(0,6);
+  $('#similarGrid').innerHTML = similar.map(posterHTML).join('');
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){ modal.classList.remove('open'); document.body.style.overflow=''; lastFocused?.focus?.(); }
+$('#modalClose').addEventListener('click', closeModal);
+$('#modalBackdrop').addEventListener('click', closeModal);
+$('#modalPlay').addEventListener('click', () => toast('Demo: pemutaran Original belum tersambung di halaman ini'));
+$('#modalList').addEventListener('click', () => toast('Ditambahkan ke Daftar Saya'));
+
+const searchOverlay = $('#searchOverlay');
+const searchInput = $('#searchInput');
+function renderSearch(q){
+  q = q.trim().toLowerCase();
+  const results = q ? MOVIES.filter(m => m.title.toLowerCase().includes(q) || m.genres.some(g => g.toLowerCase().includes(q)) || String(m.year).includes(q)) : MOVIES.slice(0,12);
+  $('#searchLabel').textContent = q ? `${results.length} hasil untuk "${q}"` : 'Pencarian Populer';
+  $('#searchGrid').innerHTML = results.map(posterHTML).join('');
+}
+function openSearch(){ searchOverlay.classList.add('open'); renderSearch(''); setTimeout(()=>searchInput.focus(),120); }
+function closeSearch(){ searchOverlay.classList.remove('open'); searchInput.value=''; }
+$('#searchBtn').addEventListener('click', openSearch);
+$('#searchClose').addEventListener('click', closeSearch);
+searchInput.addEventListener('input', e => renderSearch(e.target.value));
+
+document.addEventListener('click', e => {
+  const play = e.target.closest('[data-play]');
+  if (play){ e.stopPropagation(); openModal(+play.dataset.play); return; }
+  const card = e.target.closest('.card');
+  if (card && card.dataset.id){ openModal(+card.dataset.id); }
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape'){
+    if (modal.classList.contains('open')) closeModal();
+    else if (searchOverlay.classList.contains('open')) closeSearch();
+    else if ($('#mobileMenu').classList.contains('open')) { $('#mobileMenu').classList.remove('open'); $('#burger').classList.remove('open'); }
+  }
+});
+
+$('#burger').addEventListener('click', () => {
+  const open = $('#mobileMenu').classList.toggle('open');
+  $('#burger').classList.toggle('open', open);
+});
+$$('#mobileMenu a').forEach(a => a.addEventListener('click', () => { $('#mobileMenu').classList.remove('open'); $('#burger').classList.remove('open'); }));
+$('#bellBtn').addEventListener('click', () => toast('Belum ada notifikasi baru'));
+
+const avatarBtn = $('#avatarBtn'), avatarMenu = $('#avatarMenu');
+avatarBtn.addEventListener('click', e => { e.stopPropagation(); avatarMenu.classList.toggle('open'); });
+document.addEventListener('click', () => avatarMenu.classList.remove('open'));
+avatarMenu.addEventListener('click', e => e.stopPropagation());
+$('#avatarLogout').addEventListener('click', () => Auth.logout());
+$('#mobileLogout').addEventListener('click', () => Auth.logout());
+
+function applyUserUI(){
+  const user = Auth.getUser();
+  if (!user) return;
+  $('#avatarBtn').textContent = (user.name || '?').charAt(0).toUpperCase();
+  $('#avatarWhoName').textContent = user.name;
+  $('#avatarWhoEmail').textContent = user.email;
+  if (user.role === 'admin') $$('.admin-only').forEach(el => el.style.display = '');
+}
+
+renderFilters();
+renderGrid();
+applyUserUI();
+</script>
+</body>
+</html>

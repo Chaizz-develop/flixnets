@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk — FlixNets</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23ff2e43'/><path d='M13 9.5l10 6.5-10 6.5z' fill='white'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080b; --surface:#14141b; --surface-2:#1b1b24;
+  --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
+  --text:#f3f3f7; --muted:#9a9aab;
+  --blue:#0b5cff; --blue-dark:#0639a6; --blue-glow:rgba(11,92,255,.42); --gold:#d4af37; --gold-light:#f1d36b; --gold-glow:rgba(212,175,55,.34);  
+  --ease:cubic-bezier(.22,.8,.26,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;
+  background:
+    radial-gradient(120% 90% at 15% 0%, rgba(11,92,255,.16), transparent 55%),
+    radial-gradient(100% 80% at 100% 100%, rgba(11,92,255,.08), transparent 60%),
+    var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+}
+.wrap{width:100%;max-width:400px}
+.logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:30px}
+.logo-mark{
+  width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  display:grid;place-items:center;box-shadow:0 4px 16px var(--blue-glow);
+}
+.logo-mark svg{width:18px;height:18px;color:#fff;margin-left:2px}
+.logo-text{font-size:23px;font-weight:800;letter-spacing:-.6px}
+.logo-text span{color:var(--blue)}
+
+.card{
+  background:linear-gradient(145deg,rgba(20,20,27,.98),rgba(12,18,31,.98));
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:clamp(22px,4vw,34px);
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+}
+.tabs{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:10px;margin-bottom:22px}
+.tab{
+  flex:1;text-align:center;padding:9px 0;border-radius:8px;
+  font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;
+  transition:.25s var(--ease);
+}
+.tab.active{background:var(--blue);color:#fff;box-shadow:0 4px 14px var(--blue-glow)}
+
+h1{font-size:20px;font-weight:800;margin-bottom:4px;letter-spacing:-.4px}
+.sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+
+form{display:none;flex-direction:column;gap:14px}
+form.active{display:flex}
+label{font-size:12.5px;font-weight:700;color:#c9c9d4;margin-bottom:6px;display:block}
+input{
+  width:100%;background:var(--surface-2);border:1px solid var(--line-2);
+  border-radius:10px;padding:12px 13px;color:#fff;font-size:14px;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,92,255,.18)}
+.field{display:flex;flex-direction:column}
+
+button.submit{
+  margin-top:4px;
+  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
+  color:#fff;border:none;border-radius:11px;padding:13px;
+  font-size:14.5px;font-weight:800;cursor:pointer;
+  box-shadow:0 8px 26px rgba(11,92,255,.34);
+  transition:transform .2s var(--ease),box-shadow .2s;
+}
+button.submit:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5)}
+button.submit:disabled{opacity:.6;cursor:default;transform:none}
+
+.msg{
+  font-size:13px;font-weight:600;padding:10px 12px;border-radius:9px;
+  display:none;margin-bottom:14px;
+}
+.msg.error{display:block;background:rgba(212,175,55,.10);border:1px solid rgba(212,175,55,.38);color:var(--gold-light)}
+.msg.ok{display:block;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.4);color:#8ef0ac}
+
+.hint{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
+.hint b{color:#d6d6e2}
+
+@media (max-width:480px){body{padding:14px}.wrap{max-width:100%}.card{padding:20px 16px;border-radius:14px}.logo{margin-bottom:20px}.logo-text{font-size:21px}}
+.gold-note{color:var(--gold-light)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="login.html" class="logo">
+    <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.4v13.2l11-6.6z"/></svg></span>
+    <span class="logo-text">Flix<span>Nets</span></span>
+  </a>
+
+  <div class="card">
+    <div class="tabs">
+      <div class="tab active" data-tab="login">Masuk</div>
+      <div class="tab" data-tab="register">Daftar</div>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <form id="loginForm" class="active">
+      <h1>Selamat datang kembali</h1>
+      <p class="sub">Masuk untuk melanjutkan menonton.</p>
+      <div class="field">
+        <label for="li_email">Email</label>
+        <input id="li_email" type="email" required autocomplete="username" placeholder="nama@email.com">
+      </div>
+      <div class="field">
+        <label for="li_password">Kata sandi</label>
+        <input id="li_password" type="password" required autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <button class="submit" type="submit">Masuk</button>
+    </form>
+
+    <form id="registerForm">
+      <h1>Buat akun baru</h1>
+      <p class="sub">Gratis, cukup beberapa detik.</p>
+      <div class="field">
+        <label for="re_name">Nama</label>
+        <input id="re_name" type="text" required placeholder="Nama lengkap">
+      </div>
+      <div class="field">
+        <label for="re_email">Email</label>
+        <input id="re_email" type="email" required autocomplete="username" placeholder="nama@email.com">
+      </div>
+      <div class="field">
+        <label for="re_password">Kata sandi</label>
+        <input id="re_password" type="password" required minlength="6" autocomplete="new-password" placeholder="Minimal 6 karakter">
+      </div>
+      <button class="submit" type="submit">Daftar</button>
+    </form>
+
+    <p class="hint">Akun admin bawaan: <b id="adminHint">lihat README.md</b> — gunakan untuk mengelola pengguna &amp; mengunggah video.</p>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script>
+// Jika sudah login, langsung lempar ke beranda.
+if (Auth.isLoggedIn()) window.location.href = 'index.html';
+
+const tabs = document.querySelectorAll('.tab');
+const forms = { login: document.getElementById('loginForm'), register: document.getElementById('registerForm') };
+const msg = document.getElementById('msg');
+
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  Object.values(forms).forEach(f => f.classList.remove('active'));
+  forms[t.dataset.tab].classList.add('active');
+  msg.className = 'msg';
+}));
+
+function showMsg(text, ok = false) {
+  msg.textContent = text;
+  msg.className = 'msg ' + (ok ? 'ok' : 'error');
+}
+
+forms.login.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = forms.login.querySelector('button');
+  btn.disabled = true;
+  try {
+    const email = document.getElementById('li_email').value.trim();
+    const password = document.getElementById('li_password').value;
+    const data = await api('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+    Auth.setSession(data.token, data.user);
+    window.location.href = 'index.html';
+  } catch (err) {
+    showMsg(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+forms.register.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = forms.register.querySelector('button');
+  btn.disabled = true;
+  try {
+    const name = document.getElementById('re_name').value.trim();
+    const email = document.getElementById('re_email').value.trim();
+    const password = document.getElementById('re_password').value;
+    const data = await api('/auth/register', { method: 'POST', body: JSON.stringify({ name, email, password }) });
+    Auth.setSession(data.token, data.user);
+    window.location.href = 'index.html';
+  } catch (err) {
+    showMsg(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
