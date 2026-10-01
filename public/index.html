@@ -489,6 +489,13 @@ main{padding-bottom:40px;position:relative;z-index:2}
   border:1px solid rgba(212,175,55,.5);border-radius:4px;
   padding:1px 5px;font-size:9.5px;color:var(--gold-light);
 }
+.poster-hover-actions{display:flex;gap:10px;align-items:center}
+.icon-bookmark{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.13);border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;color:#fff;transform:scale(.82);transition:.3s var(--ease);backdrop-filter:blur(8px)}
+.icon-bookmark svg{width:19px;height:19px}
+.card:hover .icon-bookmark{transform:scale(1)}
+.icon-bookmark:hover{background:rgba(212,175,55,.24);border-color:rgba(212,175,55,.7);color:var(--gold-light);transform:scale(1.1)!important}
+.icon-bookmark.saved{background:linear-gradient(140deg,var(--gold-light),var(--gold));border-color:transparent;color:#08080b}
+.btn-ghost.saved{background:linear-gradient(140deg,var(--gold-light),var(--gold));color:#08080b;border-color:transparent}
 
 .poster-progress{
   position:absolute;left:11px;right:11px;bottom:9px;z-index:5;
@@ -1138,10 +1145,10 @@ footer{
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4L19 12z"/></svg>
             Putar
           </button>
-          <button class="btn btn-ghost" id="modalList">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-            Daftar Saya
-          </button>
+<button class="btn btn-ghost" id="modalList">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+  <span id="modalListLabel">Daftar Saya</span>
+</button>
         </div>
       </div>
     </div>
@@ -1375,6 +1382,7 @@ function posterHTML(m, opts = {}){
   const progress = opts.progress
     ? `<div class="poster-progress"><i style="width:${opts.progress}%"></i></div>`
     : '';
+  const saved = Watchlist.has('film-' + m.id);
 
   return `
   <article class="card" data-id="${m.id}" tabindex="0" role="button" aria-label="${m.title}">
@@ -1386,7 +1394,10 @@ function posterHTML(m, opts = {}){
         <div class="poster-sub"><span class="s">★ ${m.score}</span> ${m.year} · ${m.genres[0]}</div>
       </div>
       <div class="poster-hover">
-        <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+        <div class="poster-hover-actions">
+          <button class="icon-play" data-play="${m.id}" aria-label="Putar ${m.title}">${ICON_PLAY}</button>
+          <button class="icon-bookmark ${saved?'saved':''}" data-bookmark="${m.id}" aria-label="Simpan ke Daftar Saya">${saved?ICON_BOOKMARK_FILL:ICON_BOOKMARK}</button>
+        </div>
         <div class="poster-hover-meta">
           <span>${m.duration}</span>
           <span class="age">${m.rating}</span>
@@ -1396,6 +1407,9 @@ function posterHTML(m, opts = {}){
     </div>
   </article>`;
 }
+
+const ICON_BOOKMARK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
+const ICON_BOOKMARK_FILL = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>';
 
 /* ============================================================
    POSTER — VIDEO SUNGGUHAN
@@ -1919,6 +1933,18 @@ function initEvents(){
   $('#heroInfo').addEventListener('click', () => openModal(HERO_IDS[heroIndex]));
 
   document.addEventListener('click', e => {
+        /* Bookmark untuk kartu statis (film) */
+    const bm = e.target.closest('[data-bookmark]');
+    if (bm){
+      e.stopPropagation();
+      const m = byId(+bm.dataset.bookmark);
+      if (!m) return;
+      const added = Watchlist.toggle(toWatchlistItem(m));
+      bm.classList.toggle('saved', added);
+      bm.innerHTML = added ? ICON_BOOKMARK_FILL : ICON_BOOKMARK;
+      toast(added ? m.title + ' ditambahkan ke Daftar Saya ✓' : m.title + ' dihapus dari Daftar Saya');
+      return;
+    }
     const realPlayBtn = e.target.closest('[data-real-play]');
     if (realPlayBtn){
       e.stopPropagation();
