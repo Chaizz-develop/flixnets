@@ -1,11 +1,12 @@
-// db.js — penyimpanan data sederhana berbasis file JSON.
-// Dipakai agar proyek ini bisa langsung dijalankan tanpa perlu memasang
-// database eksternal (tidak ada dependensi native yang perlu dikompilasi).
-
+// db.js — penyimpanan data berbasis JSON.
+// Path db bisa di-override lewat env DB_PATH (untuk production di Railway
+// yang hanya punya 1 volume).
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '..', 'data', 'db.json');
+const DB_PATH = process.env.DB_PATH
+  ? path.resolve(process.env.DB_PATH)
+  : path.join(__dirname, '..', 'data', 'db.json');
 
 function ensureDb() {
   const dir = path.dirname(DB_PATH);
@@ -21,7 +22,6 @@ function readDb() {
   try {
     return JSON.parse(raw);
   } catch (err) {
-    // Berkas rusak — mulai ulang dengan data kosong daripada menghentikan server.
     const fresh = { users: [], videos: [] };
     fs.writeFileSync(DB_PATH, JSON.stringify(fresh, null, 2));
     return fresh;
