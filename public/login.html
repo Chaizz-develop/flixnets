@@ -3,8 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#08080b">
 <title>Masuk — FlixNets</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='9' fill='%23ff2e43'/><path d='M13 9.5l10 6.5-10 6.5z' fill='white'/></svg>">
+<meta name="description" content="Masuk atau daftar akun FlixNets untuk mulai menonton.">
+<link rel="icon" type="image/png" href="logo/logo.png">
+<link rel="apple-touch-icon" href="logo/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,103 +15,139 @@
 :root{
   --bg:#08080b; --surface:#14141b; --surface-2:#1b1b24;
   --line:rgba(255,255,255,.08); --line-2:rgba(255,255,255,.14);
-  --text:#f3f3f7; --muted:#9a9aab;
-  --blue:#0b5cff; --blue-dark:#0639a6; --blue-glow:rgba(11,92,255,.42); --gold:#d4af37; --gold-light:#f1d36b; --gold-glow:rgba(212,175,55,.34);  
+  --text:#f3f3f7; --muted:#9a9aab; --muted-2:#6e6e80;
+  --blue:#0b5cff; --blue-dark:#0639a6; --blue-light:#4f8cff;
+  --blue-glow:rgba(11,92,255,.42);
+  --gold:#d4af37; --gold-light:#f1d36b; --gold-glow:rgba(212,175,55,.34);
+  --green:#4ade80;
   --ease:cubic-bezier(.22,.8,.26,1);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
 body{
   min-height:100vh;
   background:
-    radial-gradient(120% 90% at 15% 0%, rgba(11,92,255,.16), transparent 55%),
-    radial-gradient(100% 80% at 100% 100%, rgba(11,92,255,.08), transparent 60%),
+    radial-gradient(120% 90% at 15% 0%, rgba(11,92,255,.18), transparent 55%),
+    radial-gradient(100% 80% at 100% 100%, rgba(212,175,55,.08), transparent 60%),
     var(--bg);
   color:var(--text);
-  font-family:'Inter',system-ui,sans-serif;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
   display:flex;align-items:center;justify-content:center;
   padding:24px;
+  -webkit-font-smoothing:antialiased;
 }
-.wrap{width:100%;max-width:400px}
-.logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:30px}
+.wrap{width:100%;max-width:420px}
+
+/* LOGO */
+.logo{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:30px;text-decoration:none;color:inherit}
 .logo-mark{
-  width:34px;height:34px;border-radius:9px;
-  background:linear-gradient(140deg,var(--blue),var(--blue-dark));
-  display:grid;place-items:center;box-shadow:0 4px 16px var(--blue-glow);
+  width:38px;height:38px;border-radius:10px;overflow:hidden;
+  background:#08080b;
+  box-shadow:0 4px 16px var(--blue-glow),0 0 0 1px rgba(212,175,55,.3);
+  display:grid;place-items:center;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
 }
-.logo-mark svg{width:18px;height:18px;color:#fff;margin-left:2px}
-.logo-text{font-size:23px;font-weight:800;letter-spacing:-.6px}
-.logo-text span{color:var(--blue)}
+.logo:hover .logo-mark{transform:rotate(-6deg) scale(1.06);box-shadow:0 6px 24px var(--blue-glow),0 0 0 1px var(--gold)}
+.logo-mark img{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.logo-text{font-size:23px;font-weight:800;letter-spacing:-.6px;color:#fff}
+.logo-text span{background:linear-gradient(90deg,var(--blue-light),var(--gold-light));-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
 
+/* CARD */
 .card{
-  background:linear-gradient(145deg,rgba(20,20,27,.98),rgba(12,18,31,.98));
-  border:1px solid var(--line);
-  border-radius:16px;
+  background:linear-gradient(145deg,rgba(20,20,27,.98),rgba(12,16,28,.98));
+  border:1px solid var(--line-2);
+  border-radius:18px;
   padding:clamp(22px,4vw,34px);
-  box-shadow:0 30px 70px rgba(0,0,0,.5);
+  box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 0 1px rgba(212,175,55,.12);
 }
-.tabs{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:10px;margin-bottom:22px}
-.tab{
-  flex:1;text-align:center;padding:9px 0;border-radius:8px;
-  font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;
-  transition:.25s var(--ease);
-}
-.tab.active{background:var(--blue);color:#fff;box-shadow:0 4px 14px var(--blue-glow)}
 
-h1{font-size:20px;font-weight:800;margin-bottom:4px;letter-spacing:-.4px}
+/* TABS */
+.tabs{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:11px;margin-bottom:22px}
+.tab{
+  flex:1;text-align:center;padding:10px 0;border-radius:9px;
+  font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer;
+  transition:.25s var(--ease);user-select:none;border:none;background:none;font-family:inherit;
+}
+.tab:hover{color:#d0d0dc}
+.tab.active{background:linear-gradient(140deg,var(--blue),var(--blue-dark));color:#fff;box-shadow:0 4px 14px var(--blue-glow),inset 0 0 0 1px rgba(212,175,55,.5)}
+
+/* HEADINGS */
+h1{font-size:20px;font-weight:800;margin-bottom:5px;letter-spacing:-.4px}
 .sub{font-size:13px;color:var(--muted);margin-bottom:20px}
 
+/* FORM */
 form{display:none;flex-direction:column;gap:14px}
 form.active{display:flex}
 label{font-size:12.5px;font-weight:700;color:#c9c9d4;margin-bottom:6px;display:block}
+.field{display:flex;flex-direction:column}
 input{
   width:100%;background:var(--surface-2);border:1px solid var(--line-2);
   border-radius:10px;padding:12px 13px;color:#fff;font-size:14px;outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  transition:border-color .2s,box-shadow .2s,background .2s;font-family:inherit;
 }
 input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,92,255,.18)}
-.field{display:flex;flex-direction:column}
+input::placeholder{color:#5c5c6e}
 
+/* SUBMIT */
 button.submit{
   margin-top:4px;
   background:linear-gradient(140deg,var(--blue),var(--blue-dark));
   color:#fff;border:none;border-radius:11px;padding:13px;
-  font-size:14.5px;font-weight:800;cursor:pointer;
-  box-shadow:0 8px 26px rgba(11,92,255,.34);
+  font-size:14.5px;font-weight:800;cursor:pointer;font-family:inherit;
+  box-shadow:0 8px 26px rgba(11,92,255,.34),inset 0 0 0 1px rgba(255,255,255,.06);
   transition:transform .2s var(--ease),box-shadow .2s;
 }
-button.submit:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5)}
-button.submit:disabled{opacity:.6;cursor:default;transform:none}
+button.submit:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 12px 34px rgba(11,92,255,.5),inset 0 0 0 1px var(--gold)}
+button.submit:disabled{opacity:.65;cursor:default;transform:none}
 
+/* MSG */
 .msg{
-  font-size:13px;font-weight:600;padding:10px 12px;border-radius:9px;
-  display:none;margin-bottom:14px;
+  font-size:13px;font-weight:600;padding:11px 13px;border-radius:10px;
+  display:none;margin-bottom:16px;line-height:1.5;
 }
 .msg.error{display:block;background:rgba(212,175,55,.10);border:1px solid rgba(212,175,55,.38);color:var(--gold-light)}
 .msg.ok{display:block;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.4);color:#8ef0ac}
 
-.hint{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.6}
-.hint b{color:#d6d6e2}
+/* HINT */
+.hint{margin-top:18px;font-size:12px;color:var(--muted);text-align:center;line-height:1.65}
+.hint b{color:var(--gold-light);font-weight:700}
+.hint code{
+  background:rgba(255,255,255,.06);padding:2px 6px;border-radius:5px;
+  font-size:11.5px;color:#d6d6e2;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
 
-@media (max-width:480px){body{padding:14px}.wrap{max-width:100%}.card{padding:20px 16px;border-radius:14px}.logo{margin-bottom:20px}.logo-text{font-size:21px}}
-.gold-note{color:var(--gold-light)}
+/* FOOTER LINK */
+.back{margin-top:22px;text-align:center;font-size:12.5px;color:var(--muted-2)}
+.back a{color:var(--muted);text-decoration:none;transition:.2s}
+.back a:hover{color:var(--gold-light)}
+
+/* RESPONSIVE */
+@media (max-width:480px){
+  body{padding:14px}
+  .wrap{max-width:100%}
+  .card{padding:22px 18px;border-radius:16px}
+  .logo{margin-bottom:22px}
+  .logo-text{font-size:21px}
+  .logo-mark{width:34px;height:34px}
+}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a href="login.html" class="logo">
-    <span class="logo-mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.4v13.2l11-6.6z"/></svg></span>
+  <a href="index.html" class="logo" aria-label="FlixNets">
+    <span class="logo-mark"><img src="logo/logo.png" alt="FlixNets"></span>
     <span class="logo-text">Flix<span>Nets</span></span>
   </a>
 
   <div class="card">
-    <div class="tabs">
-      <div class="tab active" data-tab="login">Masuk</div>
-      <div class="tab" data-tab="register">Daftar</div>
+    <div class="tabs" role="tablist">
+      <button class="tab active" data-tab="login" role="tab" aria-selected="true">Masuk</button>
+      <button class="tab" data-tab="register" role="tab" aria-selected="false">Daftar</button>
     </div>
 
-    <div id="msg" class="msg"></div>
+    <div id="msg" class="msg" role="status" aria-live="polite"></div>
 
-    <form id="loginForm" class="active">
+    <form id="loginForm" class="active" autocomplete="on">
       <h1>Selamat datang kembali</h1>
       <p class="sub">Masuk untuk melanjutkan menonton.</p>
       <div class="field">
@@ -122,12 +161,12 @@ button.submit:disabled{opacity:.6;cursor:default;transform:none}
       <button class="submit" type="submit">Masuk</button>
     </form>
 
-    <form id="registerForm">
+    <form id="registerForm" autocomplete="on">
       <h1>Buat akun baru</h1>
       <p class="sub">Gratis, cukup beberapa detik.</p>
       <div class="field">
         <label for="re_name">Nama</label>
-        <input id="re_name" type="text" required placeholder="Nama lengkap">
+        <input id="re_name" type="text" required minlength="2" maxlength="60" placeholder="Nama lengkap" autocomplete="name">
       </div>
       <div class="field">
         <label for="re_email">Email</label>
@@ -140,64 +179,146 @@ button.submit:disabled{opacity:.6;cursor:default;transform:none}
       <button class="submit" type="submit">Daftar</button>
     </form>
 
-    <p class="hint">Akun admin bawaan: <b id="adminHint">lihat README.md</b> — gunakan untuk mengelola pengguna &amp; mengunggah video.</p>
+    <p class="hint" id="hintBox">Akun admin bawaan: <b>admin@flixnets.local</b> / <code>admin123</code> — gunakan untuk mengelola pengguna &amp; mengunggah video.</p>
   </div>
+
+  <p class="back"><a href="index.html">← Kembali ke Beranda</a></p>
 </div>
 
 <script src="js/api.js"></script>
 <script>
-// Jika sudah login, langsung lempar ke beranda.
-if (Auth.isLoggedIn()) window.location.href = 'index.html';
+/* global Auth, api */
 
+/* ============================================================
+   Sudah login? → langsung lempar sesuai role
+   ============================================================ */
+(function redirectIfLoggedIn(){
+  if (!Auth.isLoggedIn()) return;
+  const user = Auth.getUser();
+  window.location.href = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
+})();
+
+/* ============================================================
+   TABS
+   ============================================================ */
 const tabs = document.querySelectorAll('.tab');
-const forms = { login: document.getElementById('loginForm'), register: document.getElementById('registerForm') };
+const forms = {
+  login:    document.getElementById('loginForm'),
+  register: document.getElementById('registerForm')
+};
 const msg = document.getElementById('msg');
+const hintBox = document.getElementById('hintBox');
 
 tabs.forEach(t => t.addEventListener('click', () => {
-  tabs.forEach(x => x.classList.remove('active'));
+  tabs.forEach(x => {
+    x.classList.remove('active');
+    x.setAttribute('aria-selected', 'false');
+  });
   t.classList.add('active');
+  t.setAttribute('aria-selected', 'true');
+
   Object.values(forms).forEach(f => f.classList.remove('active'));
   forms[t.dataset.tab].classList.add('active');
+
   msg.className = 'msg';
+  msg.textContent = '';
+
+  // Sembunyikan hint admin saat di tab "Daftar"
+  hintBox.style.display = t.dataset.tab === 'login' ? '' : 'none';
 }));
 
+/* ============================================================
+   HELPERS
+   ============================================================ */
 function showMsg(text, ok = false) {
   msg.textContent = text;
   msg.className = 'msg ' + (ok ? 'ok' : 'error');
 }
+function clearMsg(){
+  msg.className = 'msg';
+  msg.textContent = '';
+}
+function setBtnBusy(btn, busy, labelWhenBusy = 'Memproses…'){
+  if (busy){
+    btn.dataset.original = btn.textContent;
+    btn.textContent = labelWhenBusy;
+    btn.disabled = true;
+  } else {
+    btn.textContent = btn.dataset.original || btn.textContent;
+    btn.disabled = false;
+  }
+}
+function redirectAfterAuth(user){
+  window.location.href = (user && user.role === 'admin') ? 'admin.html' : 'index.html';
+}
 
+/* ============================================================
+   LOGIN
+   ============================================================ */
 forms.login.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const btn = forms.login.querySelector('button');
-  btn.disabled = true;
+  clearMsg();
+  const btn = forms.login.querySelector('button.submit');
+  setBtnBusy(btn, true, 'Masuk…');
+
   try {
-    const email = document.getElementById('li_email').value.trim();
+    const email    = document.getElementById('li_email').value.trim();
     const password = document.getElementById('li_password').value;
-    const data = await api('/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+
+    if (!email || !password) throw new Error('Email dan kata sandi wajib diisi.');
+
+    const data = await api('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password })
+    });
+
     Auth.setSession(data.token, data.user);
-    window.location.href = 'index.html';
+    showMsg('Berhasil masuk! Mengalihkan…', true);
+    setTimeout(() => redirectAfterAuth(data.user), 400);
   } catch (err) {
-    showMsg(err.message);
-  } finally {
-    btn.disabled = false;
+    showMsg(err.message || 'Gagal masuk. Coba lagi.');
+    setBtnBusy(btn, false);
   }
 });
 
+/* ============================================================
+   REGISTER
+   ============================================================ */
 forms.register.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const btn = forms.register.querySelector('button');
-  btn.disabled = true;
+  clearMsg();
+  const btn = forms.register.querySelector('button.submit');
+  setBtnBusy(btn, true, 'Mendaftar…');
+
   try {
-    const name = document.getElementById('re_name').value.trim();
-    const email = document.getElementById('re_email').value.trim();
+    const name     = document.getElementById('re_name').value.trim();
+    const email    = document.getElementById('re_email').value.trim();
     const password = document.getElementById('re_password').value;
-    const data = await api('/auth/register', { method: 'POST', body: JSON.stringify({ name, email, password }) });
+
+    if (!name || !email || !password) throw new Error('Nama, email, dan kata sandi wajib diisi.');
+    if (password.length < 6) throw new Error('Kata sandi minimal 6 karakter.');
+
+    const data = await api('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({ name, email, password })
+    });
+
     Auth.setSession(data.token, data.user);
-    window.location.href = 'index.html';
+    showMsg('Akun berhasil dibuat! Mengalihkan…', true);
+    setTimeout(() => redirectAfterAuth(data.user), 500);
   } catch (err) {
-    showMsg(err.message);
-  } finally {
-    btn.disabled = false;
+    showMsg(err.message || 'Gagal mendaftar. Coba lagi.');
+    setBtnBusy(btn, false);
+  }
+});
+
+/* ============================================================
+   Kalau error dari server bilang "sudah login", refresh cepat
+   ============================================================ */
+window.addEventListener('pageshow', () => {
+  if (Auth.isLoggedIn()){
+    const user = Auth.getUser();
+    redirectAfterAuth(user);
   }
 });
 </script>
